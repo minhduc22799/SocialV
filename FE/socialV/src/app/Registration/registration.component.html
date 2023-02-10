@@ -32,26 +32,46 @@
             <h1 class="mb-0">Sign Up</h1>
             <form class="mt-4"   [formGroup]="registerForm" (ngSubmit)="register()">
               <div class="form-group">
-                <input type="text" class="form-control mb-0" id="name" placeholder="Your Full Name" formControlName="name">
+                <input type="text" class="form-control mb-0" id="name" placeholder="Your Full Name" formControlName="name" >
+                <span *ngIf="registerForm.get('name')?.errors?.['required'] && registerForm.get('name')?.touched" style="color: red">Not Be Empty </span>
               </div>
               <div class="form-group">
-                <input type="email" class="form-control mb-0" id="email" placeholder="Email" formControlName="email">
+                <input type="email" class="form-control mb-0" id="email" placeholder="Email" formControlName="email" >
+                <span *ngIf="registerForm.get('email')?.errors?.['pattern']" style="color: red">Syntax erro Exam : abc@xxx.xxx</span>
+                <span *ngIf="registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched" style="color: red">Not Be Empty </span>
+
               </div>
               <div class="form-group">
                 <input type="text" class="form-control mb-0" id="username" placeholder="Username" formControlName="username">
+                <span *ngIf="registerForm.get('username')?.errors?.['pattern']" style="color: red">Not Be special characters . </span>
+                <span *ngIf="registerForm.get('username')?.errors?.['required'] && registerForm.get('username')?.touched" style="color: red">Not Be Empty </span>
               </div>
               <div class="form-group">
-                <input type="password" class="form-control mb-0" id="password" placeholder="Password" formControlName="password">
+                <input type="password" class="form-control mb-0" id="password" placeholder="Password" formControlName="password" >
+                <span *ngIf="registerForm.get('password')?.errors?.['minlength']" style="color: red">Must be more than 6 characters .</span>
+                <span *ngIf="registerForm.get('password')?.errors?.['maxlength']" style="color: red">Must be more than 32 characters .</span>
+                <span *ngIf="registerForm.get('password')?.errors?.['pattern']" style="color: red">Not Be special characters .</span>
+                <span *ngIf="registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched" style="color: red">Not Be Empty </span>
+
               </div>
               <div class="form-group">
                 <input type="password" class="form-control mb-0" id="confirmPassword"
-                       placeholder="Password Confirm" formControlName="confirmPassword">
+                       placeholder="Password Confirm" formControlName="confirmPassword" >
+                <span *ngIf="registerForm.get('confirmPassword')?.errors?.['minlength']" style="color: red">Must be more than 6 characters .</span>
+                <span *ngIf="registerForm.get('confirmPassword')?.errors?.['maxlength']" style="color: red">Must be more than 32 characters .</span>
+                <span *ngIf="registerForm.get('confirmPassword')?.errors?.['pattern']" style="color: red">Not Be special characters .</span>
+                <span *ngIf="registerForm.get('confirmPassword')?.errors?.['required'] && registerForm.get('confirmPassword')?.touched" style="color: red">Not Be Empty </span>
               </div>
               <div class="form-group">
                 <input type="text" class="form-control mb-0" id="phone" placeholder="Phone" formControlName="phone">
+                <span *ngIf="registerForm.get('phone')?.errors?.['required'] && registerForm.get('phone')?.touched" style="color: red">Not Be Empty </span>
+                <span *ngIf="registerForm.get('phone')?.errors?.['pattern']" style="color: red">Must be a 10-digit Number</span>
+
               </div>
               <div class="form-group">
                 <input type="date" class="form-control mb-0" id="date" placeholder="birthday" formControlName="birthday">
+                <span *ngIf="registerForm.get('birthday')?.errors?.['required'] && registerForm.get('birthday')?.touched" style="color: red">Not Be Empty </span>
+
               </div>
               <div class="d-inline-block w-100">
                 <button type="submit" class="btn btn-primary ">Sign Up</button>

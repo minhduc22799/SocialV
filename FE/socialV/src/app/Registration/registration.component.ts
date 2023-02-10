@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../service/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {User} from "../model/User";
+import {Users} from "../model/Users";
 
 @Component({
   selector: 'app-registration',
@@ -11,7 +11,7 @@ import {User} from "../model/User";
 })
 export class RegistrationComponent implements OnInit{
   registerForm!:FormGroup
-  user!:User
+  user!:Users
 
 
   constructor(private userService:UserService,
@@ -20,13 +20,13 @@ export class RegistrationComponent implements OnInit{
   }
   ngOnInit(): void {
     this.registerForm =new FormGroup({
-      username: new FormControl(''),
-      password: new FormControl(''),
-      confirmPassword: new FormControl(''),
-      name: new FormControl(''),
-      email: new FormControl(''),
-      phone: new FormControl(''),
-      birthday: new FormControl('')
+      username: new FormControl('',[Validators.required,Validators.pattern('^[a-zA-Z0-9]*$')]),
+      password: new FormControl('', [Validators.required,Validators.pattern('^[a-zA-Z0-9]*$'), Validators.minLength(6), Validators.maxLength(32)]),
+      confirmPassword: new FormControl('', [Validators.required,Validators.pattern('^[a-zA-Z0-9]*$'), Validators.minLength(6), Validators.maxLength(32)]),
+      name: new FormControl('',[Validators.required]),
+      email: new FormControl('',[Validators.required,Validators.pattern("^(.+)@(\\S+)$")]),
+      phone: new FormControl('',[Validators.required,Validators.pattern("^[0-9]{10}$")]),
+      birthday: new FormControl('',[Validators.required])
     })
 
   }
