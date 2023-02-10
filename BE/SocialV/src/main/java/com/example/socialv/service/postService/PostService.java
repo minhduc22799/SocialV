@@ -1,6 +1,5 @@
 package com.example.socialv.service.postService;
 
-import com.example.socialv.dto.PostProperty;
 import com.example.socialv.model.Post;
 import com.example.socialv.repository.IPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ public class PostService implements IPostService{
     }
 
     @Override
-    public List<PostProperty> findAllByUser(Long id) {
-        return postRepository.findAllByUser(id);
+    public List<Post> findAllByUser(Long id) {
+        return postRepository.findAllPostByUser(id);
     }
 }

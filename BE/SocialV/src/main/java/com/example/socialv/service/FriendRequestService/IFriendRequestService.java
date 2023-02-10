@@ -7,5 +7,5 @@ import com.example.socialv.service.IGeneralService;
 import java.util.List;
 
 public interface IFriendRequestService extends IGeneralService<FriendRequest> {
-    List<User> findFriendRequestsByIdAndStatusTrue(Long id);
+
 }

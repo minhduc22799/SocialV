@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -18,5 +19,6 @@ public class PostDisplay {
     private Integer countLike;
     private Integer countComment;
     private PostStatus postStatus;
+    private LocalDate createAt;
     private boolean checkUserLiked;
 }

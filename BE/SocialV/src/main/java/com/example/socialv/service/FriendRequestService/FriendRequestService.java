@@ -33,9 +33,4 @@ public class FriendRequestService implements IFriendRequestService{
     public void remove(Long id) {
 
     }
-
-    @Override
-    public List<User> findFriendRequestsByIdAndStatusTrue(Long id) {
-        return friendRequestRepository.findFriendRequestsByIdAndStatusTrue(id);
-    }
 }

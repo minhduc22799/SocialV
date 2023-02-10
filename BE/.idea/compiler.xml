@@ -10,10 +10,5 @@
         <module name="SocialV.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="SocialV" target="1.8" />
-      <module name="SocialV.main" target="1.8" />
-      <module name="SocialV.test" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
