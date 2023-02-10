@@ -31,4 +31,9 @@ public class UserService implements IUserService {
     public void remove(Long id) {
         userRepository.deleteById(id);
     }
+
+    @Override
+    public User findUserByUsername(String username) {
+        return userRepository.findUserByUsername(username);
+    }
 }
