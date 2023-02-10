@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { RegistrationComponent } from './Registration/registration.component';
 import { LoginComponent } from './Login/login.component';
 import { NewfeedComponent } from './Newfeed/newfeed.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -14,10 +16,12 @@ import { NewfeedComponent } from './Newfeed/newfeed.component';
     LoginComponent,
     NewfeedComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+      HttpClientModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -4,7 +4,8 @@
 //   ../../../../../@fullcalendar/core
 
 declare module '@fullcalendar/moment' {
-    import * as momentNs from 'moment';
+    // @ts-ignore
+  import * as momentNs from 'moment';
     import { Calendar, Duration } from '@fullcalendar/core';
     export function toMoment(date: Date, calendar: Calendar): momentNs.Moment;
     export function toDuration(fcDuration: Duration): momentNs.Duration;
