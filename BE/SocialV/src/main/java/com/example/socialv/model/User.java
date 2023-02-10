@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 @Valid
 @Entity
@@ -20,21 +21,21 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull(message = "Tên bị Null")
-    @Pattern(regexp="[A-Za-z0-9]+[A-Za-z0-9]",message = "Tên chứa ký tự đặc biệt!")
+    @Pattern(regexp="^[a-zA-Z0-9]*$",message = "Tên chứa ký tự đặc biệt!")
     private String username;
-    @NotNull(message = "password bị Null")
-    @Pattern(regexp="^[A-Za-z0-9]+[A-Za-z0-9]",message = "Tên chứa ký tự đặc biệt!")
+    @Size(min = 6,max = 32,message = "password từ 6-32 ký tự")
+    @Pattern(regexp="^[a-zA-Z0-9]*$",message = "Tên chứa ký tự đặc biệt!")
     private String password;
-    @NotNull(message = "confirmPassword bị Null")
-    @Pattern(regexp="[A-Za-z0-9]+[A-Za-z0-9]*$",message = "Tên chứa ký tự đặc biệt!")
+    @Size(min = 6,max = 32,message = "password từ 6-32 ký tự")
+    @Pattern(regexp="^[a-zA-Z0-9]*$",message = "Tên chứa ký tự đặc biệt!")
     private String confirmPassword;
-    @NotNull(message = "Tên bị Null")
-    @Pattern(regexp="^[A-Za-z]*$")
+    @NotNull(message = "không được bỏ trống")
     private String name;
-
+    @Pattern(regexp = "^(.+)@(\\S+)$")
     private String email;
+    @Pattern(regexp = "^[0-9]{10}$",message = "phải là số có 10 số")
     private String phone;
+    @NotNull(message = "không được bỏ trống")
     private LocalDate birthday;
     //status block hoac active( default true)
     @Column(columnDefinition = "boolean default true")

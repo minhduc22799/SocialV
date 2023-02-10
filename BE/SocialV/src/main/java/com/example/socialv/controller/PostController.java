@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
+@RequestMapping("/post")
 public class PostController {
     @Autowired
     private IPostService postService;
