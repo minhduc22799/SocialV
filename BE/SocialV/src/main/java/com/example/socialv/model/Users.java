@@ -1,9 +1,6 @@
 package com.example.socialv.model;
 
 import lombok.*;
-import net.bytebuddy.implementation.bind.annotation.Default;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -17,7 +14,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
