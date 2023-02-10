@@ -9,6 +9,7 @@ import { NewfeedComponent } from './Newfeed/newfeed.component';
 import { PostModalComponent } from './Post-Modal/post-modal.component';
 import { ProfileComponent } from './Profile/profile.component';
 import { FriendProfileComponent } from './Friend-Profile/friend-profile.component';
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
