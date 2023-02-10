@@ -42,9 +42,9 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<List<PostDisplay>> getAllPostNewFeed(@RequestBody User user){
-        List<User> users = userService.findFriendRequestsByIdAndStatusTrue(user.getId());
+    @GetMapping("/{id}")
+    public ResponseEntity<List<PostDisplay>> getAllPostNewFeed(@PathVariable Long id){
+        List<User> users = userService.findFriendRequestsByIdAndStatusTrue(id);
         List<PostDisplay> postDisplays = new ArrayList<>();
         List<Post> posts = new ArrayList<>();
         for (User u: users){
@@ -65,7 +65,7 @@ public class PostController {
             postDisplays.add(postDisplay);
         }
         for (PostDisplay p: postDisplays){
-            p.setCheckUserLiked(checkUserLiked(user, p));
+            p.setCheckUserLiked(checkUserLiked(userService.findById(id).get(), p));
         }
         return new ResponseEntity<>(postDisplays, HttpStatus.OK);
     }

@@ -1,7 +1,4 @@
-<div id="loading">
-  <div id="loading-center">
-  </div>
-</div>
+
 <!-- loader END -->
 <!-- Wrapper Start -->
 <div class="wrapper">
@@ -606,9 +603,9 @@
                   <div class="w-100">
                     <div class="d-flex  justify-content-between">
                       <div class="">
-                        <h5 class="mb-0 d-inline-block">{{p?.user?.name}}</h5>
+                        <h5 class="mb-0 d-inline-block">Barb Ackue</h5>
                         <span class="mb-0 d-inline-block">Added New Image in a Post</span>
-                        <p class="mb-0 text-primary">{{p?.createAt}}</p>
+                        <p class="mb-0 text-primary">1 hour ago</p>
                       </div>
                       <div class="card-post-toolbar">
                         <div class="dropdown">
@@ -660,7 +657,7 @@
                 </div>
               </div>
               <div class="mt-3">
-                <p>{{p?.content}}</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus</p>
               </div>
               <div class="user-post">
                 <a href=""><img src="assets/images/page-img/p4.jpg" alt="post-image" class="img-fluid rounded w-100"></a>
@@ -687,17 +684,9 @@
                       </div>
                       <div class="total-like-block ms-2 me-3">
                         <div class="dropdown">
-                                    <div *ngIf="p?.checkUserLiked">
-                                    <span style="color: #0a53be" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                    Liked {{p.countLike}}
-                                    </span>
-                                    </div>
-
-                          <div *ngIf="!p?.checkUserLiked">
                                     <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                    {{p.countLike}}
+                                    140 Likes
                                     </span>
-                          </div>
                           <div class="dropdown-menu">
                             <a class="dropdown-item" href="#">Max Emum</a>
                             <a class="dropdown-item" href="#">Bill Yerds</a>
@@ -712,11 +701,9 @@
                     </div>
                     <div class="total-comment-block">
                       <div class="dropdown">
-                              <div *ngIf="p?.countComment !== 0">
-                                 <span  class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                 {{p?.countComment}} Comment
+                                 <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                 20 Comment
                                  </span>
-                              </div>
                         <div class="dropdown-menu">
                           <a class="dropdown-item" href="#">Max Emum</a>
                           <a class="dropdown-item" href="#">Bill Yerds</a>
@@ -730,14 +717,28 @@
                     </div>
                   </div>
                   <div class="share-block d-flex align-items-center feather-icon mt-2 mt-md-0">
-
+                    <a href="" data-bs-toggle="offcanvas" data-bs-target="#share-btn" aria-controls="share-btn"><i class="ri-share-line"></i>
+                      <span class="ms-1">99 Share</span></a>
                   </div>
                 </div>
                 <hr>
+
+                <form class="comment-text d-flex align-items-center mt-3" action="">
+                  <input type="text" class="form-control rounded" placeholder="Enter Your Comment">
+                  <div class="comment-attagement d-flex">
+                    <a href=""><i class="ri-link me-3"></i></a>
+                    <a href=""><i class="ri-user-smile-line me-3"></i></a>
+                    <a href=""><i class="ri-camera-line me-3"></i></a>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
         </div>
+
+
+
+
       </div>
 
       <div class="col-sm-12 text-center">
