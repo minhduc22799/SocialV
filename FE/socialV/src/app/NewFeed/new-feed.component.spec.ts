@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NewfeedComponent } from './newfeed.component';
+import { NewFeedComponent } from './new-feed.component';
 
 describe('NewfeedComponent', () => {
-  let component: NewfeedComponent;
-  let fixture: ComponentFixture<NewfeedComponent>;
+  let component: NewFeedComponent;
+  let fixture: ComponentFixture<NewFeedComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NewfeedComponent ]
+      declarations: [ NewFeedComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(NewfeedComponent);
+    fixture = TestBed.createComponent(NewFeedComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

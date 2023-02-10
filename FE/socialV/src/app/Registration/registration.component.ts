@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {UserService} from "../service/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {User} from "../model/User";
+import {Users} from "../Model/Users";
 
 @Component({
   selector: 'app-registration',
@@ -11,7 +11,7 @@ import {User} from "../model/User";
 })
 export class RegistrationComponent implements OnInit{
   registerForm!:FormGroup
-  user!:User
+  user!:Users
 
 
   constructor(private userService:UserService,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {User} from "../model/User";
+import {Users} from "../Model/Users";
 import {Observable} from "rxjs";
 const API_URL='http://localhost:8080'
 @Injectable({
@@ -15,5 +15,9 @@ export class UserService {
   }
   login(user: any): Observable<any> {
     return this.httpClient.post<any>(API_URL + '/login', user);
+  }
+
+  findUserById(id: number): Observable<Users> {
+    return this.httpClient.get<Users>(`${API_URL}/user/${id}`)
   }
 }
