@@ -34,6 +34,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User findUserByUsername(String username) {
+        return userRepository.findUserByUsername(username);
+    }
+
+    @Override
     public List<User> findFriendRequestsByIdAndStatusTrue(Long id) {
         return userRepository.findFriendRequestsByIdAndStatusTrue(id);
     }

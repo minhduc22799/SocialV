@@ -6,5 +6,6 @@ import com.example.socialv.service.IGeneralService;
 import java.util.List;
 
 public interface IUserService extends IGeneralService<User> {
+    User findUserByUsername(String username);
     List<User> findFriendRequestsByIdAndStatusTrue(Long id);
 }

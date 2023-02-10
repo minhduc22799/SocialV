@@ -9,6 +9,7 @@ import { NewfeedComponent } from './Newfeed/newfeed.component';
 import { PostModalComponent } from './Post-Modal/post-modal.component';
 import { ProfileComponent } from './Profile/profile.component';
 import { FriendProfileComponent } from './Friend-Profile/friend-profile.component';
+import {ReactiveFormsModule} from "@angular/forms";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 @NgModule({
@@ -21,10 +22,12 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
     ProfileComponent,
     FriendProfileComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+      HttpClientModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
