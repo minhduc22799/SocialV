@@ -1,6 +1,6 @@
 package com.example.socialv.service.userService;
 
-import com.example.socialv.model.User;
+import com.example.socialv.model.Users;
 import com.example.socialv.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,18 +14,18 @@ public class UserService implements IUserService {
     private IUserRepository userRepository;
 
     @Override
-    public Iterable<User> findAll() {
+    public Iterable<Users> findAll() {
         return userRepository.findAll();
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional<Users> findById(Long id) {
         return userRepository.findById(id);
     }
 
     @Override
-    public void save(User user) {
-        userRepository.save(user);
+    public void save(Users users) {
+        userRepository.save(users);
     }
 
     @Override
@@ -34,12 +34,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User findUserByUsername(String username) {
+    public Users findUserByUsername(String username) {
         return userRepository.findUserByUsername(username);
     }
 
     @Override
-    public List<User> findFriendRequestsByIdAndStatusTrue(Long id) {
+    public List<Users> findFriendRequestsByIdAndStatusTrue(Long id) {
         return userRepository.findFriendRequestsByIdAndStatusTrue(id);
     }
 }

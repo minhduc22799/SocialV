@@ -1,7 +1,6 @@
 package com.example.socialv.repository;
 
 import com.example.socialv.model.PostLike;
-import com.example.socialv.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

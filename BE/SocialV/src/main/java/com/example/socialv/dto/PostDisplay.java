@@ -1,12 +1,11 @@
 package com.example.socialv.dto;
 
 import com.example.socialv.model.PostStatus;
-import com.example.socialv.model.User;
+import com.example.socialv.model.Users;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 
 @Data
@@ -14,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class PostDisplay {
     private Long id;
-    private User user;
+    private Users users;
     private String content;
     private Integer countLike;
     private Integer countComment;

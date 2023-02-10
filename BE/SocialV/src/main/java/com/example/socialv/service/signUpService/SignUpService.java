@@ -1,6 +1,6 @@
 package com.example.socialv.service.signUpService;
 
-import com.example.socialv.model.User;
+import com.example.socialv.model.Users;
 import com.example.socialv.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,11 +12,11 @@ public class SignUpService {
     @Autowired
     private IUserRepository userRepository;
 
-    public boolean signUp(User user) {
+    public boolean signUp(Users users) {
 
-        if (!checkUserExist(user)) {
-            if (user.getPassword().equals(user.getConfirmPassword())) {
-                userRepository.save(user);
+        if (!checkUserExist(users)) {
+            if (users.getPassword().equals(users.getConfirmPassword())) {
+                userRepository.save(users);
                 return true;
             }
             return false;
@@ -25,9 +25,9 @@ public class SignUpService {
 
     }
 
-    public boolean checkUserExist(User user) {
-        List<User> users = userRepository.findAll();
-        for (User u : users) {
+    public boolean checkUserExist(Users user) {
+        List<Users> users = userRepository.findAll();
+        for (Users u : users) {
             if (user.getUsername().equals(u.getUsername()) || user.getEmail().equals(u.getEmail())) {
                 return true;
             }

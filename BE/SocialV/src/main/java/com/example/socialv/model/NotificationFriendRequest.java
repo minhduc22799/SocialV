@@ -17,10 +17,10 @@ public class NotificationFriendRequest {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "userSend_id")
-    private User userSend;
+    private Users usersSend;
     @ManyToOne
     @JoinColumn(name = "userReceive_id")
-    private User userReceive;
+    private Users usersReceive;
     @ManyToOne
     @JoinColumn(name = "notificationType_id")
     private NotificationType notificationType;

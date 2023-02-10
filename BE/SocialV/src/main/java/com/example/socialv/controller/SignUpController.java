@@ -1,8 +1,7 @@
 package com.example.socialv.controller;
 
-import com.example.socialv.model.User;
+import com.example.socialv.model.Users;
 import com.example.socialv.service.signUpService.SignUpService;
-import com.example.socialv.service.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +17,8 @@ public class SignUpController {
     private SignUpService signUpService;
 
     @PostMapping("/signUp")
-    public ResponseEntity<String> signUp(@RequestBody User user) {
-        if (signUpService.signUp(user)) {
+    public ResponseEntity<String> signUp(@RequestBody Users users) {
+        if (signUpService.signUp(users)) {
             return new ResponseEntity<>("Sign up successfully!", HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

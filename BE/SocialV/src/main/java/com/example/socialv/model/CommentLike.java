@@ -17,7 +17,7 @@ public class CommentLike {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users users;
     @ManyToOne
     @JoinColumn(name = "comment_id")
     private PostComment comment;

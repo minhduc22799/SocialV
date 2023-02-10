@@ -4,7 +4,7 @@ import com.example.socialv.dto.PostDisplay;
 import com.example.socialv.model.ImagePost;
 import com.example.socialv.model.Post;
 import com.example.socialv.model.PostLike;
-import com.example.socialv.model.User;
+import com.example.socialv.model.Users;
 import com.example.socialv.service.IPostLikeService.IPostLikeService;
 import com.example.socialv.service.ImagePostService.IImagePostService;
 import com.example.socialv.service.postService.IPostService;
@@ -44,10 +44,10 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<List<PostDisplay>> getAllPostNewFeed(@PathVariable Long id){
-        List<User> users = userService.findFriendRequestsByIdAndStatusTrue(id);
+        List<Users> users = userService.findFriendRequestsByIdAndStatusTrue(id);
         List<PostDisplay> postDisplays = new ArrayList<>();
         List<Post> posts = new ArrayList<>();
-        for (User u: users){
+        for (Users u: users){
             posts.addAll(postService.findAllByUser(u.getId()));
         }
         if (posts.isEmpty()){
@@ -58,7 +58,7 @@ public class PostController {
             postDisplay.setId(post.getId());
             postDisplay.setContent(post.getContent());
             postDisplay.setPostStatus(post.getPostStatus());
-            postDisplay.setUser(post.getUser());
+            postDisplay.setUsers(post.getUsers());
             postDisplay.setCountComment(post.getCountComment());
             postDisplay.setCountLike(post.getCountLike());
             postDisplay.setCreateAt(post.getCreateAt());
@@ -70,8 +70,8 @@ public class PostController {
         return new ResponseEntity<>(postDisplays, HttpStatus.OK);
     }
 
-    private boolean checkUserLiked(User user, PostDisplay post){
-        Optional<PostLike> postLike = postLikeService.findPostLike(user.getId(), post.getId());
+    private boolean checkUserLiked(Users users, PostDisplay post){
+        Optional<PostLike> postLike = postLikeService.findPostLike(users.getId(), post.getId());
         return postLike.isPresent();
     }
 }

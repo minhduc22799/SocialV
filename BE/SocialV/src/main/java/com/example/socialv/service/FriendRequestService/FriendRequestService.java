@@ -1,12 +1,10 @@
 package com.example.socialv.service.FriendRequestService;
 
 import com.example.socialv.model.FriendRequest;
-import com.example.socialv.model.User;
 import com.example.socialv.repository.IFriendRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
