@@ -21,6 +21,7 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<Users> login(@RequestBody Users users) {
         if (loginSevice.login(users)) {
+            users.setCheckOn(true);
             return new ResponseEntity<>(userService.findUserByUsername(users.getUsername()), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

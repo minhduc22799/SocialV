@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface IPostLikeService extends IGeneralService<PostLike> {
     Optional<PostLike> findPostLike(Long userId, Long postId);
+
+
 }

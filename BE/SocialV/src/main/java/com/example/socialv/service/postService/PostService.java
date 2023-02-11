@@ -1,6 +1,7 @@
 package com.example.socialv.service.postService;
 
 import com.example.socialv.model.Post;
+import com.example.socialv.model.Users;
 import com.example.socialv.repository.IPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +38,10 @@ public class PostService implements IPostService{
     @Override
     public List<Post> findAllByUser(Long id) {
         return postRepository.findAllPostByUser(id);
+    }
+
+    @Override
+    public List<Post> findAllPersonalPost(Users users) {
+        return postRepository.findAllByUsers(users);
     }
 }

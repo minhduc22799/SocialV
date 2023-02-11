@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -25,5 +26,14 @@ public class UserController {
     public Optional<Users> findById(@PathVariable Long id) {
         return userService.findById(id);
     }
+
+
+    @GetMapping("/friend/{id}")
+    public ResponseEntity <List<Users>> findAllFriend(@PathVariable Long id) {
+        List<Users> users = userService.findFriendRequestsByIdAndStatusTrue(id);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+
 
 }

@@ -1,10 +1,12 @@
 package com.example.socialv.service.ImagePostService;
 
 import com.example.socialv.model.ImagePost;
+import com.example.socialv.model.Post;
 import com.example.socialv.repository.IImagePostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class ImagePostService implements IImagePostService{
@@ -29,5 +31,10 @@ public class ImagePostService implements IImagePostService{
     @Override
     public void remove(Long id) {
         iImagePostRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ImagePost> findAllByPost(Post post) {
+        return iImagePostRepository.findAllByPost(post);
     }
 }

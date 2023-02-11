@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -50,6 +51,7 @@ public class PostController {
         for (Users u: users){
             posts.addAll(postService.findAllByUser(u.getId()));
         }
+        posts.addAll(postService.findAllPersonalPost(userService.findById(id).get()));
         if (posts.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -73,5 +75,15 @@ public class PostController {
     private boolean checkUserLiked(Users users, PostDisplay post){
         Optional<PostLike> postLike = postLikeService.findPostLike(users.getId(), post.getId());
         return postLike.isPresent();
+    }
+
+    @PostMapping("/image")
+    public ResponseEntity<?> getImg(@RequestBody Post[] posts){
+        List<Object> objects = new ArrayList<>();
+        for (Post p: posts){
+            List<ImagePost> imagePosts = imagePostService.findAllByPost(p);
+            objects.add(imagePosts);
+        }
+        return new ResponseEntity<>(objects, HttpStatus.OK);
     }
 }
