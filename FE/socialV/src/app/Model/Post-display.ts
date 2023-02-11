@@ -4,7 +4,7 @@ import {PostStatus} from "./post-status";
 
 export interface PostDisplay {
   id?:number,
-  user?:Users,
+  users?:Users,
   content?:string,
   createAt?:Date,
   countLike?:number,

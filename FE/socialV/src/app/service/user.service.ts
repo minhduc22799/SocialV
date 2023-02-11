@@ -20,4 +20,7 @@ export class UserService {
   findUserById(id: number): Observable<Users> {
     return this.httpClient.get<Users>(`${API_URL}/user/${id}`)
   }
+  findAllFriend(id:number):Observable<Users[]>{
+    return this.httpClient.get<Users[]>(`${API_URL}/user/friend/${id}`)
+  }
 }
