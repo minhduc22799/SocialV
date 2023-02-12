@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table
@@ -17,8 +18,9 @@ public class Post {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users users;
     private String content;
+    private LocalDate createAt;
     private Integer countLike;
     private Integer countComment;
     @ManyToOne

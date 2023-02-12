@@ -1,7 +1,11 @@
 package com.example.socialv.service.userService;
 
-import com.example.socialv.model.User;
+import com.example.socialv.model.Users;
 import com.example.socialv.service.IGeneralService;
 
-public interface IUserService extends IGeneralService<User> {
+import java.util.List;
+
+public interface IUserService extends IGeneralService<Users> {
+    Users findUserByUsername(String username);
+    List<Users> findFriendRequestsByIdAndStatusTrue(Long id);
 }

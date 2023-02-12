@@ -20,5 +20,5 @@ public class ConversationMember {
     private Conversation conversation;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users users;
 }

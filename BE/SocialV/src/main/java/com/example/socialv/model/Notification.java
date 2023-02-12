@@ -17,7 +17,7 @@ public class Notification {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users users;
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
