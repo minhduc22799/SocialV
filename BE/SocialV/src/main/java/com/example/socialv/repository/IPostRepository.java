@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface IPostRepository extends JpaRepository<Post, Long> {
     @Query(value = "select * from post where user_id = ?1 and (post_status_id = 1 or post_status_id = 3)", nativeQuery = true)
-    List<Post> findAllPostByUser(Long id);
+    List<Post> findAllFriendPost(Long id);
     List<Post> findAllByUsers(Users users);
+    @Query(value = "select * from post where user_id = ?1 and post_status_id = 1", nativeQuery = true)
+    List<Post> findAllFriendPublicPost(Long id);
 }

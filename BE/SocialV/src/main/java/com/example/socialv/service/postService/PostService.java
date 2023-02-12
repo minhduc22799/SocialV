@@ -3,8 +3,13 @@ package com.example.socialv.service.postService;
 import com.example.socialv.model.Post;
 import com.example.socialv.model.Users;
 import com.example.socialv.repository.IPostRepository;
+import com.example.socialv.service.IPostLikeService.IPostLikeService;
+import com.example.socialv.service.ImagePostService.IImagePostService;
+import com.example.socialv.service.NotificationService.INotificationService;
+import com.example.socialv.service.PostCommentService.IPostCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +18,14 @@ import java.util.Optional;
 public class PostService implements IPostService{
     @Autowired
     private IPostRepository postRepository;
+    @Autowired
+    private IPostLikeService postLikeService;
+    @Autowired
+    private IPostCommentService postCommentService;
+    @Autowired
+    private INotificationService notificationService;
+    @Autowired
+    private IImagePostService imagePostService;
 
     @Override
     public Iterable<Post> findAll() {
@@ -31,17 +44,27 @@ public class PostService implements IPostService{
 
 
     @Override
+    @Transactional
     public void remove(Long id) {
+        postLikeService.deleteAllByPost(findById(id).get());
+        postCommentService.deleteAllByPost(findById(id).get());
+        notificationService.deleteAllByPost(findById(id).get());
+        imagePostService.deleteAllByPost(findById(id).get());
         postRepository.deleteById(id);
     }
 
     @Override
-    public List<Post> findAllByUser(Long id) {
-        return postRepository.findAllPostByUser(id);
+    public List<Post> findAllFriendPost(Long id) {
+        return postRepository.findAllFriendPost(id);
     }
 
     @Override
     public List<Post> findAllPersonalPost(Users users) {
         return postRepository.findAllByUsers(users);
+    }
+
+    @Override
+    public List<Post> findAllFriendPublicPost(Long id) {
+        return postRepository.findAllFriendPublicPost(id);
     }
 }

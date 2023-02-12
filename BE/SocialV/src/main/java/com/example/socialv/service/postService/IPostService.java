@@ -7,6 +7,7 @@ import com.example.socialv.service.IGeneralService;
 import java.util.List;
 
 public interface IPostService extends IGeneralService<Post> {
-    List<Post> findAllByUser(Long id);
+    List<Post> findAllFriendPost(Long id);
     List<Post> findAllPersonalPost(Users users);
+    List<Post> findAllFriendPublicPost(Long id);
 }

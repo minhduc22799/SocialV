@@ -42,4 +42,9 @@ public class UserService implements IUserService {
     public List<Users> findFriendRequestsByIdAndStatusTrue(Long id) {
         return userRepository.findFriendRequestsByIdAndStatusTrue(id);
     }
+
+    @Override
+    public List<Users> findAllLikePost(Long id) {
+        return userRepository.findAllLikePost(id);
+    }
 }

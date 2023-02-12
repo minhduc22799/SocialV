@@ -14,4 +14,6 @@ public interface IUserRepository extends JpaRepository<Users, Long> {
             "where fr.user_request_id =?1 and fr.status = true"
             , nativeQuery = true)
     List<Users> findFriendRequestsByIdAndStatusTrue(Long id);
+    @Query(value = "select * from users join post_like pl on users.id = pl.user_id where pl.post_id = ?1", nativeQuery = true)
+    List<Users> findAllLikePost(Long id);
 }
