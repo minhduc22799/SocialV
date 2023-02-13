@@ -4,19 +4,23 @@ import {RegistrationComponent} from "./Registration/registration.component";
 import {LoginComponent} from "./Login/login.component";
 import {NewFeedComponent} from "./NewFeed/new-feed.component";
 import {ProfileComponent} from "./Profile/profile.component";
+import {EditProfileComponent} from "./edit-profile/edit-profile.component";
 
 const routes: Routes = [
   {
     path: 'Registration', component: RegistrationComponent
   },
   {
-    path: '', component: LoginComponent
+    path: 'Login', component: LoginComponent
   },
   {
     path: 'NewFeed', component: NewFeedComponent
   },
   {
     path: 'Profile', component: ProfileComponent
+  },
+  {
+    path: 'EditProfile', component: EditProfileComponent
   }
 
 ];

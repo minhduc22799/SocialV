@@ -12,6 +12,7 @@ import { FriendProfileComponent } from './Friend-Profile/friend-profile.componen
 import {ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule} from "@angular/common/http";
 import {NgImageSliderModule} from "ng-image-slider";
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {NgImageSliderModule} from "ng-image-slider";
     NewFeedComponent,
     PostModalComponent,
     ProfileComponent,
-    FriendProfileComponent
+    FriendProfileComponent,
+    EditProfileComponent
   ],
     imports: [
         BrowserModule,

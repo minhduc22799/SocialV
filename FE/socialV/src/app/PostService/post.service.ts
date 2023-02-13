@@ -34,6 +34,10 @@ export class PostService {
       return this.http.post<Post[]>(apiUrl + `/post/comment`, posts);
 }
 
+findAllPostProfile(id:number):Observable<any>{
+  return this.http.get<PostDisplay[]>(apiUrl+`/post/profile/${id}`);
+}
+
   createPost(post: Post): Observable<any>{
     return this.http.post<Post>(apiUrl + `/post`, post);
   }
