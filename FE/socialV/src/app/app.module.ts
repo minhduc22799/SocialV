@@ -13,6 +13,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule} from "@angular/common/http";
 import {NgImageSliderModule} from "ng-image-slider";
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
         AppRoutingModule,
         ReactiveFormsModule,
         HttpClientModule,
-        NgImageSliderModule
+        NgImageSliderModule,
+        InfiniteScrollModule
     ],
   providers: [],
   bootstrap: [AppComponent]

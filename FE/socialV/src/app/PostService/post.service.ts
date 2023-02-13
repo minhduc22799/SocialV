@@ -34,9 +34,16 @@ export class PostService {
   findCountCommentPost(posts: Post[]):Observable<any>{
       return this.http.post<Post[]>(apiUrl + `/post/comment`, posts);
 }
-
-findAllPostProfile(id:number):Observable<any>{
+  findAllPostProfile(id:number):Observable<any>{
   return this.http.get<PostDisplay[]>(apiUrl+`/post/profile/${id}`);
 }
+  findAllPostWallFriend( idFriend:number, idUser:number):Observable<any>{
+    return this.http.get<PostDisplay[]>(apiUrl+`/post/wall/${idFriend}/${idUser}`);
+  }
+
+  deletePost(id:number):Observable<any>{
+    return this.http.delete<any>(apiUrl+`/post/${id}`);
+  }
+
 
 }

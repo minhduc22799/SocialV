@@ -16,6 +16,8 @@ export class NewFeedComponent implements OnInit{
     // @ts-ignore
     user:Users = JSON.parse(this.data)
     postsDisplay:PostDisplay[] = [];
+    postDisplayScroll:PostDisplay[] = [];
+    t:number = 0
     listFriend:Users[] = [];
     listImgPost:ImagePost[][] = [];
     listFriendPost:Users[][] = [];
@@ -46,6 +48,7 @@ export class NewFeedComponent implements OnInit{
         this.findFriendLike(post)
         this.findCountLike(post)
         this.findCountComment(post)
+
       })
     // })
 
@@ -87,6 +90,8 @@ export class NewFeedComponent implements OnInit{
       console.log(this.listImg)
     })
 }
+
+
 
 
 

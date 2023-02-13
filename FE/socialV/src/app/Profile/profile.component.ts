@@ -86,4 +86,10 @@ export class ProfileComponent implements OnInit{
       console.log(this.listImg)
     })
   }
+
+  deletePost(id: any){
+    this.postService.deletePost(id).subscribe(()=>{
+      this.findPostAllProfile()
+    })
+  }
 }

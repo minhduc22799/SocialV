@@ -5,8 +5,8 @@
     <div id="sidebar-scrollbar">
       <nav class="iq-sidebar-menu">
         <ul id="iq-sidebar-toggle" class="iq-menu">
-          <li class="active">
-            <a href="" class=" ">
+          <li style="cursor: pointer;" routerLink="/NewFeed" class="active">
+            <a class=" ">
               <i class="las la-newspaper"></i><span>Newsfeed</span>
             </a>
           </li>
@@ -52,7 +52,7 @@
     <div class="iq-navbar-custom">
       <nav class="navbar navbar-expand-lg navbar-light p-0">
         <div class="iq-navbar-logo d-flex justify-content-between">
-          <a href="">
+          <a style="cursor: pointer" routerLink="/NewFeed">
             <img src="assets/images/logo.png" class="img-fluid" alt="">
             <span>SocialV</span>
           </a>
@@ -338,7 +338,7 @@
                     </div>
                   </div>
                   <div class="card-body p-0 ">
-                    <a  class="iq-sub-card iq-bg-primary-hover">
+                    <a class="iq-sub-card iq-bg-primary-hover">
                       <div class="d-flex align-items-center">
                         <div class="rounded card-icon bg-soft-primary">
                           <i class="ri-file-user-line"></i>
@@ -349,7 +349,7 @@
                         </div>
                       </div>
                     </a>
-                    <a  class="iq-sub-card iq-bg-warning-hover">
+                    <a class="iq-sub-card iq-bg-warning-hover">
                       <div class="d-flex align-items-center">
                         <div class="rounded card-icon bg-soft-warning">
                           <i class="ri-profile-line"></i>
@@ -402,12 +402,16 @@
         <div class="card-body p-0">
           <div class="media-height p-3" data-scrollbar="init">
             <div *ngFor="let f of listFriend" class="d-flex align-items-center mb-4">
-              <div class="iq-profile-avatar status-online">
+              <div *ngIf="f.checkOn" class="iq-profile-avatar status-online">
+                <img class="rounded-circle avatar-50" src="{{f?.avatar}}" alt="">
+              </div>
+              <div *ngIf="!f.checkOn" class="iq-profile-avatar status-offline">
                 <img class="rounded-circle avatar-50" src="{{f?.avatar}}" alt="">
               </div>
               <div class="ms-3">
                 <h6 class="mb-0">{{f?.name}}</h6>
-                <p class="mb-0">Just Now</p>
+                <p *ngIf="f.checkOn" class="mb-0">Just Now</p>
+                <p *ngIf="!f.checkOn" class="mb-0">Offline</p>
               </div>
             </div>
 
@@ -423,320 +427,325 @@
   <div id="content-page" class="content-page">
     <div class="container">
       <div class="row">
-        <div class="col-lg-12 row m-0 p-0">
-          <div class="col-sm-12">
-            <div id="post-modal-data" class="card card-block card-stretch card-height">
-              <div class="card-header d-flex justify-content-between">
-                <div class="header-title">
-                  <h4 class="card-title">Create Post</h4>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="d-flex align-items-center">
-                  <div class="user-img">
-                    <img src="{{user.avatar}}" alt="userimg" class="avatar-60 rounded-circle">
+        <div>
+          <div class="col-lg-12 row m-0 p-0">
+            <div style="width: 91.5%; margin-left: 43px" class="col-sm-12">
+              <div id="post-modal-data" class="card card-block card-stretch card-height">
+                <div class="card-header d-flex justify-content-between">
+                  <div class="header-title">
+                    <h4 class="card-title">Create Post</h4>
                   </div>
-                  <form class="post-text ms-3 w-100 " data-bs-toggle="modal" data-bs-target="#post-modal" action="">
-                    <input type="text" class="form-control rounded" placeholder="Write something here..."
-                           style="border:none;">
-                  </form>
                 </div>
-                <hr>
-              </div>
-              <div class="modal fade" id="post-modal" tabindex="-1" aria-labelledby="post-modalLabel"
-                   aria-hidden="true">
-                <div class="modal-dialog  modal-fullscreen-sm-down">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="post-modalLabel">Create Post</h5>
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
-                        class="ri-close-fill"></i></button>
+                <div class="card-body">
+                  <div class="d-flex align-items-center">
+                    <div class="user-img">
+                      <img src="{{user.avatar}}" alt="userimg" class="avatar-60 rounded-circle">
                     </div>
-                    <div class="modal-body">
-                      <div class="d-flex align-items-center">
-                        <div class="user-img">
-                          <img src="assets/images/user/1.jpg" alt="userimg" class="avatar-60 rounded-circle img-fluid">
-                        </div>
-                        <form class="post-text ms-3 w-100" action="">
-                          <input type="text" class="form-control rounded" placeholder="Write something here..."
-                                 style="border:none;">
-                        </form>
+                    <form class="post-text ms-3 w-100 " data-bs-toggle="modal" data-bs-target="#post-modal" action="">
+                      <input type="text" class="form-control rounded" placeholder="Write something here..."
+                             style="border:none;">
+                    </form>
+                  </div>
+                  <hr>
+                </div>
+                <div class="modal fade" id="post-modal" tabindex="-1" aria-labelledby="post-modalLabel"
+                     aria-hidden="true">
+                  <div class="modal-dialog  modal-fullscreen-sm-down">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="post-modalLabel">Create Post</h5>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
+                          class="ri-close-fill"></i></button>
                       </div>
-                      <hr>
-                      <ul style="height: 200px" class="d-flex flex-wrap list-inline m-0 p-0">
-                        <li style="margin-right: 50px; margin-top: 5px" class="col-md-1 mb-3">
-                          <div style="width: 100px" class="btn btn-soft-primary">
-                            <label for="image-post"><img alt="" src="assets/images/small/07.png">
-                              Photo</label>
-                            <input class="file-upload" id="image-post" type="file"/>
+                      <div class="modal-body">
+                        <div class="d-flex align-items-center">
+                          <div class="user-img">
+                            <img src="assets/images/user/1.jpg" alt="userimg"
+                                 class="avatar-60 rounded-circle img-fluid">
                           </div>
-                        </li>
-                        <li>
-                          <div class="dropdown">
+                          <form class="post-text ms-3 w-100" action="">
+                            <input type="text" class="form-control rounded" placeholder="Write something here..."
+                                   style="border:none;">
+                          </form>
+                        </div>
+                        <hr>
+                        <ul style="height: 200px" class="d-flex flex-wrap list-inline m-0 p-0">
+                          <li style="margin-right: 50px; margin-top: 5px" class="col-md-1 mb-3">
+                            <div style="width: 100px" class="btn btn-soft-primary">
+                              <label for="image-post"><img alt="" src="assets/images/small/07.png">
+                                Photo</label>
+                              <input class="file-upload" id="image-post" type="file"/>
+                            </div>
+                          </li>
+                          <li>
+                            <div class="dropdown">
                                        <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true"
                                              aria-expanded="false" role="button">
                                        <span style="margin-top: 5px" class="btn btn-primary ">Friend</span>
                                        </span>
-                            <div class="dropdown-menu m-0 p-0">
-                              <a class="dropdown-item p-3" href="#">
-                                <div class="d-flex align-items-end">
-                                  <i class="ri-save-line h4"></i>
-                                  <div class="data ms-2">
-                                    <h6>Public</h6>
-                                    <p class="mb-0">Anyone on or off Facebook</p>
+                              <div class="dropdown-menu m-0 p-0">
+                                <a class="dropdown-item p-3" href="#">
+                                  <div class="d-flex align-items-end">
+                                    <i class="ri-save-line h4"></i>
+                                    <div class="data ms-2">
+                                      <h6>Public</h6>
+                                      <p class="mb-0">Anyone on or off Facebook</p>
+                                    </div>
                                   </div>
-                                </div>
-                              </a>
-                              <a class="dropdown-item p-3" href="#">
-                                <div class="d-flex align-items-end">
-                                  <i class="ri-close-circle-line h4"></i>
-                                  <div class="data ms-2">
-                                    <h6>Friends</h6>
-                                    <p class="mb-0">Your Friend on facebook</p>
+                                </a>
+                                <a class="dropdown-item p-3" href="#">
+                                  <div class="d-flex align-items-end">
+                                    <i class="ri-close-circle-line h4"></i>
+                                    <div class="data ms-2">
+                                      <h6>Friends</h6>
+                                      <p class="mb-0">Your Friend on facebook</p>
+                                    </div>
                                   </div>
-                                </div>
-                              </a>
-                              <a class="dropdown-item p-3" href="#">
-                                <div class="d-flex align-items-end">
-                                  <i class="ri-notification-line h4"></i>
-                                  <div class="data ms-2">
-                                    <h6>Only Me</h6>
-                                    <p class="mb-0">Only me</p>
+                                </a>
+                                <a class="dropdown-item p-3" href="#">
+                                  <div class="d-flex align-items-end">
+                                    <i class="ri-notification-line h4"></i>
+                                    <div class="data ms-2">
+                                      <h6>Only Me</h6>
+                                      <p class="mb-0">Only me</p>
+                                    </div>
                                   </div>
-                                </div>
-                              </a>
+                                </a>
+                              </div>
                             </div>
-                          </div>
-                        </li>
-                      </ul>
+                          </li>
+                        </ul>
 
-                      <hr>
-                      <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
+                        <hr>
+                        <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div style="padding-left: 50px; padding-right: 50px;margin-bottom: 20px; margin-top: 10px" *ngFor="let p of postsDisplay, index as i" class="col-sm-12">
-            <div class="card card-block card-stretch card-height">
-              <div class="card-body">
-                <div class="user-post-data">
-                  <div class="d-flex justify-content-between">
-                    <div class="me-3">
-                      <img style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
-                    </div>
-                    <div class="w-100">
-                      <div class="d-flex  justify-content-between">
-                        <div class="">
-                          <h5 class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
-                          <span class="mb-0 d-inline-block"> &nbsp; Added New Image in a Post </span>
-                          <span *ngIf="p?.postStatus?.id === 1" style="color: #0d6efd"> &nbsp; Public</span>
-                          <span *ngIf="p?.postStatus?.id === 2" style="color: #0d6efd"> &nbsp; Private </span>
-                          <span *ngIf="p?.postStatus?.id === 3" style="color: #0d6efd"> &nbsp; Friend Only </span>
-
-                          <p class="mb-0 text-primary">{{p?.createAt}}</p>
+            <div>
+              <div style="padding-left: 50px; padding-right: 50px;margin-bottom: 20px; margin-top: 10px"
+                   *ngFor="let p of postsDisplay, index as i" class="col-sm-12">
+                <div class="card card-block card-stretch card-height">
+                  <div class="card-body">
+                    <div class="user-post-data">
+                      <div class="d-flex justify-content-between">
+                        <div class="me-3">
+                          <img style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
                         </div>
-                        <div class="card-post-toolbar">
-                          <div class="dropdown">
+                        <div class="w-100">
+                          <div class="d-flex  justify-content-between">
+                            <div class="">
+                              <h5 *ngIf="p?.users?.id === user?.id" routerLink="/Profile"
+                                  class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
+                              <h5 *ngIf="p?.users?.id !== user?.id" routerLink="/friendProfile/{{p?.users?.id}}"
+                                  class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
+                              <span class="mb-0 d-inline-block"> &nbsp; Added New Image in a Post </span>
+                              <span *ngIf="p?.postStatus?.id === 1" style="color: #0d6efd"> &nbsp; Public</span>
+                              <span *ngIf="p?.postStatus?.id === 2" style="color: #0d6efd"> &nbsp; Private </span>
+                              <span *ngIf="p?.postStatus?.id === 3" style="color: #0d6efd"> &nbsp; Friend Only </span>
+                              <p class="mb-0 text-primary">{{p?.createAt}}</p>
+                            </div>
+                            <div class="card-post-toolbar">
+                              <div class="dropdown">
                                     <span class="dropdown-toggle" id="postdata-5" data-bs-toggle="dropdown"
                                           aria-haspopup="true" aria-expanded="false" role="button">
                                     <i class="ri-more-fill"></i>
                                     </span>
-                            <div class="dropdown-menu m-0 p-0" aria-labelledby="postdata-5">
-                              <a class="dropdown-item p-3" href="#">
-                                <div class="d-flex align-items-top">
-                                  <i class="ri-save-line h4"></i>
-                                  <div class="data ms-2">
-                                    <h6>Save Post</h6>
-                                    <p class="mb-0">Add this to your saved items</p>
-                                  </div>
+                                <div class="dropdown-menu m-0 p-0" aria-labelledby="postdata-5">
+                                  <a class="dropdown-item p-3" href="#">
+                                    <div class="d-flex align-items-top">
+                                      <i class="ri-save-line h4"></i>
+                                      <div class="data ms-2">
+                                        <h6>Save Post</h6>
+                                        <p class="mb-0">Add this to your saved items</p>
+                                      </div>
+                                    </div>
+                                  </a>
+                                  <a class="dropdown-item p-3" href="#">
+                                    <div class="d-flex align-items-top">
+                                      <i class="ri-close-circle-line h4"></i>
+                                      <div class="data ms-2">
+                                        <h6>Hide Post</h6>
+                                        <p class="mb-0">See fewer posts like this.</p>
+                                      </div>
+                                    </div>
+                                  </a>
+                                  <a class="dropdown-item p-3" href="#">
+                                    <div class="d-flex align-items-top">
+                                      <i class="ri-user-unfollow-line h4"></i>
+                                      <div class="data ms-2">
+                                        <h6>Unfollow User</h6>
+                                        <p class="mb-0">Stop seeing posts but stay friends.</p>
+                                      </div>
+                                    </div>
+                                  </a>
+                                  <a class="dropdown-item p-3" href="#">
+                                    <div class="d-flex align-items-top">
+                                      <i class="ri-notification-line h4"></i>
+                                      <div class="data ms-2">
+                                        <h6>Notifications</h6>
+                                        <p class="mb-0">Turn on notifications for this post</p>
+                                      </div>
+                                    </div>
+                                  </a>
                                 </div>
-                              </a>
-                              <a class="dropdown-item p-3" href="#">
-                                <div class="d-flex align-items-top">
-                                  <i class="ri-close-circle-line h4"></i>
-                                  <div class="data ms-2">
-                                    <h6>Hide Post</h6>
-                                    <p class="mb-0">See fewer posts like this.</p>
-                                  </div>
-                                </div>
-                              </a>
-                              <a class="dropdown-item p-3" href="#">
-                                <div class="d-flex align-items-top">
-                                  <i class="ri-user-unfollow-line h4"></i>
-                                  <div class="data ms-2">
-                                    <h6>Unfollow User</h6>
-                                    <p class="mb-0">Stop seeing posts but stay friends.</p>
-                                  </div>
-                                </div>
-                              </a>
-                              <a class="dropdown-item p-3" href="#">
-                                <div class="d-flex align-items-top">
-                                  <i class="ri-notification-line h4"></i>
-                                  <div class="data ms-2">
-                                    <h6>Notifications</h6>
-                                    <p class="mb-0">Turn on notifications for this post</p>
-                                  </div>
-                                </div>
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div class="mt-3">
-                  <p>{{p?.content}}</p>
-                </div>
-                <div  *ngIf="listImg[i]?.length > 0">
-                <ng-image-slider
-                  [images]="listImg[i]"
-                  [infinite]="false"
-                  [autoSlide]="1"
-                  [imageSize]="{width: '100%', height: 500}"
-                  slideImage="1">
-
-                </ng-image-slider>
-                </div>
+                    <div class="mt-3">
+                      <p>{{p?.content}}</p>
+                    </div>
+                    <div *ngIf="listImg[i]?.length > 0">
+                      <ng-image-slider
+                        [images]="listImg[i]"
+                        [infinite]="false"
+                        [autoSlide]="1"
+                        [imageSize]="{width: '100%', height: '600px'}"
+                        slideImage="1">
+                      </ng-image-slider>
+                    </div>
 
 
-                <div class="comment-area mt-3">
-                  <div class="d-flex justify-content-between align-items-center flex-wrap">
-                    <div class="like-block position-relative d-flex align-items-center">
-                      <div class="d-flex align-items-center">
-                        <div class="like-data">
-                          <div class="dropdown">
+                    <div class="comment-area mt-3">
+                      <div class="d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="like-block position-relative d-flex align-items-center">
+                          <div class="d-flex align-items-center">
+                            <div class="like-data">
+                              <div class="dropdown">
                                     <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true"
                                           aria-expanded="false" role="button">
                                     <img src="assets/images/icon/01.png" class="img-fluid" alt="">
                                     </span>
-                            <div class="dropdown-menu py-2">
-                              <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                 title="Like"><img src="assets/images/icon/01.png" class="img-fluid" alt=""></a>
-                              <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                 title="Love"><img src="assets/images/icon/02.png" class="img-fluid" alt=""></a>
-                              <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                 title="Happy"><img src="assets/images/icon/03.png" class="img-fluid" alt=""></a>
-                              <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                 title="HaHa"><img src="assets/images/icon/04.png" class="img-fluid" alt=""></a>
-                              <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                 title="Think"><img src="assets/images/icon/05.png" class="img-fluid" alt=""></a>
-                              <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                 title="Sade"><img src="assets/images/icon/06.png" class="img-fluid" alt=""></a>
-                              <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                 title="Lovely"><img src="assets/images/icon/07.png" class="img-fluid" alt=""></a>
+                                <div class="dropdown-menu py-2">
+                                  <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
+                                     title="Like"><img src="assets/images/icon/01.png" class="img-fluid" alt=""></a>
+                                  <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
+                                     title="Love"><img src="assets/images/icon/02.png" class="img-fluid" alt=""></a>
+                                  <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
+                                     title="Happy"><img src="assets/images/icon/03.png" class="img-fluid" alt=""></a>
+                                  <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
+                                     title="HaHa"><img src="assets/images/icon/04.png" class="img-fluid" alt=""></a>
+                                  <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
+                                     title="Think"><img src="assets/images/icon/05.png" class="img-fluid" alt=""></a>
+                                  <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
+                                     title="Sade"><img src="assets/images/icon/06.png" class="img-fluid" alt=""></a>
+                                  <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
+                                     title="Lovely"><img src="assets/images/icon/07.png" class="img-fluid" alt=""></a>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                        <div class="total-like-block ms-2 me-3">
-                          <div class="dropdown">
-                            <div *ngIf="p.checkUserLiked">
+                            <div class="total-like-block ms-2 me-3">
+                              <div class="dropdown">
+                                <div *ngIf="p.checkUserLiked">
                                     <span style="color: #408cfc" class="dropdown-toggle" data-bs-toggle="dropdown"
                                           aria-haspopup="true" aria-expanded="false" role="button">
                                      Liked &nbsp; {{countLike[i]}}
                                     </span>
-                            </div>
+                                </div>
 
-                            <div *ngIf="!p.checkUserLiked">
+                                <div *ngIf="!p.checkUserLiked">
                                     <span class="dropdown-toggle" data-bs-toggle="dropdown"
                                           aria-haspopup="true" aria-expanded="false" role="button">
                                      Like &nbsp; {{countLike[i]}}
                                     </span>
-                            </div>
-                            <div class="dropdown-menu">
-                              <a *ngFor="let f of listFriendPost[i]" class="dropdown-item" href="#">{{f.name}}</a>
+                                </div>
+                                <div class="dropdown-menu">
+                                  <a *ngFor="let f of listFriendPost[i]" class="dropdown-item" href="#">{{f.name}}</a>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                      <div class="total-comment-block">
-                        <div class="dropdown">
+                          <div class="total-comment-block">
+                            <div class="dropdown">
                                  <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true"
                                        aria-expanded="false" role="button">
                                  {{countComment[i]}} &nbsp; Comment
                                  </span>
+                            </div>
+                          </div>
                         </div>
                       </div>
+                      <hr>
+
+                      <form class="comment-text d-flex align-items-center mt-3" action="">
+                        <input type="text" class="form-control rounded" placeholder="Enter Your Comment">
+                        <div class="comment-attagement d-flex">
+                          <a href=""><i class="ri-link me-3"></i></a>
+                          <a href=""><i class="ri-user-smile-line me-3"></i></a>
+                          <a href=""><i class="ri-camera-line me-3"></i></a>
+                        </div>
+                      </form>
                     </div>
                   </div>
-                  <hr>
-
-                  <form class="comment-text d-flex align-items-center mt-3" action="">
-                    <input type="text" class="form-control rounded" placeholder="Enter Your Comment">
-                    <div class="comment-attagement d-flex">
-                      <a href=""><i class="ri-link me-3"></i></a>
-                      <a href=""><i class="ri-user-smile-line me-3"></i></a>
-                      <a href=""><i class="ri-camera-line me-3"></i></a>
-                    </div>
-                  </form>
                 </div>
               </div>
             </div>
           </div>
 
-
-        </div>
-
-        <div class="col-sm-12 text-center">
-          <img src="assets/images/page-img/page-load-loader.gif" alt="loader" style="height: 100px;">
+          <div class="col-sm-12 text-center">
+            <img src="assets/images/page-img/page-load-loader.gif" alt="loader" style="height: 100px;">
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<!-- Wrapper End-->
-<footer class="iq-footer bg-white">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-6">
-        <ul class="list-inline mb-0">
-          <li class="list-inline-item"><a href="">Privacy Policy</a></li>
-          <li class="list-inline-item"><a href="">Terms of Use</a></li>
-        </ul>
-      </div>
-      <div class="col-lg-6 d-flex justify-content-end">
-        Copyright 2020 <a href="#">SocialV</a> All Rights Reserved.
+  <!-- Wrapper End-->
+  <footer class="iq-footer bg-white">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-6">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item"><a href="">Privacy Policy</a></li>
+            <li class="list-inline-item"><a href="">Terms of Use</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-6 d-flex justify-content-end">
+          Copyright 2020 <a href="#">SocialV</a> All Rights Reserved.
+        </div>
       </div>
     </div>
-  </div>
-</footer>    <!-- Backend Bundle JavaScript -->
+  </footer>    <!-- Backend Bundle JavaScript -->
 
 
-<!-- offcanvas start -->
+  <!-- offcanvas start -->
 
-<div class="offcanvas offcanvas-bottom share-offcanvas" tabindex="-1" id="share-btn" aria-labelledby="shareBottomLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="shareBottomLabel">Share</h5>
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body small">
-    <div class="d-flex flex-wrap align-items-center">
-      <div class="text-center me-3 mb-3">
-        <img src="assets/images/icon/08.png" class="img-fluid rounded mb-2" alt="">
-        <h6>Facebook</h6>
-      </div>
-      <div class="text-center me-3 mb-3">
-        <img src="assets/images/icon/09.png" class="img-fluid rounded mb-2" alt="">
-        <h6>Twitter</h6>
-      </div>
-      <div class="text-center me-3 mb-3">
-        <img src="assets/images/icon/10.png" class="img-fluid rounded mb-2" alt="">
-        <h6>Instagram</h6>
-      </div>
-      <div class="text-center me-3 mb-3">
-        <img src="assets/images/icon/11.png" class="img-fluid rounded mb-2" alt="">
-        <h6>Google Plus</h6>
-      </div>
-      <div class="text-center me-3 mb-3">
-        <img src="assets/images/icon/13.png" class="img-fluid rounded mb-2" alt="">
-        <h6>In</h6>
-      </div>
-      <div class="text-center me-3 mb-3">
-        <img src="assets/images/icon/12.png" class="img-fluid rounded mb-2" alt="">
-        <h6>YouTube</h6>
+  <div class="offcanvas offcanvas-bottom share-offcanvas" tabindex="-1" id="share-btn"
+       aria-labelledby="shareBottomLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="shareBottomLabel">Share</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body small">
+      <div class="d-flex flex-wrap align-items-center">
+        <div class="text-center me-3 mb-3">
+          <img src="assets/images/icon/08.png" class="img-fluid rounded mb-2" alt="">
+          <h6>Facebook</h6>
+        </div>
+        <div class="text-center me-3 mb-3">
+          <img src="assets/images/icon/09.png" class="img-fluid rounded mb-2" alt="">
+          <h6>Twitter</h6>
+        </div>
+        <div class="text-center me-3 mb-3">
+          <img src="assets/images/icon/10.png" class="img-fluid rounded mb-2" alt="">
+          <h6>Instagram</h6>
+        </div>
+        <div class="text-center me-3 mb-3">
+          <img src="assets/images/icon/11.png" class="img-fluid rounded mb-2" alt="">
+          <h6>Google Plus</h6>
+        </div>
+        <div class="text-center me-3 mb-3">
+          <img src="assets/images/icon/13.png" class="img-fluid rounded mb-2" alt="">
+          <h6>In</h6>
+        </div>
+        <div class="text-center me-3 mb-3">
+          <img src="assets/images/icon/12.png" class="img-fluid rounded mb-2" alt="">
+          <h6>YouTube</h6>
+        </div>
       </div>
     </div>
   </div>
