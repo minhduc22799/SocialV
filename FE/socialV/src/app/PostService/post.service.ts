@@ -23,4 +23,15 @@ export class PostService {
     return this.http.post<Post[]>(apiUrl + `/post/image`, posts);
   }
 
+  findLikePost(posts: Post[]):Observable<any>{
+    return this.http.post<Post[]>(apiUrl + `/post/list/like`, posts);
+  }
+  findCountLikePost(posts: Post[]):Observable<any> {
+    return this.http.post<Post[]>(apiUrl + `/post/like`, posts);
+  }
+
+  findCountCommentPost(posts: Post[]):Observable<any>{
+      return this.http.post<Post[]>(apiUrl + `/post/comment`, posts);
+}
+
 }

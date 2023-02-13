@@ -170,7 +170,7 @@ public class PostController {
         return new ResponseEntity<>(imagePostService.findAllByPost(postService.findById(id).get()), HttpStatus.OK);
     }
 
-    @GetMapping("/list/like")
+    @PostMapping("/list/like")
     public ResponseEntity<?> getListLikeAllPost(@RequestBody Post[] posts){
         List<Object> objects = new ArrayList<>();
         for (Post p : posts) {
