@@ -1,13 +1,11 @@
 // @ts-ignore
-import {User} from "./Users";
+import {Users} from "./Users";
 import {PostStatus} from "./post-status";
 
 export interface Post {
   id?:number,
-  user?:User,
+  users?:Users,
   content?:string,
   createAt?:Date,
-  countLike?:number,
-  countComment?:number,
   postStatus?:PostStatus
 }

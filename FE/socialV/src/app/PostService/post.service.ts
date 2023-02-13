@@ -4,7 +4,6 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {PostDisplay} from "../Model/Post-display";
 import {Post} from "../Model/Post";
-import {Users} from "../Model/Users";
 
 const apiUrl = environment.apiUrl
 
@@ -46,4 +45,11 @@ export class PostService {
   }
 
 
+  createPost(post: Post): Observable<any>{
+    return this.http.post<Post>(apiUrl + `/post`, post);
+  }
+
+  getAllPostStatus(): Observable<any>{
+    return this.http.get<any>(apiUrl + `/post/status`);
+  }
 }
