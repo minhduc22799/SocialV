@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PostDisplay} from "../Model/Post-display";
 import {PostService} from "../PostService/post.service";
 import {UserService} from "../service/user.service";
@@ -9,6 +9,9 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {PostStatus} from "../Model/post-status";
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import {AngularFireStorage} from "@angular/fire/compat/storage";
+import {finalize} from "rxjs";
+
 @Component({
   selector: 'app-newfeed',
   templateUrl: './new-feed.component.html',
@@ -24,9 +27,14 @@ export class NewFeedComponent implements OnInit {
   listImgPost: ImagePost[][] = [];
   listFriendPost: Users[][] = [];
   listImg: any[] = [];
+  listImgCreate: ImagePost[] = [];
   countLike: any[] = [];
   countComment: any[] = [];
   listPostStatus: PostStatus[] = [];
+  imageFiles: any[] = [];
+  imgSrc: string[] = [];
+  pathName!: string
+  flag!: false;
   postForm: FormGroup = new FormGroup({
     content: new FormControl(),
     postStatus: new FormGroup({
@@ -42,7 +50,8 @@ export class NewFeedComponent implements OnInit {
   }
 
   constructor(private postService: PostService,
-              private userService: UserService) {
+              private userService: UserService,
+              private storage: AngularFireStorage) {
   }
 
   findAllFriend() {
@@ -102,8 +111,8 @@ export class NewFeedComponent implements OnInit {
     })
   }
 
-  getAllPostStatus(){
-    this.postService.getAllPostStatus().subscribe(data =>{
+  getAllPostStatus() {
+    this.postService.getAllPostStatus().subscribe(data => {
       this.listPostStatus = data;
     })
   }
@@ -111,7 +120,8 @@ export class NewFeedComponent implements OnInit {
   createPost() {
     const post = this.postForm.value
     post.users = this.user
-    this.postService.createPost(post).subscribe(()=>{
+    this.postService.createPost(post).subscribe( data => {
+      this.createPostImg(data)
       this.findAll()
       document.getElementById("btn-close")?.click()
       Swal.fire(
@@ -122,5 +132,35 @@ export class NewFeedComponent implements OnInit {
     })
   }
 
+  submitAvatar(event: any) {
+    this.imageFiles = event.target.files;
+    for (let i = 0; i < this.imageFiles.length; i++) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imgSrc.push(e.target.result);
+      };
+      reader.readAsDataURL(this.imageFiles[i]);
+    }
+  }
+
+  createPostImg(post: Post) {
+    if (this.imageFiles !== undefined) {
+      for (let i = 0; i < this.imageFiles.length; i++) {
+        const imagePath = `image/${this.imageFiles[i].name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
+        const fileRef = this.storage.ref(imagePath);
+        this.storage.upload(imagePath, this.imageFiles[i]).snapshotChanges().pipe(
+          finalize(() => {
+            fileRef.getDownloadURL().subscribe(url => {
+              let imagePost: ImagePost = {
+                post: post,
+                img: url
+              }
+              this.postService.createPostImg(imagePost).subscribe();
+            });
+          })
+        ).subscribe()
+      }
+    }
+  }
 
 }

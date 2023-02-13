@@ -13,6 +13,10 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule} from "@angular/common/http";
 import {NgImageSliderModule} from "ng-image-slider";
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import {AngularFireModule} from "@angular/fire/compat";
+import {environment} from "../environments/environment";
+import {AngularFireStorageModule} from "@angular/fire/compat/storage";
+import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
 
 @NgModule({
   declarations: [
@@ -30,7 +34,10 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
         AppRoutingModule,
         ReactiveFormsModule,
         HttpClientModule,
-        NgImageSliderModule
+        NgImageSliderModule,
+      AngularFireModule.initializeApp(environment.firebaseConfig),
+      AngularFireStorageModule,
+      AngularFireDatabaseModule
     ],
   providers: [],
   bootstrap: [AppComponent]

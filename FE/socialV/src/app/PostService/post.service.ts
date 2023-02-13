@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {PostDisplay} from "../Model/Post-display";
 import {Post} from "../Model/Post";
+import {ImagePost} from "../Model/image-post";
 
 const apiUrl = environment.apiUrl
 
@@ -44,5 +45,9 @@ findAllPostProfile(id:number):Observable<any>{
 
   getAllPostStatus(): Observable<any>{
     return this.http.get<any>(apiUrl + `/post/status`);
+  }
+
+  createPostImg(imagePost: ImagePost): Observable<any>{
+    return this.http.post<any>(apiUrl + `/post/create/img`, imagePost);
   }
 }
