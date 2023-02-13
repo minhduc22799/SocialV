@@ -467,7 +467,7 @@
                           <div style="width: 100px" class="btn btn-soft-primary">
                             <label for="image-post"><img alt="" src="assets/images/small/07.png">
                               Photo</label>
-                            <input class="file-upload" id="image-post" type="file"/>
+                            <input class="file-upload" id="image-post" type="file" (change)="submitAvatar($event)" multiple/>
                           </div>
                         </li>
                         <li>
@@ -478,7 +478,7 @@
                           </div>
                         </li>
                       </ul>
-
+                            <img *ngFor="let imageUrl of imgSrc" [src]="imageUrl" alt="img" style="height: 100px; width: 100px">
                       <hr>
                       <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
                         </form>
@@ -654,7 +654,7 @@
         </div>
       </div>
     </div>
-  </div>
+
   <!-- Wrapper End-->
   <footer class="iq-footer bg-white">
     <div class="container-fluid">
@@ -710,4 +710,4 @@
       </div>
     </div>
   </div>
-</div>
+

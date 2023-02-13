@@ -13,6 +13,10 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule} from "@angular/common/http";
 import {NgImageSliderModule} from "ng-image-slider";
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import {AngularFireModule} from "@angular/fire/compat";
+import {environment} from "../environments/environment";
+import {AngularFireStorageModule} from "@angular/fire/compat/storage";
+import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 @NgModule({
@@ -31,6 +35,10 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
         AppRoutingModule,
         ReactiveFormsModule,
         HttpClientModule,
+        NgImageSliderModule,
+      AngularFireModule.initializeApp(environment.firebaseConfig),
+      AngularFireStorageModule,
+      AngularFireDatabaseModule,
         NgImageSliderModule,
         InfiniteScrollModule
     ],
