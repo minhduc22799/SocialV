@@ -55,8 +55,10 @@ public class PostController {
     }
 
     @PostMapping("/create/img")
-    public ResponseEntity<?> createImg(@RequestBody ImagePost imagePostList){
-            imagePostService.save(imagePostList);
+    public ResponseEntity<?> createImg(@RequestBody ImagePost[] imagePostList){
+        for (ImagePost imagePost: imagePostList){
+            imagePostService.save(imagePost);
+        }
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
