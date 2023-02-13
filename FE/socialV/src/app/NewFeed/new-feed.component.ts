@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PostDisplay} from "../Model/Post-display";
 import {PostService} from "../PostService/post.service";
 import {UserService} from "../service/user.service";
@@ -19,6 +19,7 @@ export class NewFeedComponent implements OnInit{
     postsDisplay:PostDisplay[] = [];
     listFriend:Users[] = [];
     listImgPost:ImagePost[][] = [];
+    listImg:any[] = [];
 
   ngOnInit(): void {
     // @ts-ignore
@@ -30,6 +31,7 @@ export class NewFeedComponent implements OnInit{
   }
 
   findAllFriend(){
+    // @ts-ignore
     this.userService.findAllFriend(this.user.id).subscribe((data)=>{
       this.listFriend = data
     })
@@ -51,7 +53,24 @@ export class NewFeedComponent implements OnInit{
   findAllImgPost(posts: Post[]){
     this.postService.findAllImgPost(posts).subscribe(img =>{
       this.listImgPost = img
-      console.log(this.listImgPost)
+      for (let i = 0; i < this.listImgPost.length; i++) {
+        // @ts-ignore
+        this.listImg[i] = [];
+        for (let j = 0; j < this.listImgPost[i].length; j++) {
+           // @ts-ignore
+         let imageObject1 = {
+            image:  this.listImgPost[i][j].img,
+            thumbImage:  this.listImgPost[i][j].img,
+          };
+          this.listImg[i].push(imageObject1);
+        }
+      }
+      console.log(this.listImg)
     })
 }
+
+
+
+
+
 }
