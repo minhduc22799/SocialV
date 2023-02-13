@@ -67,4 +67,12 @@ public class PostService implements IPostService{
     public List<Post> findAllFriendPublicPost(Long id) {
         return postRepository.findAllFriendPublicPost(id);
     }
+
+
+    @Override
+    public Iterable<Post> findAllPostByUserIdAndContent(Long id, String content) {
+        return postRepository.findPostsByUsers_IdAndContentContaining(id, content);
+    }
+
+
 }
