@@ -7,12 +7,14 @@ import {ImagePost} from "../Model/image-post";
 import {Post} from "../Model/Post";
 import {FormControl, FormGroup} from "@angular/forms";
 import {PostStatus} from "../Model/post-status";
-
+// @ts-ignore
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 @Component({
   selector: 'app-newfeed',
   templateUrl: './new-feed.component.html',
   styleUrls: ['./new-feed.component.css']
 })
+
 export class NewFeedComponent implements OnInit {
   data = localStorage.getItem("user")
   // @ts-ignore
@@ -20,34 +22,23 @@ export class NewFeedComponent implements OnInit {
   postsDisplay: PostDisplay[] = [];
   listFriend: Users[] = [];
   listImgPost: ImagePost[][] = [];
+  listFriendPost: Users[][] = [];
   listImg: any[] = [];
+  countLike: any[] = [];
+  countComment: any[] = [];
   listPostStatus: PostStatus[] = [];
   postForm: FormGroup = new FormGroup({
-    users: new FormGroup({
-      id: new FormControl()
-    }),
     content: new FormControl(),
-    createAt: new FormControl(),
     postStatus: new FormGroup({
-      id: new FormControl()
+      id: new FormControl("1")
     })
   })
-export class NewFeedComponent implements OnInit{
-    data = localStorage.getItem("user")
-    // @ts-ignore
-    user:Users = JSON.parse(this.data)
-    postsDisplay:PostDisplay[] = [];
-    listFriend:Users[] = [];
-    listImgPost:ImagePost[][] = [];
-    listFriendPost:Users[][] = [];
-    listImg:any[] = [];
-    countLike:any[] = [];
-    countComment:any[] = [];
 
   ngOnInit(): void {
     // @ts-ignore
     this.findAll()
     this.findAllFriend()
+    this.getAllPostStatus()
   }
 
   constructor(private postService: PostService,
@@ -61,38 +52,37 @@ export class NewFeedComponent implements OnInit{
     })
   }
 
-  findAll(){
-      this.postService.findAllPostNewFeed(this.user).subscribe((post)=>{
-        this.postsDisplay = post
-        this.findAllImgPost(post)
-        this.findFriendLike(post)
-        this.findCountLike(post)
-        this.findCountComment(post)
-      })
+  findAll() {
+    this.postService.findAllPostNewFeed(this.user).subscribe((post) => {
+      this.postsDisplay = post
+      this.findAllImgPost(post)
+      this.findFriendLike(post)
+      this.findCountLike(post)
+      this.findCountComment(post)
+    })
     // })
 
   }
 
-  findFriendLike(posts: Post[]){
-    this.postService.findLikePost(posts).subscribe( like =>{
+  findFriendLike(posts: Post[]) {
+    this.postService.findLikePost(posts).subscribe(like => {
       this.listFriendPost = like
     })
   }
-  findCountLike(posts: Post[]){
-    this.postService.findCountLikePost(posts).subscribe(countLike =>{
+
+  findCountLike(posts: Post[]) {
+    this.postService.findCountLikePost(posts).subscribe(countLike => {
       this.countLike = countLike
     })
   }
 
-  findCountComment(posts: Post[]){
-    this.postService.findCountCommentPost(posts).subscribe(countComment =>{
+  findCountComment(posts: Post[]) {
+    this.postService.findCountCommentPost(posts).subscribe(countComment => {
       this.countComment = countComment
     })
   }
 
 
-  findAllImgPost(posts: Post[]){
-    this.postService.findAllImgPost(posts).subscribe(img =>{
   findAllImgPost(posts: Post[]) {
     this.postService.findAllImgPost(posts).subscribe(img => {
       this.listImgPost = img
@@ -112,8 +102,24 @@ export class NewFeedComponent implements OnInit{
     })
   }
 
-  createPost() {
+  getAllPostStatus(){
+    this.postService.getAllPostStatus().subscribe(data =>{
+      this.listPostStatus = data;
+    })
+  }
 
+  createPost() {
+    const post = this.postForm.value
+    post.users = this.user
+    this.postService.createPost(post).subscribe(()=>{
+      this.findAll()
+      document.getElementById("btn-close")?.click()
+      Swal.fire(
+        'Good job!',
+        'You clicked the button!',
+        'success'
+      )
+    })
   }
 
 
