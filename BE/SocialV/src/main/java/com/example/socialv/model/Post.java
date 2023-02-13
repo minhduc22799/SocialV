@@ -21,8 +21,6 @@ public class Post {
     private Users users;
     private String content;
     private LocalDate createAt;
-    private Integer countLike;
-    private Integer countComment;
     @ManyToOne
     @JoinColumn(name = "postStatus_id")
     private PostStatus postStatus;

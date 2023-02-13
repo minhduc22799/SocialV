@@ -15,8 +15,6 @@ public class PostDisplay {
     private Long id;
     private Users users;
     private String content;
-    private Integer countLike;
-    private Integer countComment;
     private PostStatus postStatus;
     private LocalDate createAt;
     private boolean checkUserLiked;

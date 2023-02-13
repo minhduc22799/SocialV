@@ -338,12 +338,12 @@
                     </div>
                   </div>
                   <div class="card-body p-0 ">
-                    <a href="" class="iq-sub-card iq-bg-primary-hover">
+                    <a  class="iq-sub-card iq-bg-primary-hover">
                       <div class="d-flex align-items-center">
                         <div class="rounded card-icon bg-soft-primary">
                           <i class="ri-file-user-line"></i>
                         </div>
-                        <div class="ms-3">
+                        <div class="ms-3" routerLink="/Profile">
                           <h6 class="mb-0 ">My Profile</h6>
                           <p class="mb-0 font-size-12">View personal profile details.</p>
                         </div>
@@ -434,7 +434,7 @@
               <div class="card-body">
                 <div class="d-flex align-items-center">
                   <div class="user-img">
-                    <img src="assets/images/user/1.jpg" alt="userimg" class="avatar-60 rounded-circle">
+                    <img src="{{user.avatar}}" alt="userimg" class="avatar-60 rounded-circle">
                   </div>
                   <form class="post-text ms-3 w-100 " data-bs-toggle="modal" data-bs-target="#post-modal" action="">
                     <input type="text" class="form-control rounded" placeholder="Write something here..."
@@ -480,7 +480,6 @@
                       </ul>
 
                       <hr>
-
                       <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
                         </form>
                     </div>
@@ -607,24 +606,19 @@
                             <div *ngIf="p.checkUserLiked">
                                     <span style="color: #408cfc" class="dropdown-toggle" data-bs-toggle="dropdown"
                                           aria-haspopup="true" aria-expanded="false" role="button">
-                                     Liked &nbsp; {{p?.countLike}}
+                                     Liked &nbsp; {{countLike[i]}}
                                     </span>
                             </div>
 
                             <div *ngIf="!p.checkUserLiked">
                                     <span class="dropdown-toggle" data-bs-toggle="dropdown"
                                           aria-haspopup="true" aria-expanded="false" role="button">
-                                     Like &nbsp; {{p?.countLike}}
+                                     Like &nbsp; {{countLike[i]}}
                                     </span>
                             </div>
                             <div class="dropdown-menu">
-                              <a class="dropdown-item" href="#">Max Emum</a>
-                              <a class="dropdown-item" href="#">Bill Yerds</a>
-                              <a class="dropdown-item" href="#">Hap E. Birthday</a>
-                              <a class="dropdown-item" href="#">Tara Misu</a>
-                              <a class="dropdown-item" href="#">Midge Itz</a>
-                              <a class="dropdown-item" href="#">Sal Vidge</a>
-                              <a class="dropdown-item" href="#">Other</a>
+                              <a *ngFor="let f of listFriendPost[i]" class="dropdown-item" href="#">{{f.name}}</a>
+
                             </div>
                           </div>
                         </div>
@@ -633,17 +627,8 @@
                         <div class="dropdown">
                                  <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true"
                                        aria-expanded="false" role="button">
-                                 {{p?.countComment}} &nbsp; Comment
+                                 {{countComment[i]}} &nbsp; Comment
                                  </span>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Max Emum</a>
-                            <a class="dropdown-item" href="#">Bill Yerds</a>
-                            <a class="dropdown-item" href="#">Hap E. Birthday</a>
-                            <a class="dropdown-item" href="#">Tara Misu</a>
-                            <a class="dropdown-item" href="#">Midge Itz</a>
-                            <a class="dropdown-item" href="#">Sal Vidge</a>
-                            <a class="dropdown-item" href="#">Other</a>
-                          </div>
                         </div>
                       </div>
                     </div>

@@ -7,6 +7,7 @@ import com.example.socialv.service.FriendRequestService.IFriendRequestService;
 import com.example.socialv.service.IPostLikeService.IPostLikeService;
 import com.example.socialv.service.ImagePostService.IImagePostService;
 import com.example.socialv.service.PostCommentService.IPostCommentService;
+import com.example.socialv.service.PostStatusService.IPostStatusService;
 import com.example.socialv.service.postService.IPostService;
 import com.example.socialv.service.userService.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,11 +39,19 @@ public class PostController {
     private ICommentLikeService commentLikeService;
     @Autowired
     private IFriendRequestService friendRequestService;
+    @Autowired
+    private IPostStatusService postStatusService;
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Post post) {
+        post.setCreateAt(LocalDate.now());
         postService.save(post);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<Iterable<PostStatus>> getAllPostStatus(){
+        return new ResponseEntity<>(postStatusService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping("/create/img")
@@ -84,6 +95,7 @@ public class PostController {
         for (PostDisplay p : postDisplays) {
             p.setCheckUserLiked(checkUserLiked(userService.findById(id).get(), p));
         }
+        Collections.reverse(postDisplays);
         return new ResponseEntity<>(postDisplays, HttpStatus.OK);
     }
 
@@ -104,6 +116,7 @@ public class PostController {
         for (PostDisplay p : postDisplays) {
             p.setCheckUserLiked(checkUserLiked(userService.findById(id2).get(), p));
         }
+        Collections.reverse(postDisplays);
         return new ResponseEntity<>(postDisplays, HttpStatus.OK);
     }
 
@@ -114,8 +127,6 @@ public class PostController {
         postDisplay.setContent(post.getContent());
         postDisplay.setPostStatus(post.getPostStatus());
         postDisplay.setUsers(post.getUsers());
-        postDisplay.setCountComment(post.getCountComment());
-        postDisplay.setCountLike(post.getCountLike());
         postDisplay.setCreateAt(post.getCreateAt());
         postDisplays.add(postDisplay);
     }
@@ -181,7 +192,7 @@ public class PostController {
         return new ResponseEntity<>(imagePostService.findAllByPost(postService.findById(id).get()), HttpStatus.OK);
     }
 
-    @GetMapping("/list/like")
+    @PostMapping("/list/like")
     public ResponseEntity<?> getListLikeAllPost(@RequestBody Post[] posts){
         List<Object> objects = new ArrayList<>();
         for (Post p : posts) {
