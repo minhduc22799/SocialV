@@ -43,6 +43,17 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PostMapping("/create/img")
+    public ResponseEntity<?> createImg(@RequestBody List<ImagePost> imagePostList){
+        if (imagePostList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        for (ImagePost imagePost: imagePostList){
+            imagePostService.save(imagePost);
+        }
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<List<PostDisplay>> getAllPostNewFeed(@PathVariable Long id) {
         List<Users> users = userService.findFriendRequestsByIdAndStatusTrue(id);

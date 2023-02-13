@@ -23,4 +23,7 @@ export class PostService {
     return this.http.post<Post[]>(apiUrl + `/post/image`, posts);
   }
 
+  createPost(post: Post): Observable<any>{
+    return this.http.post<Post>(apiUrl + `/post`, post);
+  }
 }

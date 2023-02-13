@@ -7,8 +7,6 @@ export interface PostDisplay {
   users?:Users,
   content?:string,
   createAt?:Date,
-  countLike?:number,
-  countComment?:number,
   postStatus?:PostStatus,
   checkUserLiked?:boolean
 }
