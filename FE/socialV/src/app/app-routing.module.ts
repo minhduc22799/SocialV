@@ -4,6 +4,7 @@ import {RegistrationComponent} from "./Registration/registration.component";
 import {LoginComponent} from "./Login/login.component";
 import {NewFeedComponent} from "./NewFeed/new-feed.component";
 import {ProfileComponent} from "./Profile/profile.component";
+import {EditProfileComponent} from "./edit-profile/edit-profile.component";
 
 const routes: Routes = [
   {
@@ -17,6 +18,9 @@ const routes: Routes = [
   },
   {
     path: 'Profile', component: ProfileComponent
+  },
+  {
+    path: 'EditProfile', component: EditProfileComponent
   }
 
 ];
