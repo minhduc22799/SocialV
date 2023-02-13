@@ -5,6 +5,7 @@ import {LoginComponent} from "./Login/login.component";
 import {NewFeedComponent} from "./NewFeed/new-feed.component";
 import {ProfileComponent} from "./Profile/profile.component";
 import {EditProfileComponent} from "./edit-profile/edit-profile.component";
+import {FriendProfileComponent} from "./Friend-Profile/friend-profile.component";
 
 const routes: Routes = [
   {
@@ -21,7 +22,10 @@ const routes: Routes = [
   },
   {
     path: 'EditProfile', component: EditProfileComponent
-  }
+  },
+  {
+    path: 'friendProfile/:id', component: FriendProfileComponent
+  },
 
 ];
 
