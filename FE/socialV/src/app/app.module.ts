@@ -18,8 +18,8 @@ import {environment} from "../environments/environment";
 import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
-
-@NgModule({
+// import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+  @NgModule({
   declarations: [
     AppComponent,
     RegistrationComponent,
@@ -40,7 +40,8 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
       AngularFireStorageModule,
       AngularFireDatabaseModule,
         NgImageSliderModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+      // MatProgressSpinnerModule
     ],
   providers: [],
   bootstrap: [AppComponent]

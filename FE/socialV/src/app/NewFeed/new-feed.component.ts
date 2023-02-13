@@ -9,7 +9,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {PostStatus} from "../Model/post-status";
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
-import {AngularFireStorage} from "@angular/fire/compat/storage";
+import {AngularFireStorage, AngularFireStorageReference} from "@angular/fire/compat/storage";
 import {finalize} from "rxjs";
 
 @Component({
@@ -27,10 +27,10 @@ export class NewFeedComponent implements OnInit {
   listImgPost: ImagePost[][] = [];
   listFriendPost: Users[][] = [];
   listImg: any[] = [];
-  listImgCreate: ImagePost[] = [];
   countLike: any[] = [];
   countComment: any[] = [];
   listPostStatus: PostStatus[] = [];
+  listImgCreate: ImagePost[] = [];
   imageFiles: any[] = [];
   imgSrc: string[] = [];
   pathName!: string
@@ -41,6 +41,9 @@ export class NewFeedComponent implements OnInit {
       id: new FormControl("1")
     })
   })
+  // upload file c2
+  arrFileInFireBase: AngularFireStorageReference | undefined
+  checkUploadMultiple = false;
 
   ngOnInit(): void {
     // @ts-ignore
@@ -120,15 +123,20 @@ export class NewFeedComponent implements OnInit {
   createPost() {
     const post = this.postForm.value
     post.users = this.user
-    this.postService.createPost(post).subscribe( data => {
-      this.createPostImg(data)
-      this.findAll()
-      document.getElementById("btn-close")?.click()
-      Swal.fire(
-        'Good job!',
-        'You clicked the button!',
-        'success'
-      )
+    this.postService.createPost(post).subscribe(data => {
+      // @ts-ignore
+      if (this.imageFiles.length === 0) {
+        this.postForm.reset();
+        this.findAll();
+        document.getElementById("btn-close")?.click()
+        Swal.fire(
+          'Good job!',
+          'You clicked the button!',
+          'success'
+        )
+      } else {
+        this.createPostImg(data)
+      }
     })
   }
 
@@ -143,23 +151,40 @@ export class NewFeedComponent implements OnInit {
     }
   }
 
+  i = 0;
+
   createPostImg(post: Post) {
     if (this.imageFiles !== undefined) {
-      for (let i = 0; i < this.imageFiles.length; i++) {
-        const imagePath = `image/${this.imageFiles[i].name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
-        const fileRef = this.storage.ref(imagePath);
-        this.storage.upload(imagePath, this.imageFiles[i]).snapshotChanges().pipe(
-          finalize(() => {
-            fileRef.getDownloadURL().subscribe(url => {
-              let imagePost: ImagePost = {
-                post: post,
-                img: url
-              }
-              this.postService.createPostImg(imagePost).subscribe();
-            });
+      this.checkUploadMultiple = true
+      this.arrFileInFireBase = this.storage.ref(this.imageFiles[this.i].name);
+      this.arrFileInFireBase.put(this.imageFiles[this.i]).then(data => {
+        return data.ref.getDownloadURL();
+      }).then(url => {
+        this.checkUploadMultiple = false
+        let imagePost: ImagePost = {
+          post: post,
+          img: url
+        }
+        this.listImgCreate.push(imagePost)
+      }).then(() => {
+        this.i++
+        if (this.i < this.imageFiles.length) {
+          this.createPostImg(post)
+        } else {
+          this.i = 0
+          this.postService.createPostImg(this.listImgCreate).subscribe(() => {
+            this.findAll()
           })
-        ).subscribe()
-      }
+          document.getElementById("btn-close")?.click()
+          this.postForm.reset();
+          this.imgSrc = []
+          Swal.fire(
+            'Good job!',
+            'You clicked the button!',
+            'success'
+          )
+        }
+      })
     }
   }
 

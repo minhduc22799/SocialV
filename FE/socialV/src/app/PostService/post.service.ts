@@ -54,7 +54,7 @@ export class PostService {
     return this.http.get<any>(apiUrl + `/post/status`);
   }
 
-  createPostImg(imagePost: ImagePost): Observable<any>{
+  createPostImg(imagePost: ImagePost[]): Observable<any>{
     return this.http.post<any>(apiUrl + `/post/create/img`, imagePost);
   }
 }
