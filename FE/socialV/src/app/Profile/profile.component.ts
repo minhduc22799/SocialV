@@ -6,6 +6,7 @@ import {user} from "@angular/fire/auth";
 import {PostDisplay} from "../Model/Post-display";
 import {Post} from "../Model/Post";
 import {ImagePost} from "../Model/image-post";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -23,6 +24,7 @@ export class ProfileComponent implements OnInit{
   listImg:any[] = [];
   countLike:any[] = [];
   countComment:any[] = [];
+  posts:Post[]=[]
 
   ngOnInit(): void {
     this.findAllFriend()
@@ -30,7 +32,8 @@ export class ProfileComponent implements OnInit{
   }
 
   constructor( private userService: UserService ,
-               private postService: PostService ) {
+               private postService: PostService ,
+               private routerActive:ActivatedRoute) {
   }
   findAllFriend(){
     // @ts-ignore
@@ -85,5 +88,13 @@ export class ProfileComponent implements OnInit{
       }
       console.log(this.listImg)
     })
+  }
+
+  searchOnWall(id:number,content:string){
+     id = Number(this.routerActive.snapshot.paramMap.get("id"))
+    this.userService.searchPostOnWall(id, content).subscribe((data)=>{
+      this.posts=data
+    })
+
   }
 }

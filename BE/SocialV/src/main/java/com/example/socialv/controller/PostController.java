@@ -207,4 +207,11 @@ public class PostController {
         postService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @GetMapping("/wall/{id}/search")
+    public ResponseEntity<Iterable<Post>>searchOnWall(@PathVariable("id") Long id,@RequestParam ("search") String content){
+        Iterable<Post>posts=postService.findAllPostByUserIdAndContent(id,content);
+        if (!posts.iterator().hasNext()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }return new ResponseEntity<>(posts,HttpStatus.OK);
+    }
 }

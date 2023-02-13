@@ -23,4 +23,7 @@ export class UserService {
   findAllFriend(id:number):Observable<Users[]>{
     return this.httpClient.get<Users[]>(`${API_URL}/user/friend/${id}`)
   }
+  searchPostOnWall(id:number, content:string):Observable<any>{
+    return this.httpClient.get<any>(`${API_URL}/post/wall/${id}/search?search=${content}`)
+  }
 }
