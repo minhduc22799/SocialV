@@ -3,7 +3,6 @@ import {PostDisplay} from "../Model/Post-display";
 import {PostService} from "../PostService/post.service";
 import {UserService} from "../service/user.service";
 import {Users} from "../Model/Users";
-import {user} from "@angular/fire/auth";
 import {ImagePost} from "../Model/image-post";
 import {Post} from "../Model/Post";
 
@@ -19,7 +18,10 @@ export class NewFeedComponent implements OnInit{
     postsDisplay:PostDisplay[] = [];
     listFriend:Users[] = [];
     listImgPost:ImagePost[][] = [];
+    listFriendPost:Users[][] = [];
     listImg:any[] = [];
+    countLike:any[] = [];
+    countComment:any[] = [];
 
   ngOnInit(): void {
     // @ts-ignore
@@ -38,17 +40,34 @@ export class NewFeedComponent implements OnInit{
   }
 
   findAll(){
-    // this.userService.findUserById(1).subscribe((data)=>{
-    //   localStorage.setItem("user",JSON.stringify(data))
-    //   // @ts-ignore
-    //   console.log(data)
       this.postService.findAllPostNewFeed(this.user).subscribe((post)=>{
         this.postsDisplay = post
         this.findAllImgPost(post)
+        this.findFriendLike(post)
+        this.findCountLike(post)
+        this.findCountComment(post)
       })
     // })
 
   }
+
+  findFriendLike(posts: Post[]){
+    this.postService.findLikePost(posts).subscribe( like =>{
+      this.listFriendPost = like
+    })
+  }
+  findCountLike(posts: Post[]){
+    this.postService.findCountLikePost(posts).subscribe(countLike =>{
+      this.countLike = countLike
+    })
+  }
+
+  findCountComment(posts: Post[]){
+    this.postService.findCountCommentPost(posts).subscribe(countComment =>{
+      this.countComment = countComment
+    })
+  }
+
 
   findAllImgPost(posts: Post[]){
     this.postService.findAllImgPost(posts).subscribe(img =>{
