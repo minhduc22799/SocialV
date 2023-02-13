@@ -10,4 +10,5 @@ public interface IPostService extends IGeneralService<Post> {
     List<Post> findAllFriendPost(Long id);
     List<Post> findAllPersonalPost(Users users);
     List<Post> findAllFriendPublicPost(Long id);
+   Iterable<Post> findAllPostByUserIdAndContent(Long id ,String content);
 }

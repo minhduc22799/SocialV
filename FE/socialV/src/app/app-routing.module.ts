@@ -11,7 +11,7 @@ const routes: Routes = [
     path: 'Registration', component: RegistrationComponent
   },
   {
-    path: '', component: LoginComponent
+    path: 'Login', component: LoginComponent
   },
   {
     path: 'NewFeed', component: NewFeedComponent
