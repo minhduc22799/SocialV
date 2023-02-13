@@ -37,4 +37,9 @@ public class ImagePostService implements IImagePostService{
     public List<ImagePost> findAllByPost(Post post) {
         return iImagePostRepository.findAllByPost(post);
     }
+
+    @Override
+    public void deleteAllByPost(Post post) {
+        iImagePostRepository.deleteAllByPost(post);
+    }
 }
