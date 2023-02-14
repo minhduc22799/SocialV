@@ -43,10 +43,10 @@ public class PostController {
     private IPostStatusService postStatusService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Post post) {
+    public ResponseEntity<Post> create(@RequestBody Post post) {
         post.setCreateAt(LocalDate.now());
         postService.save(post);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(post, HttpStatus.CREATED);
     }
 
     @GetMapping("/status")
@@ -55,10 +55,7 @@ public class PostController {
     }
 
     @PostMapping("/create/img")
-    public ResponseEntity<?> createImg(@RequestBody List<ImagePost> imagePostList){
-        if (imagePostList.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<?> createImg(@RequestBody ImagePost[] imagePostList){
         for (ImagePost imagePost: imagePostList){
             imagePostService.save(imagePost);
         }

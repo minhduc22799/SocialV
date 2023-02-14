@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PostDisplay} from "../Model/Post-display";
 import {PostService} from "../PostService/post.service";
 import {UserService} from "../service/user.service";
@@ -9,6 +9,9 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {PostStatus} from "../Model/post-status";
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import {AngularFireStorage, AngularFireStorageReference} from "@angular/fire/compat/storage";
+import {finalize} from "rxjs";
+
 @Component({
   selector: 'app-newfeed',
   templateUrl: './new-feed.component.html',
@@ -27,12 +30,20 @@ export class NewFeedComponent implements OnInit {
   countLike: any[] = [];
   countComment: any[] = [];
   listPostStatus: PostStatus[] = [];
+  listImgCreate: ImagePost[] = [];
+  imageFiles: any[] = [];
+  imgSrc: string[] = [];
+  pathName!: string
+  flag!: false;
   postForm: FormGroup = new FormGroup({
     content: new FormControl(),
     postStatus: new FormGroup({
       id: new FormControl("1")
     })
   })
+  // upload file c2
+  arrFileInFireBase: AngularFireStorageReference | undefined
+  checkUploadMultiple = false;
 
   ngOnInit(): void {
     // @ts-ignore
@@ -42,7 +53,8 @@ export class NewFeedComponent implements OnInit {
   }
 
   constructor(private postService: PostService,
-              private userService: UserService) {
+              private userService: UserService,
+              private storage: AngularFireStorage) {
   }
 
   findAllFriend() {
@@ -102,8 +114,8 @@ export class NewFeedComponent implements OnInit {
     })
   }
 
-  getAllPostStatus(){
-    this.postService.getAllPostStatus().subscribe(data =>{
+  getAllPostStatus() {
+    this.postService.getAllPostStatus().subscribe(data => {
       this.listPostStatus = data;
       console.log(data)
     })
@@ -112,16 +124,70 @@ export class NewFeedComponent implements OnInit {
   createPost() {
     const post = this.postForm.value
     post.users = this.user
-    this.postService.createPost(post).subscribe(()=>{
-      this.findAll()
-      document.getElementById("btn-close")?.click()
-      Swal.fire(
-        'Good job!',
-        'You clicked the button!',
-        'success'
-      )
+    this.postService.createPost(post).subscribe(data => {
+      // @ts-ignore
+      if (this.imageFiles.length === 0) {
+        this.postForm.reset();
+        this.findAll();
+        document.getElementById("btn-close")?.click()
+        Swal.fire(
+          'Good job!',
+          'You clicked the button!',
+          'success'
+        )
+      } else {
+        this.createPostImg(data)
+      }
     })
   }
 
+  submitAvatar(event: any) {
+    this.imageFiles = event.target.files;
+    for (let i = 0; i < this.imageFiles.length; i++) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imgSrc.push(e.target.result);
+      };
+      reader.readAsDataURL(this.imageFiles[i]);
+    }
+  }
+
+  i = 0;
+
+  createPostImg(post: Post) {
+    if (this.imageFiles !== undefined) {
+      this.checkUploadMultiple = true
+      this.arrFileInFireBase = this.storage.ref(this.imageFiles[this.i].name);
+      this.arrFileInFireBase.put(this.imageFiles[this.i]).then(data => {
+        return data.ref.getDownloadURL();
+      }).then(url => {
+        this.checkUploadMultiple = false
+        let imagePost: ImagePost = {
+          post: post,
+          img: url
+        }
+        this.listImgCreate.push(imagePost)
+      }).then(() => {
+        this.i++
+        if (this.i < this.imageFiles.length) {
+          this.createPostImg(post)
+        } else {
+          this.i = 0
+          this.checkUploadMultiple = false;
+          this.postService.createPostImg(this.listImgCreate).subscribe(() => {
+            this.findAll()
+          })
+          document.getElementById("btn-close")?.click()
+          this.postForm.reset();
+          this.imgSrc = []
+          Swal.fire(
+            'Good job!',
+            'You clicked the button!',
+            'success'
+          )
+        }
+      })
+    }
+  }
 
 }
