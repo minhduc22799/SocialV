@@ -10,7 +10,7 @@ import {PostStatus} from "../Model/post-status";
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import {AngularFireStorage, AngularFireStorageReference} from "@angular/fire/compat/storage";
-import {finalize} from "rxjs";
+
 
 @Component({
   selector: 'app-newfeed',
@@ -179,6 +179,8 @@ export class NewFeedComponent implements OnInit {
           })
           document.getElementById("btn-close")?.click()
           this.postForm.reset();
+          // @ts-ignore
+          this.postForm.get("postStatus")?.get("id").patchValue("1");
           this.imgSrc = []
           Swal.fire(
             'Good job!',

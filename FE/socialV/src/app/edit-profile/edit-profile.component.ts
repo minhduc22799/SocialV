@@ -16,6 +16,7 @@ export class EditProfileComponent implements OnInit {
 
   // @ts-ignore
   user: Users = JSON.parse(this.data)
+  listFriend: Users[] = [];
 
   constructor(private userService: UserService) {
   }
@@ -26,6 +27,8 @@ export class EditProfileComponent implements OnInit {
       newPass: new FormControl(''),
       confirmPass: new FormControl('')
     })
+    this.findAllFriend()
+
   }
 
 
@@ -39,5 +42,15 @@ export class EditProfileComponent implements OnInit {
            userUpdate=data
          })
       }
+
+
+  findAllFriend() {
+    // @ts-ignore
+    this.userService.findAllFriend(this.user.id).subscribe((data) => {
+      this.listFriend = data
+    })
+  }
+
+
 
 }

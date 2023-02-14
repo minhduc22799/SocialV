@@ -37,7 +37,6 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgImageSliderModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
     AngularFireDatabaseModule,
