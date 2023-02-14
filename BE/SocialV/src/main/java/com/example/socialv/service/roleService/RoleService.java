@@ -4,9 +4,10 @@ import com.example.socialv.model.Role;
 import com.example.socialv.model.Users;
 import com.example.socialv.repository.IRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@Service
 public class RoleService implements IRoleService{
 
     @Autowired

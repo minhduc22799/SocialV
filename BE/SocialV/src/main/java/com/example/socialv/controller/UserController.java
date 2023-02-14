@@ -41,6 +41,12 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     users.setId(users1.get().getId());
-    return new ResponseEntity<>(userService.save(users),HttpStatus.OK) ;       }
+    if (users.getAvatar()==null){
+        users.setAvatar(users1.get().getAvatar());
+    }
+        users.setPassword(users1.get().getPassword());
+        users.setConfirmPassword(users1.get().getConfirmPassword());
+        users.setRole(users1.get().getRole());
+    return new ResponseEntity<>( userService.save(users),HttpStatus.OK) ;       }
 
 }

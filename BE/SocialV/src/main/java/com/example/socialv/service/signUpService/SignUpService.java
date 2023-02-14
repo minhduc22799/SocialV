@@ -2,6 +2,7 @@ package com.example.socialv.service.signUpService;
 
 import com.example.socialv.model.Users;
 import com.example.socialv.repository.IUserRepository;
+import com.example.socialv.service.roleService.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +12,13 @@ import java.util.List;
 public class SignUpService {
     @Autowired
     private IUserRepository userRepository;
-
+    @Autowired
+    private IRoleService roleService;
     public boolean signUp(Users users) {
 
         if (!checkUserExist(users)) {
             if (users.getPassword().equals(users.getConfirmPassword())) {
+                users.setRole(roleService.findById(1l).get());
                 userRepository.save(users);
                 return true;
             }
