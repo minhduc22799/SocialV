@@ -1,6 +1,8 @@
 <!-- loader END -->
 <!-- Wrapper Start -->
 <div class="wrapper">
+
+
   <div class="iq-sidebar  sidebar-default ">
     <div id="sidebar-scrollbar">
       <nav class="iq-sidebar-menu">
@@ -424,7 +426,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 row m-0 p-0">
-          <div class="col-sm-12">
+          <div style="width: 91.5%;margin-left: 42px" class="col-sm-12">
             <div id="post-modal-data" class="card card-block card-stretch card-height">
               <div class="card-header d-flex justify-content-between">
                 <div class="header-title">
@@ -488,23 +490,22 @@
               </div>
             </div>
           </div>
-
           <div style="padding-left: 50px; padding-right: 50px;margin-bottom: 20px; margin-top: 10px" *ngFor="let p of postsDisplay, index as i" class="col-sm-12">
             <div class="card card-block card-stretch card-height">
               <div class="card-body">
                 <div class="user-post-data">
                   <div class="d-flex justify-content-between">
                     <div class="me-3">
-                      <img style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
+                      <img *ngIf="p.id === user.id" routerLink="/Profile"  style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
+                      <img *ngIf="p.id !== user.id" routerLink="/friendProfile/{{p?.users?.id}}" style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
                     </div>
                     <div class="w-100">
                       <div class="d-flex  justify-content-between">
                         <div class="">
-                          <h5 class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
-                          <span class="mb-0 d-inline-block"> &nbsp; Added New Image in a Post </span>
-                          <span *ngIf="p?.postStatus?.id === 1" style="color: #0d6efd"> &nbsp; Public</span>
-                          <span *ngIf="p?.postStatus?.id === 2" style="color: #0d6efd"> &nbsp; Private </span>
-                          <span *ngIf="p?.postStatus?.id === 3" style="color: #0d6efd"> &nbsp; Friend Only </span>
+                          <h5 *ngIf="p.id === user.id" routerLink="/Profile" class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
+                          <h5 *ngIf="p.id !== user.id" routerLink="/friendProfile/{{p?.users?.id}}" class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
+
+                          <span class="mb-0 d-inline-block"> &nbsp; Added New a Post </span>
 
                           <p class="mb-0 text-primary">{{p?.createAt}}</p>
                         </div>
@@ -558,7 +559,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="mt-3">
+                    <div style="margin-left: 3px" class="mt-3">
                       <p>{{p?.content}}</p>
                     </div>
                     <div *ngIf="listImg[i]?.length > 0">
@@ -654,7 +655,7 @@
         </div>
       </div>
     </div>
-  </div>
+
   <!-- Wrapper End-->
   <footer class="iq-footer bg-white">
     <div class="container-fluid">
@@ -710,4 +711,52 @@
       </div>
     </div>
   </div>
+
+<div class="modal fade" id="post-modal-edit" tabindex="-1" aria-labelledby="post-modalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog  modal-fullscreen-sm-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="post-modalLabel-edit">Edit Post</h5>
+        <button type="button" id="btn-close-eidt" class="btn btn-secondary" data-bs-dismiss="modal"><i
+          class="ri-close-fill"></i></button>
+      </div>
+      <div class="modal-body">
+        <form class="post-text ms-3 w-100" [formGroup]="postForm" (ngSubmit)="createPost()">
+          <div class="d-flex align-items-center">
+            <div class="user-img">
+              <img src="{{user.avatar}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+            </div>
+            <input formControlName="content" type="text" class="form-control rounded" placeholder="Write something here..."
+                   style="border:none;">
+          </div>
+          <hr>
+          <ul style="height: 200px" class="d-flex flex-wrap list-inline m-0 p-0">
+            <li style="margin-right: 50px; margin-top: 5px" class="col-md-1 mb-3">
+              <div style="width: 100px" class="btn btn-soft-primary">
+                <label for="image-post"><img alt="" src="assets/images/small/07.png">
+                  Photo</label>
+                <input class="file-upload" id="image-post-edit" type="file"/>
+              </div>
+            </li>
+            <li>
+              <div class="form-group" formGroupName="postStatus" style="margin-top: 5px; width: 140px">
+                <select class="form-select mb-3" formControlName="id">
+                  <option *ngFor="let lps of listPostStatus" value="{{lps.id}}">{{lps.name}}</option>
+                </select>
+              </div>
+            </li>
+          </ul>
+
+          <hr>
+          <button type="submit" class="btn btn-primary d-block w-100 mt-3">Edit Post</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
+
+
+
+
+

@@ -105,6 +105,7 @@ export class NewFeedComponent implements OnInit {
   getAllPostStatus(){
     this.postService.getAllPostStatus().subscribe(data =>{
       this.listPostStatus = data;
+      console.log(data)
     })
   }
 
