@@ -34,10 +34,10 @@ export class RegistrationComponent implements OnInit{
     this.user = this.registerForm.value;
     this.userService.register(this.user).subscribe(() => {
       console.log('Đăng ký thành công');
-      this.router.navigate(['/Login']);
+      this.router.navigate(['/']);
     }, err => {
       console.log(err);
-      this.router.navigate(['/Login']);
+      this.router.navigate(['/']);
     });
     console.log(this.user);
   }
