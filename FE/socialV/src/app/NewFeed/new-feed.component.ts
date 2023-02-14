@@ -10,7 +10,7 @@ import {PostStatus} from "../Model/post-status";
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import {AngularFireStorage, AngularFireStorageReference} from "@angular/fire/compat/storage";
-
+import {finalize} from "rxjs";
 
 @Component({
   selector: 'app-newfeed',
@@ -110,6 +110,7 @@ export class NewFeedComponent implements OnInit {
           this.listImg[i].push(imageObject1);
         }
       }
+      console.log(this.listImg)
     })
   }
 
@@ -140,10 +141,8 @@ export class NewFeedComponent implements OnInit {
   }
 
   submitAvatar(event: any) {
-    this.imgSrc = []
     this.imageFiles = event.target.files;
     for (let i = 0; i < this.imageFiles.length; i++) {
-      console.log(this.imageFiles[i])
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imgSrc.push(e.target.result);
@@ -173,15 +172,11 @@ export class NewFeedComponent implements OnInit {
           this.createPostImg(post)
         } else {
           this.i = 0
-          this.checkUploadMultiple = false;
-          // @ts-ignore
           this.postService.createPostImg(this.listImgCreate).subscribe(() => {
             this.findAll()
           })
           document.getElementById("btn-close")?.click()
           this.postForm.reset();
-          // @ts-ignore
-          this.postForm.get("postStatus")?.get("id").patchValue("1");
           this.imgSrc = []
           Swal.fire(
             'Good job!',
@@ -192,16 +187,4 @@ export class NewFeedComponent implements OnInit {
       })
     }
   }
-
-  deleteImgCreate(id: any | undefined) {
-    this.imgSrc.splice(id, 1);
-    let a: any[] = []
-    for (let i = 0; i < this.imageFiles.length; i++) {
-      if (i != id) {
-        a.push(this.imageFiles[i])
-      }
-    }
-    this.imageFiles = a
-  }
-
 }
