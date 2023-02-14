@@ -448,7 +448,7 @@
                   <div class="iq-search-bar device-search">
                     <form class="searchbox">
                       <a style="margin-right: 230px; margin-top: 3px" class="search-link"><i class="ri-search-line"></i></a>
-                      <input style="width: 250px" type="text" class="text search-input" placeholder="Search here...">
+                      <input style="width: 250px" #search (change)="searchOnWall(search.value)" type="text" class="text search-input" placeholder="Search here...">
                     </form>
                   </div>
                 </div>

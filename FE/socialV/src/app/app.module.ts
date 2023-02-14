@@ -9,7 +9,7 @@ import { NewFeedComponent } from './NewFeed/new-feed.component';
 import { PostModalComponent } from './Post-Modal/post-modal.component';
 import { ProfileComponent } from './Profile/profile.component';
 import { FriendProfileComponent } from './Friend-Profile/friend-profile.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule} from "@angular/common/http";
 import {NgImageSliderModule} from "ng-image-slider";
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
@@ -30,7 +30,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
         AppRoutingModule,
         ReactiveFormsModule,
         HttpClientModule,
-        NgImageSliderModule
+        NgImageSliderModule,
+        FormsModule
     ],
   providers: [],
   bootstrap: [AppComponent]

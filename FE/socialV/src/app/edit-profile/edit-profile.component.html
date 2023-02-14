@@ -904,19 +904,19 @@
                     </div>
                   </div>
                   <div class="card-body">
-                    <form>
+                    <form [formGroup]="formChangePass"  (ngSubmit)="onSubmit()">
                       <div class="form-group">
-                        <label for="cpass" class="form-label">Current Password:</label>
+                        <label for="oldPass" class="form-label">Current Password:</label>
                         <a href="#" class="float-end">Forgot Password</a>
-                        <input type="Password" class="form-control" id="cpass" value="">
+                        <input type="Password"  formControlName="oldPass" class="form-control" id="oldPass" >
                       </div>
                       <div class="form-group">
-                        <label for="npass" class="form-label">New Password:</label>
-                        <input type="Password" class="form-control" id="npass" value="">
+                        <label for="newPass" class="form-label">New Password:</label>
+                        <input type="Password" formControlName="newPass" class="form-control" id="newPass" >
                       </div>
                       <div class="form-group">
-                        <label for="vpass" class="form-label">Verify Password:</label>
-                        <input type="Password" class="form-control" id="vpass" value="">
+                        <label for="confirmPass" class="form-label">Verify Password:</label>
+                        <input type="Password" formControlName="confirmPass" class="form-control" id="confirmPass" >
                       </div>
                       <button type="submit" class="btn btn-primary me-2">Submit</button>
                       <button type="reset" class="btn bg-soft-danger">Cancle</button>
@@ -952,7 +952,7 @@
                         </div>
                       </div>
                       <div class="form-group row align-items-center">
-                        <label class="col-md-3" for="npass">When To Email</label>
+                        <label class="col-md-3" for="flexCheckDefault12">When To Email</label>
                         <div class="col-md-9">
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" value=""

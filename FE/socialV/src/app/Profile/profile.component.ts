@@ -24,8 +24,6 @@ export class ProfileComponent implements OnInit{
   listImg:any[] = [];
   countLike:any[] = [];
   countComment:any[] = [];
-  posts:Post[]=[]
-
   ngOnInit(): void {
     this.findAllFriend()
     this.findPostAllProfile()
@@ -90,10 +88,10 @@ export class ProfileComponent implements OnInit{
     })
   }
 
-  searchOnWall(id:number,content:string){
-     id = Number(this.routerActive.snapshot.paramMap.get("id"))
-    this.userService.searchPostOnWall(id, content).subscribe((data)=>{
-      this.posts=data
+  searchOnWall(content:string){
+   // const  id = Number(this.routerActive.snapshot.paramMap.get("id"))
+    this.userService.searchPostOnWall(this.user.id,content).subscribe((data)=>{
+      this.listPostProfile=data
     })
 
   }
