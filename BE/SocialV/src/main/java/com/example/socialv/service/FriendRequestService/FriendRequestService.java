@@ -25,7 +25,6 @@ public class FriendRequestService implements IFriendRequestService{
 
     @Override
     public void save(FriendRequest friendRequest) {
-
     }
 
     @Override

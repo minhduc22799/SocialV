@@ -320,12 +320,12 @@
                     </div>
                   </div>
                   <div class="card-body p-0 ">
-                    <a href="" class="iq-sub-card iq-bg-primary-hover">
+                    <a style="cursor: pointer" routerLink="/Profile" class="iq-sub-card iq-bg-primary-hover">
                       <div class="d-flex align-items-center">
                         <div class="rounded card-icon bg-soft-primary">
                           <i class="ri-file-user-line"></i>
                         </div>
-                        <div class="ms-3">
+                        <div  class="ms-3">
                           <h6 class="mb-0 ">My Profile</h6>
                           <p class="mb-0 font-size-12">View personal profile details.</p>
                         </div>
@@ -836,10 +836,10 @@
                             <div class="iq-friendlist-block">
                               <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center">
-                                  <a href="#">
-                                    <img src="{{f.avatar}}" width="140.56px" height="140.56px" alt="profile-img" class="img-fluid">
+                                  <a style="cursor: pointer" routerLink="/friendProfile/{{f.id}}">
+                                    <img src="{{f.avatar}}" width="140.56px" height="140.56px" alt="profile-img">
                                   </a>
-                                  <div class="friend-info ms-3">
+                                  <div style="cursor: pointer" routerLink="/friendProfile/{{f.id}}" class="friend-info ms-3">
                                     <h5>{{f.name}}</h5>
                                     <p class="mb-0">19  friends</p>
                                   </div>

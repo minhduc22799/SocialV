@@ -24,4 +24,12 @@ export class UserService {
   findAllFriend(id: number | undefined):Observable<Users[]>{
     return this.httpClient.get<Users[]>(`${API_URL}/user/friend/${id}`)
   }
+
+  findMutualFriends(idFriend:number, idUser:number): Observable<Users[]>{
+    return this.httpClient.get<Users[]>(`${API_URL}/friend/mutual/${idFriend}/${idUser}`)
+  }
+  findFriendOfFriend(id:number):Observable<Users[]>{
+    return this.httpClient.get<Users[]>(`${API_URL}/friend/${id}`)
+
+  }
 }

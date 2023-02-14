@@ -4,7 +4,7 @@ import {Users} from "../Model/Users";
 import {PostDisplay} from "../Model/Post-display";
 import {ImagePost} from "../Model/image-post";
 import {UserService} from "../service/user.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Post} from "../Model/Post";
 
 @Component({
@@ -19,6 +19,8 @@ export class FriendProfileComponent implements OnInit{
 
   postsDisplayFriend:PostDisplay[] = [];
   listFriend:Users[] = [];
+  listMutualFriend:Users[] = [];
+  listFriendOfFriend:Users[] = [];
   listImgPost:ImagePost[][] = [];
   listFriendPost:Users[][] = [];
   listImg:any[] = [];
@@ -35,12 +37,15 @@ export class FriendProfileComponent implements OnInit{
     this.findAllPostFriend()
     this.findAllFriend()
     this.findFriend()
+    this.findFriendOfFriend()
+    this.findMutualFriend()
   }
 
 
   constructor( private postService:PostService,
                private userService: UserService,
                private routerActive: ActivatedRoute,
+               private router:Router
                 ) {
   }
 
@@ -106,5 +111,24 @@ export class FriendProfileComponent implements OnInit{
       console.log(this.listImg)
     })
   }
+
+
+    findMutualFriend(){
+      // @ts-ignore
+      this.userService.findMutualFriends(this.idFiend,this.user.id).subscribe((data) =>{
+        this.listMutualFriend = data
+      })
+    }
+
+    findFriendOfFriend(){
+        this.userService.findFriendOfFriend(this.idFiend).subscribe(data=>{
+          this.listFriendOfFriend = data
+        })
+    }
+
+    routerProfile(id?:number){
+    this.router.navigate(['/friendProfile/'+ id])
+      window.onload
+    }
 
 }
