@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit{
   listImg:any[] = [];
   countLike:any[] = [];
   countComment:any[] = [];
+
   ngOnInit(): void {
     this.findAllFriend()
     this.findPostAllProfile()
@@ -85,6 +86,12 @@ export class ProfileComponent implements OnInit{
         }
       }
       console.log(this.listImg)
+    })
+  }
+
+  deletePost(id: any){
+    this.postService.deletePost(id).subscribe(()=>{
+      this.findPostAllProfile()
     })
   }
 

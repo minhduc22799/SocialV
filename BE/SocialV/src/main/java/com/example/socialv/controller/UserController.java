@@ -34,6 +34,13 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-
+    @PutMapping("/{id}")
+    public ResponseEntity<Users>save(@RequestBody Users users,@PathVariable("id") Long id){
+    Optional<Users> users1=userService.findById(id);
+    if (!users1.isPresent()){
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    users.setId(users1.get().getId());
+    return new ResponseEntity<>(userService.save(users),HttpStatus.OK) ;       }
 
 }

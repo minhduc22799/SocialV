@@ -2,12 +2,11 @@ package com.example.socialv.service.IPostLikeService;
 
 import com.example.socialv.model.Post;
 import com.example.socialv.model.PostLike;
+import com.example.socialv.model.Users;
 import com.example.socialv.repository.IPostLikeRepository;
-import com.example.socialv.repository.IPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,8 +26,9 @@ public class PostLikeService implements IPostLikeService {
     }
 
     @Override
-    public void save(PostLike postLike) {
+    public Users save(PostLike postLike) {
 
+        return null;
     }
 
     @Override
