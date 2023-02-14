@@ -28,12 +28,14 @@ public class PostCommentService implements IPostCommentService{
 
     @Override
     public void save(PostComment postComment) {
-
+        postCommentRepository.save(postComment);
     }
 
     @Override
     public void remove(Long id) {
-
+        PostComment  comment = findById(id).get();
+        commentLikeRepository.deleteAllByComment(comment);
+        postCommentRepository.deleteById(id);
     }
 
     @Override
