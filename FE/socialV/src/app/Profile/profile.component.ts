@@ -7,9 +7,11 @@ import {PostDisplay} from "../Model/Post-display";
 import {Post} from "../Model/Post";
 import {ImagePost} from "../Model/image-post";
 import {ActivatedRoute} from "@angular/router";
-
+// @ts-ignore
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 import {FormControl, FormGroup} from "@angular/forms";
 import {PostStatus} from "../Model/post-status";
+import {AngularFireStorage, AngularFireStorageReference} from "@angular/fire/compat/storage";
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -19,16 +21,20 @@ export class ProfileComponent implements OnInit{
   data = localStorage.getItem("user")
   // @ts-ignore
   user:Users = JSON.parse(this.data)
+  arrFileInFireBase: AngularFireStorageReference | undefined
   listFriend:Users[] = [];
   listPostProfile:PostDisplay[] = []
   listFriendPost:Users[][] = [];
   listImgPost:ImagePost[][] = [];
   listPostStatus: PostStatus[] = [];
   listImg:any[] = [];
+  listImgCreate: ImagePost[] = [];
   checkUploadMultiple = false;
   countLike:any[] = [];
   imageFiles: any[] = [];
   imgSrc: string[] = [];
+  listImgDelete: number[] = [];
+  listImgUpdate: ImagePost[] = [];
   countComment:any[] = [];
   post!: Post
   postUpdateForm: FormGroup = new FormGroup({
@@ -50,7 +56,8 @@ export class ProfileComponent implements OnInit{
 
   constructor( private userService: UserService ,
                private postService: PostService ,
-               private routerActive:ActivatedRoute) {
+               private routerActive:ActivatedRoute,
+               private storage: AngularFireStorage) {
   }
   findAllFriend(){
     // @ts-ignore
@@ -124,6 +131,13 @@ export class ProfileComponent implements OnInit{
   getPost(id: any){
     this.postService.getPost(id).subscribe(data =>{
     this.postUpdateForm.patchValue(data)
+      this.getImg(data.id)
+    })
+  }
+
+  getImg(id: any){
+    this.postService.getImg(id).subscribe( data =>{
+      this.listImgUpdate = data;
     })
   }
 
@@ -131,8 +145,21 @@ export class ProfileComponent implements OnInit{
     const post = this.postUpdateForm.value
     post.users = this.user
     this.postService.editPost(post).subscribe(()=>{
-      document.getElementById("btn-close-edit")?.click()
+      this.postService.editImgPost(this.listImgDelete).subscribe(()=>{
+        if (this.imageFiles.length == 0){
+          document.getElementById("btn-close-edit")?.click()
+          Swal.fire(
+            'Good job!',
+            'You clicked the button!',
+            'success'
+          )
+          this.findPostAllProfile()
+        }
+        this.createPostImg(post)
+
       this.findPostAllProfile()
+      })
+
     })
   }
 
@@ -153,5 +180,64 @@ export class ProfileComponent implements OnInit{
     this.postService.getAllPostStatus().subscribe(data => {
       this.listPostStatus = data;
     })
+  }
+
+  deleteImgCreate(id: any | undefined) {
+    this.imgSrc.splice(id, 1);
+    let a: any[] = []
+    for (let i = 0; i < this.imageFiles.length; i++) {
+      if (i != id) {
+        a.push(this.imageFiles[i])
+      }
+    }
+    this.imageFiles = a
+  }
+
+  editListImgDelete(id: any, index: any){
+    this.listImgUpdate.splice(index,1)
+    this.listImgDelete.push(id);
+    console.log(this.listImgDelete)
+  }
+
+  clearImgSrc(){
+    this.imgSrc = []
+    this.listImgDelete = []
+    this.imageFiles = []
+  }
+
+  t = 0;
+
+  createPostImg(post: Post) {
+    if (this.imageFiles !== undefined) {
+      this.checkUploadMultiple = true
+      this.arrFileInFireBase = this.storage.ref(this.imageFiles[this.t].name);
+      this.arrFileInFireBase.put(this.imageFiles[this.t]).then(data => {
+        return data.ref.getDownloadURL();
+      }).then(url => {
+        this.checkUploadMultiple = false
+        let imagePost: ImagePost = {
+          post: post,
+          img: url
+        }
+        this.listImgCreate.push(imagePost)
+      }).then(() => {
+        this.t++
+        if (this.t < this.imageFiles.length) {
+          this.createPostImg(post)
+        } else {
+          this.t = 0
+          this.postService.createPostImg(this.listImgCreate).subscribe(() => {
+            this.findPostAllProfile()
+          })
+          document.getElementById("btn-close-edit")?.click()
+          this.imgSrc = []
+          Swal.fire(
+            'Good job!',
+            'You clicked the button!',
+            'success'
+          )
+        }
+      })
+    }
   }
 }

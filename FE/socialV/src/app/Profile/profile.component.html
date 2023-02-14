@@ -601,7 +601,7 @@
                                 <div style="width: 100px" class="btn btn-soft-primary">
                                   <label for="image-post"><img alt="" src="assets/images/small/07.png">
                                     Photo</label>
-                                  <input class="file-upload" id="image-post" type="file"/>
+                                  <input class="file-upload" id="image-post" type="file" multiple (change)="submitAvatar($event)"/>
                                 </div>
                               </li>
                               <li>
@@ -658,7 +658,7 @@
                         <div class="modal-content">
                           <div class="modal-header">
                             <h5 class="modal-title" id="post-modalLabel-edit">edit Post</h5>
-                            <button type="button" id="btn-close-edit" class="btn btn-secondary" data-bs-dismiss="modal"><i
+                            <button (click)="clearImgSrc()" type="button" id="btn-close-edit" class="btn btn-secondary" data-bs-dismiss="modal"><i
                               class="ri-close-fill"></i></button>
                           </div>
                           <div class="modal-body">
@@ -678,7 +678,7 @@
                                   <div style="width: 100px" class="btn btn-soft-primary">
                                     <label for="image-post"><img alt="" src="assets/images/small/07.png">
                                       Photo</label>
-                                    <input class="file-upload" id="image-post-edit" type="file" (change)="submitAvatar($event)" multiple/>
+                                    <input class="file-upload" id="image-post-edit" type="file" multiple (change)="submitAvatar($event)"/>
                                   </div>
                                 </li>
                                 <li>
@@ -689,12 +689,17 @@
                                   </div>
                                 </li>
                               </ul>
-                              <div *ngIf="imgSrc.length!== 0" style=";
+                              <div *ngIf="imgSrc.length!== 0 || listImgUpdate.length !== 0" style=";
                                 height: 130px;
                                 overflow: auto;">
+                                <div *ngFor="let imageUrl of listImgUpdate, index as i"  style="width:100px ;float: left; margin: 12px" >
+                                  <i (click)="editListImgDelete(imageUrl.id, i)" style="margin-left: 87px;background-color: white;color: #0a0a0a; cursor: pointer" class="ri-delete-back-fill"></i>
+                                  <img  [src]="imageUrl.img" alt="img" style="height: 100px; width: 100px;z-index:-1;margin-top: -10px">
+
+                                </div>
                                 <div *ngFor="let imageUrl of imgSrc, index as i"  style="width:100px ;float: left; margin: 12px" >
-                                  <i  style="margin-left: 87px;background-color: white;color: #0a0a0a; cursor: pointer" class="ri-delete-back-fill"></i>
-                                  <img  [src]="imageUrl" alt="img" style="height: 100px; width: 100px;z-index:-1;margin-top: -10px">
+                                  <i (click)="deleteImgCreate(i)" style="margin-left: 87px;background-color: white;color: #0a0a0a; cursor: pointer" class="ri-delete-back-fill"></i>
+                                  <img  [src]="imageUrl"  alt="img" style="height: 100px; width: 100px;z-index:-1;margin-top: -10px">
 
                                 </div>
                                 <mat-progress-bar style="color: blue" mode="indeterminate" *ngIf="checkUploadMultiple"></mat-progress-bar>

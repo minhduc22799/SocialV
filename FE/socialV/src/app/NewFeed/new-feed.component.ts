@@ -187,4 +187,16 @@ export class NewFeedComponent implements OnInit {
       })
     }
   }
+
+  deleteImgCreate(id: any | undefined) {
+    this.imgSrc.splice(id, 1);
+    let a: any[] = []
+    for (let i = 0; i < this.imageFiles.length; i++) {
+      if (i != id) {
+        a.push(this.imageFiles[i])
+      }
+    }
+    this.imageFiles = a
+  }
+
 }
