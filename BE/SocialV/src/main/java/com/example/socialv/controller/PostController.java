@@ -73,14 +73,11 @@ public class PostController {
     }
 
     @PutMapping("/image")
-    public ResponseEntity<?> updateImgPost(@RequestBody ImagePost[] imagePostList, @RequestBody List<Long> deleteList){
-        for (ImagePost imagePost : imagePostList) {
-            imagePostService.save(imagePost);
-        }
+    public ResponseEntity<?> updateImgPost(@RequestBody List<Long> deleteList){
         for (Long i: deleteList){
             imagePostService.remove(i);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/{id}")

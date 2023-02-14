@@ -23,9 +23,8 @@ public class RoleService implements IRoleService{
     }
 
     @Override
-    public Users save(Role role) {
+    public void save(Role role) {
         roleRepository.save(role);
-        return null;
     }
 
     @Override

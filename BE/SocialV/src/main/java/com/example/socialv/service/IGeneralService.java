@@ -9,7 +9,7 @@ public interface IGeneralService<T> {
 
     Optional<T> findById(Long id);
 
-    Users save(T t);
+    void save(T t);
 
     void remove(Long id);
 }

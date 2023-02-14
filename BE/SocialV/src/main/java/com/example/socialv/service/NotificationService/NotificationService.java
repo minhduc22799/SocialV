@@ -26,9 +26,7 @@ public class NotificationService implements INotificationService {
     }
 
     @Override
-    public Users save(Notification notification) {
-
-        return null;
+    public void save(Notification notification) {
     }
 
     @Override
