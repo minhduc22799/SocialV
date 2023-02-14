@@ -20,27 +20,10 @@
               <i class="las la-users"></i><span>Group</span>
             </a>
           </li>
-          <li class="">
-            <a href="#authentication" class="  collapsed" data-bs-toggle="collapse"
-               aria-expanded="false"><i class="ri-pages-line"></i><span>Authentication</span><i
-              class="ri-arrow-right-s-line iq-arrow-right"></i></a>
-            <ul id="authentication" class="iq-submenu collapse" data-bs-parent="#pages">
-              <li class="">
-                <a href=""><i class="ri-login-box-line"></i>Login</a>
-              </li>
-              <li class="">
-                <a href=""><i class="ri-login-circle-line"></i>Register</a>
-              </li>
-              <li class="">
-                <a href=""><i class="ri-record-mail-line"></i>Recover Password</a>
-              </li>
-              <li class="">
-                <a href=""><i class="ri-file-code-line"></i>Confirm Mail</a>
-              </li>
-              <li class="">
-                <a href=""><i class="ri-lock-line"></i>Lock Screen</a>
-              </li>
-            </ul>
+          <li class=" ">
+            <a href="" class=" ">
+              <i class="las la-check-circle"></i><span>Todo</span>
+            </a>
           </li>
         </ul>
       </nav>
@@ -402,12 +385,16 @@
         <div class="card-body p-0">
           <div class="media-height p-3" data-scrollbar="init">
             <div *ngFor="let f of listFriend" class="d-flex align-items-center mb-4">
-              <div class="iq-profile-avatar status-online">
+              <div *ngIf="f.checkOn" class="iq-profile-avatar status-online">
+                <img class="rounded-circle avatar-50" src="{{f?.avatar}}" alt="">
+              </div>
+              <div *ngIf="!f.checkOn" class="iq-profile-avatar status-offline">
                 <img class="rounded-circle avatar-50" src="{{f?.avatar}}" alt="">
               </div>
               <div class="ms-3">
                 <h6 class="mb-0">{{f?.name}}</h6>
-                <p class="mb-0">Just Now</p>
+                <p *ngIf="f.checkOn" class="mb-0">Just Now</p>
+                <p *ngIf="!f.checkOn" class="mb-0">Offline</p>
               </div>
             </div>
 
@@ -424,7 +411,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 row m-0 p-0">
-          <div class="col-sm-12">
+          <div style="width: 91.5%;margin-left: 42px" class="col-sm-12">
             <div id="post-modal-data" class="card card-block card-stretch card-height">
               <div class="card-header d-flex justify-content-between">
                 <div class="header-title">
@@ -443,7 +430,7 @@
                 </div>
                 <hr>
               </div>
-              <div class="modal fade" id="post-modal" tabindex="-1" aria-labelledby="post-modalLabel"
+              <div  class="modal fade" id="post-modal" tabindex="-1" aria-labelledby="post-modalLabel"
                    aria-hidden="true">
                 <div class="modal-dialog  modal-fullscreen-sm-down">
                   <div class="modal-content">
@@ -453,60 +440,66 @@
                         class="ri-close-fill"></i></button>
                     </div>
                     <div class="modal-body">
-                        <form class="post-text ms-3 w-100" [formGroup]="postForm" (ngSubmit)="createPost()">
-                      <div class="d-flex align-items-center">
-                        <div class="user-img">
-                          <img src="{{user.avatar}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+                          <form class="post-text ms-3 w-100" [formGroup]="postForm" (ngSubmit)="createPost()">
+                        <div class="d-flex align-items-center">
+                          <div class="user-img">
+                            <img src="{{user.avatar}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+                          </div>
+                            <input formControlName="content" type="text" class="form-control rounded" placeholder="Write something here..."
+                                   style="border:none;">
                         </div>
-                          <input formControlName="content" type="text" class="form-control rounded" placeholder="Write something here..."
-                                 style="border:none;">
-                      </div>
-                      <hr>
-                      <ul style="height: 200px" class="d-flex flex-wrap list-inline m-0 p-0">
-                        <li style="margin-right: 50px; margin-top: 5px" class="col-md-1 mb-3">
-                          <div style="width: 100px" class="btn btn-soft-primary">
-                            <label for="image-post"><img alt="" src="assets/images/small/07.png">
-                              Photo</label>
-                            <input class="file-upload" id="image-post" type="file" (change)="submitAvatar($event)" multiple/>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="form-group" formGroupName="postStatus" style="margin-top: 5px; width: 140px">
-                            <select class="form-select mb-3" formControlName="id">
-                              <option *ngFor="let lps of listPostStatus" value="{{lps.id}}">{{lps.name}}</option>
-                            </select>
-                          </div>
-                        </li>
-                      </ul>
-                            <img *ngFor="let imageUrl of imgSrc" [src]="imageUrl" alt="img" style="height: 100px; width: 100px">
-                          <mat-progress-bar style="color: blue" mode="indeterminate" *ngIf="checkUploadMultiple"></mat-progress-bar>
+                        <hr>
+                        <ul style="height: 70px" class="d-flex flex-wrap list-inline m-0 p-0">
+                          <li style="margin-right: 50px; margin-top: 5px" class="col-md-1 mb-3">
+                            <div style="width: 100px" class="btn btn-soft-primary">
+                              <label for="image-post"><img alt="" src="assets/images/small/07.png">
+                                Photo</label>
+                              <input class="file-upload" id="image-post" type="file" (change)="submitAvatar($event)" multiple/>
+                            </div>
+                          </li>
+                          <li>
+                            <div class="form-group" formGroupName="postStatus" style="margin-top: 5px; width: 140px">
+                              <select class="form-select mb-3" formControlName="id">
+                                <option *ngFor="let lps of listPostStatus" value="{{lps.id}}">{{lps.name}}</option>
+                              </select>
+                            </div>
+                          </li>
+                        </ul>
+                            <div *ngIf="imgSrc.length!== 0" style=";
+                                height: 130px;
+                                overflow: auto;">
+                              <div *ngFor="let imageUrl of imgSrc"  style="width:100px ;float: left; margin: 12px" >
+                              <i  style="margin-left: 87px;background-color: white;color: #0a0a0a  "class="ri-delete-back-fill"></i>
+                              <img  [src]="imageUrl" alt="img" style="height: 100px; width: 100px;z-index:-1;margin-top: -10px">
 
-                          <hr>
-                      <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
-                        </form>
+                              </div>
+                             <mat-progress-bar style="color: blue" mode="indeterminate" *ngIf="checkUploadMultiple"></mat-progress-bar>
+                            </div>
+                            <hr>
+                        <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
+                          </form>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
           <div style="padding-left: 50px; padding-right: 50px;margin-bottom: 20px; margin-top: 10px" *ngFor="let p of postsDisplay, index as i" class="col-sm-12">
             <div class="card card-block card-stretch card-height">
               <div class="card-body">
                 <div class="user-post-data">
                   <div class="d-flex justify-content-between">
                     <div class="me-3">
-                      <img style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
+                      <img *ngIf="p.id === user.id" routerLink="/Profile"  style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
+                      <img *ngIf="p.id !== user.id" routerLink="/friendProfile/{{p?.users?.id}}" style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
                     </div>
                     <div class="w-100">
                       <div class="d-flex  justify-content-between">
                         <div class="">
-                          <h5 class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
-                          <span class="mb-0 d-inline-block"> &nbsp; Added New Image in a Post </span>
-                          <span *ngIf="p?.postStatus?.id === 1" style="color: #0d6efd"> &nbsp; Public</span>
-                          <span *ngIf="p?.postStatus?.id === 2" style="color: #0d6efd"> &nbsp; Private </span>
-                          <span *ngIf="p?.postStatus?.id === 3" style="color: #0d6efd"> &nbsp; Friend Only </span>
+                          <h5 *ngIf="p.id === user.id" routerLink="/Profile" class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
+                          <h5 *ngIf="p.id !== user.id" routerLink="/friendProfile/{{p?.users?.id}}" class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
+
+                          <span class="mb-0 d-inline-block"> &nbsp; Added New a Post </span>
 
                           <p class="mb-0 text-primary">{{p?.createAt}}</p>
                         </div>
@@ -560,7 +553,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="mt-3">
+                    <div style="margin-left: 3px" class="mt-3">
                       <p>{{p?.content}}</p>
                     </div>
                     <div *ngIf="listImg[i]?.length > 0">
@@ -713,3 +706,55 @@
     </div>
   </div>
 
+<div  class="modal fade" id="post-modal-edit" tabindex="-1" aria-labelledby="post-modalLabel"
+      aria-hidden="true">
+  <div class="modal-dialog  modal-fullscreen-sm-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="post-modalLabel-edit">edit Post</h5>
+        <button type="button" id="btn-close-edit" class="btn btn-secondary" data-bs-dismiss="modal"><i
+          class="ri-close-fill"></i></button>
+      </div>
+      <div class="modal-body">
+        <form class="post-text ms-3 w-100" [formGroup]="postForm" (ngSubmit)="createPost()">
+          <div class="d-flex align-items-center">
+            <div class="user-img">
+              <img src="{{user.avatar}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+            </div>
+            <input formControlName="content" type="text" class="form-control rounded" placeholder="Write something here..."
+                   style="border:none;">
+          </div>
+          <hr>
+          <ul style="height: 70px" class="d-flex flex-wrap list-inline m-0 p-0">
+            <li style="margin-right: 50px; margin-top: 5px" class="col-md-1 mb-3">
+              <div style="width: 100px" class="btn btn-soft-primary">
+                <label for="image-post"><img alt="" src="assets/images/small/07.png">
+                  Photo</label>
+                <input class="file-upload" id="image-post-edit" type="file" (change)="submitAvatar($event)" multiple/>
+              </div>
+            </li>
+            <li>
+              <div class="form-group" formGroupName="postStatus" style="margin-top: 5px; width: 140px">
+                <select class="form-select mb-3" formControlName="id">
+                  <option *ngFor="let lps of listPostStatus" value="{{lps.id}}">{{lps.name}}</option>
+                </select>
+              </div>
+            </li>
+          </ul>
+          <div *ngIf="imgSrc.length!== 0" style=";
+                                height: 130px;
+                                overflow: auto;">
+            <div *ngFor="let imageUrl of imgSrc"  style="width:100px ;float: left; margin: 12px" >
+              <i  style="margin-left: 87px;background-color: white;color: #0a0a0a  "class="ri-delete-back-fill"></i>
+              <img  [src]="imageUrl" alt="img" style="height: 100px; width: 100px;z-index:-1;margin-top: -10px">
+
+            </div>
+            <mat-progress-bar style="color: blue" mode="indeterminate" *ngIf="checkUploadMultiple"></mat-progress-bar>
+          </div>
+          <hr>
+          <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
