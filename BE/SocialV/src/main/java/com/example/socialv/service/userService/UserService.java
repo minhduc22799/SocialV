@@ -24,8 +24,9 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void save(Users users) {
+    public Users save(Users users) {
         userRepository.save(users);
+        return users;
     }
 
     @Override
@@ -47,4 +48,6 @@ public class UserService implements IUserService {
     public List<Users> findAllLikePost(Long id) {
         return userRepository.findAllLikePost(id);
     }
+
+
 }

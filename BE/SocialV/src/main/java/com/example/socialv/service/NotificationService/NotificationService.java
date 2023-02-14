@@ -2,6 +2,7 @@ package com.example.socialv.service.NotificationService;
 
 import com.example.socialv.model.Notification;
 import com.example.socialv.model.Post;
+import com.example.socialv.model.Users;
 import com.example.socialv.repository.INotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,9 @@ public class NotificationService implements INotificationService {
     }
 
     @Override
-    public void save(Notification notification) {
+    public Users save(Notification notification) {
 
+        return null;
     }
 
     @Override

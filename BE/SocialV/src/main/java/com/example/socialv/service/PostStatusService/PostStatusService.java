@@ -1,6 +1,7 @@
 package com.example.socialv.service.PostStatusService;
 
 import com.example.socialv.model.PostStatus;
+import com.example.socialv.model.Users;
 import com.example.socialv.repository.IPostStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,9 @@ public class PostStatusService implements IPostStatusService{
     }
 
     @Override
-    public void save(PostStatus postStatus) {
+    public Users save(PostStatus postStatus) {
 
+        return null;
     }
 
     @Override

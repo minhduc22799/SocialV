@@ -1,11 +1,13 @@
 package com.example.socialv.service.roleService;
 
 import com.example.socialv.model.Role;
+import com.example.socialv.model.Users;
 import com.example.socialv.repository.IRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@Service
 public class RoleService implements IRoleService{
 
     @Autowired
@@ -21,8 +23,9 @@ public class RoleService implements IRoleService{
     }
 
     @Override
-    public void save(Role role) {
+    public Users save(Role role) {
         roleRepository.save(role);
+        return null;
     }
 
     @Override

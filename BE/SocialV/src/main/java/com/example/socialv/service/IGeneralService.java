@@ -1,5 +1,7 @@
 package com.example.socialv.service;
 
+import com.example.socialv.model.Users;
+
 import java.util.Optional;
 
 public interface IGeneralService<T> {
@@ -7,7 +9,7 @@ public interface IGeneralService<T> {
 
     Optional<T> findById(Long id);
 
-    void save(T t);
+    Users save(T t);
 
     void remove(Long id);
 }

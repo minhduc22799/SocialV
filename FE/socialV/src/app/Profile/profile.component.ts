@@ -6,6 +6,8 @@ import {user} from "@angular/fire/auth";
 import {PostDisplay} from "../Model/Post-display";
 import {Post} from "../Model/Post";
 import {ImagePost} from "../Model/image-post";
+import {ActivatedRoute} from "@angular/router";
+
 import {FormControl, FormGroup} from "@angular/forms";
 import {PostStatus} from "../Model/post-status";
 @Component({
@@ -47,7 +49,8 @@ export class ProfileComponent implements OnInit{
   }
 
   constructor( private userService: UserService ,
-               private postService: PostService ) {
+               private postService: PostService ,
+               private routerActive:ActivatedRoute) {
   }
   findAllFriend(){
     // @ts-ignore
@@ -108,6 +111,14 @@ export class ProfileComponent implements OnInit{
     this.postService.deletePost(id).subscribe(()=>{
       this.findPostAllProfile()
     })
+  }
+
+  searchOnWall(content:string){
+   // const  id = Number(this.routerActive.snapshot.paramMap.get("id"))
+    this.userService.searchPostOnWall(this.user.id,content).subscribe((data)=>{
+      this.listPostProfile=data
+    })
+
   }
 
   getPost(id: any){

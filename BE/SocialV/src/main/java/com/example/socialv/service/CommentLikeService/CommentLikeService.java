@@ -2,6 +2,7 @@ package com.example.socialv.service.CommentLikeService;
 
 import com.example.socialv.model.CommentLike;
 import com.example.socialv.model.PostComment;
+import com.example.socialv.model.Users;
 import com.example.socialv.repository.ICommentLikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
