@@ -454,7 +454,7 @@
                     </div>
                   </div>
                   <div class="card-body">
-                    <form>
+                    <form [formGroup]="formEditProfile"  (ngSubmit)="saveProfile()">
                       <div class="form-group row align-items-center">
                         <div class="col-md-12">
                           <div class="profile-img-edit">
@@ -462,7 +462,7 @@
                                  alt="profile-pic">
                             <div  class="p-image">
                               <label style="cursor: pointer" for="image-edit"><i class="ri-pencil-line text-white"></i></label>
-                              <input style="cursor: pointer" class="file-upload" type="file" id="image-edit"/>
+                              <input style="cursor: pointer" (change)="submitAvatar($event)" class="file-upload" type="file" id="image-edit"/>
                             </div>
 
                           </div>
@@ -476,33 +476,33 @@
                         </div>
                         <div class="form-group col-sm-6">
                           <label for="fullName" class="form-label">Full Name:</label>
-                          <input type="text" class="form-control" id="fullName">
+                          <input type="text" class="form-control" id="fullName" formControlName="name">
                         </div>
                         <div class="form-group col-sm-6">
                           <label for="emailEdit" class="form-label">Email:</label>
-                          <input type="text" class="form-control" id="emailEdit">
+                          <input type="text" class="form-control" id="emailEdit" formControlName="email">
                         </div>
                         <div class="form-group col-sm-6">
                           <label for="phone" class="form-label">Phone:</label>
                           <input type="text" class="form-control" id="phone"
-                                 >
+                                 formControlName="phone">
                         </div>
                         <div class="form-group col-sm-6">
                           <label for="birthDay" class="form-label">Birth Day:</label>
-                          <input type="text" class="form-control" id="birthDay">
+                          <input type="text" class="form-control" id="birthDay" formControlName="birthday">
                         </div>
                         <div class="form-group col-sm-6">
                           <label for="hobby" class="form-label">Hobby:</label>
-                          <input type="text" class="form-control" id="hobby">
+                          <input type="text" class="form-control" id="hobby" formControlName="hobby">
                         </div>
 
                         <div class="form-group col-sm-12">
-                          <label class="form-label">Address:</label>
-                          <textarea class="form-control" name="address" rows="5"
-                                    style="line-height: 22px;"></textarea>
+                          <label  class="form-label">Address:</label>
+                          <input class="form-control" name="address" rows="5"
+                                 type="text"  formControlName="address">
                         </div>
                       </div>
-                      <button type="submit" class="btn btn-primary me-2">Submit</button>
+                      <button type="submit" class="btn btn-primary me-2" id="editPro">Submit</button>
                       <button type="reset" class="btn bg-soft-danger">Cancle</button>
                     </form>
                   </div>
@@ -521,16 +521,28 @@
                         <label for="oldPass" class="form-label">Current Password:</label>
                         <a href="#" class="float-end">Forgot Password</a>
                         <input type="Password"  formControlName="oldPass" class="form-control" id="oldPass" >
+                        <span *ngIf="formChangePass.get('oldPass')?.errors?.['minlength']" style="color: red">Must be more than 6 characters .</span>
+                        <span *ngIf="formChangePass.get('oldPass')?.errors?.['maxlength']" style="color: red">Must be not more than 32 characters .</span>
+                        <span *ngIf="formChangePass.get('oldPass')?.errors?.['pattern']" style="color: red">Not Be special characters .</span>
+                        <span *ngIf="formChangePass.get('oldPass')?.errors?.['required'] && formChangePass.get('oldPass')?.touched" style="color: red">Not Be Empty </span>
                       </div>
                       <div class="form-group">
                         <label for="newPass" class="form-label">New Password:</label>
                         <input type="Password" formControlName="newPass" class="form-control" id="newPass" >
+                        <span *ngIf="formChangePass.get('newPass')?.errors?.['minlength']" style="color: red">Must be more than 6 characters .</span>
+                        <span *ngIf="formChangePass.get('newPass')?.errors?.['maxlength']" style="color: red">Must be not more than 32 characters .</span>
+                        <span *ngIf="formChangePass.get('newPass')?.errors?.['pattern']" style="color: red">Not Be special characters .</span>
+                        <span *ngIf="formChangePass.get('newPass')?.errors?.['required'] && formChangePass.get('newPass')?.touched" style="color: red">Not Be Empty </span>
                       </div>
                       <div class="form-group">
                         <label for="confirmPass" class="form-label">Verify Password:</label>
                         <input type="Password" formControlName="confirmPass" class="form-control" id="confirmPass" >
+                        <span *ngIf="formChangePass.get('confirmPass')?.errors?.['minlength']" style="color: red">Must be more than 6 characters .</span>
+                        <span *ngIf="formChangePass.get('confirmPass')?.errors?.['maxlength']" style="color: red">Must be not more than 32 characters .</span>
+                        <span *ngIf="formChangePass.get('confirmPass')?.errors?.['pattern']" style="color: red">Not Be special characters .</span>
+                        <span *ngIf="formChangePass.get('confirmPass')?.errors?.['required'] && formChangePass.get('confirmPass')?.touched" style="color: red">Not Be Empty </span>
                       </div>
-                      <button type="submit" class="btn btn-primary me-2">Submit</button>
+                      <button type="submit" class="btn btn-primary me-2" id="editPass">Submit</button>
                       <button type="reset" class="btn bg-soft-danger">Cancle</button>
                     </form>
                   </div>
@@ -588,7 +600,7 @@
                         </div>
                       </div>
                       <div class="form-group row align-items-center">
-                        <label class="col-md-3" for="npass">When To Escalate Emails</label>
+                        <label class="col-md-3" >When To Escalate Emails</label>
                         <div class="col-md-9">
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" value=""

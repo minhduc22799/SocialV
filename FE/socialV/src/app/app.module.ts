@@ -42,7 +42,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     AngularFireDatabaseModule,
     InfiniteScrollModule,
     BrowserAnimationsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    NgImageSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -174,6 +174,7 @@ export class NewFeedComponent implements OnInit {
         } else {
           this.i = 0
           this.checkUploadMultiple = false;
+          // @ts-ignore
           this.postService.createPostImg(this.listImgCreate).subscribe(() => {
             this.findAll()
           })
