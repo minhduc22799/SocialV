@@ -6,7 +6,8 @@ import {user} from "@angular/fire/auth";
 import {PostDisplay} from "../Model/Post-display";
 import {Post} from "../Model/Post";
 import {ImagePost} from "../Model/image-post";
-
+import {FormControl, FormGroup} from "@angular/forms";
+import {PostStatus} from "../Model/post-status";
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -20,13 +21,29 @@ export class ProfileComponent implements OnInit{
   listPostProfile:PostDisplay[] = []
   listFriendPost:Users[][] = [];
   listImgPost:ImagePost[][] = [];
+  listPostStatus: PostStatus[] = [];
   listImg:any[] = [];
+  checkUploadMultiple = false;
   countLike:any[] = [];
+  imageFiles: any[] = [];
+  imgSrc: string[] = [];
   countComment:any[] = [];
-
+  post!: Post
+  postUpdateForm: FormGroup = new FormGroup({
+    id: new FormControl(),
+    users: new FormGroup({
+      id: new FormControl()
+    }),
+    content: new FormControl(),
+    createAt: new FormControl(),
+    postStatus: new FormGroup({
+      id: new FormControl()
+    })
+  })
   ngOnInit(): void {
     this.findAllFriend()
     this.findPostAllProfile()
+    this.getAllPostStatus()
   }
 
   constructor( private userService: UserService ,
@@ -90,6 +107,40 @@ export class ProfileComponent implements OnInit{
   deletePost(id: any){
     this.postService.deletePost(id).subscribe(()=>{
       this.findPostAllProfile()
+    })
+  }
+
+  getPost(id: any){
+    this.postService.getPost(id).subscribe(data =>{
+    this.postUpdateForm.patchValue(data)
+    })
+  }
+
+  editPost(){
+    const post = this.postUpdateForm.value
+    post.users = this.user
+    this.postService.editPost(post).subscribe(()=>{
+      document.getElementById("btn-close-edit")?.click()
+      this.findPostAllProfile()
+    })
+  }
+
+  submitAvatar(event: any) {
+    this.imgSrc = []
+    this.imageFiles = event.target.files;
+    for (let i = 0; i < this.imageFiles.length; i++) {
+      console.log(this.imageFiles[i])
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imgSrc.push(e.target.result);
+      };
+      reader.readAsDataURL(this.imageFiles[i]);
+    }
+  }
+
+  getAllPostStatus() {
+    this.postService.getAllPostStatus().subscribe(data => {
+      this.listPostStatus = data;
     })
   }
 }
