@@ -2,6 +2,7 @@ package com.example.socialv.service.ImagePostService;
 
 import com.example.socialv.model.ImagePost;
 import com.example.socialv.model.Post;
+import com.example.socialv.model.Users;
 import com.example.socialv.repository.IImagePostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -50,16 +50,34 @@ public class PostController {
     }
 
     @GetMapping("/status")
-    public ResponseEntity<Iterable<PostStatus>> getAllPostStatus(){
+    public ResponseEntity<Iterable<PostStatus>> getAllPostStatus() {
         return new ResponseEntity<>(postStatusService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping("/create/img")
-    public ResponseEntity<?> createImg(@RequestBody ImagePost[] imagePostList){
-        for (ImagePost imagePost: imagePostList){
+    public ResponseEntity<?> createImg(@RequestBody ImagePost[] imagePostList) {
+        for (ImagePost imagePost : imagePostList) {
             imagePostService.save(imagePost);
         }
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updatePost(@RequestBody Post post) {
+        Optional<Post> postOptional = postService.findById(post.getId());
+        if (!postOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        postService.save(post);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/image")
+    public ResponseEntity<?> updateImgPost(@RequestBody List<Long> deleteList){
+        for (Long i: deleteList){
+            imagePostService.remove(i);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -180,17 +198,17 @@ public class PostController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Post> getOne(@PathVariable Long id){
+    public ResponseEntity<Post> getOne(@PathVariable Long id) {
         return new ResponseEntity<>(postService.findById(id).get(), HttpStatus.OK);
     }
 
     @GetMapping("/image/{id}")
-    public ResponseEntity<List<ImagePost>> getImagePost(@PathVariable Long id){
+    public ResponseEntity<List<ImagePost>> getImagePost(@PathVariable Long id) {
         return new ResponseEntity<>(imagePostService.findAllByPost(postService.findById(id).get()), HttpStatus.OK);
     }
 
     @PostMapping("/list/like")
-    public ResponseEntity<?> getListLikeAllPost(@RequestBody Post[] posts){
+    public ResponseEntity<?> getListLikeAllPost(@RequestBody Post[] posts) {
         List<Object> objects = new ArrayList<>();
         for (Post p : posts) {
             List<Users> usersList = userService.findAllLikePost(p.getId());
@@ -200,8 +218,15 @@ public class PostController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deletePost(@PathVariable Long id){
+    public ResponseEntity<?> deletePost(@PathVariable Long id) {
         postService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping("/wall/{id}/search")
+    public ResponseEntity<Iterable<Post>>searchOnWall(@PathVariable("id") Long id,@RequestParam ("search") String content){
+        Iterable<Post>posts=postService.findAllPostByUserIdAndContent(id,content);
+        if (!posts.iterator().hasNext()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }return new ResponseEntity<>(posts,HttpStatus.OK);
     }
 }

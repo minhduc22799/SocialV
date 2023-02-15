@@ -2,6 +2,7 @@ package com.example.socialv.service.PostCommentService;
 
 import com.example.socialv.model.Post;
 import com.example.socialv.model.PostComment;
+import com.example.socialv.model.Users;
 import com.example.socialv.repository.ICommentLikeRepository;
 import com.example.socialv.repository.IPostCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,14 @@ public class PostCommentService implements IPostCommentService{
 
     @Override
     public void save(PostComment postComment) {
-
+        postCommentRepository.save(postComment);
     }
 
     @Override
     public void remove(Long id) {
-
+        PostComment  comment = findById(id).get();
+        commentLikeRepository.deleteAllByComment(comment);
+        postCommentRepository.deleteById(id);
     }
 
     @Override

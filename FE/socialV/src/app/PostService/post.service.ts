@@ -57,4 +57,20 @@ export class PostService {
   createPostImg(imagePost: ImagePost[]): Observable<any>{
     return this.http.post<any>(apiUrl + `/post/create/img`, imagePost);
   }
+
+  getPost(id: number): Observable<Post>{
+    return this.http.get<Post>(apiUrl + `/post/get/${id}`);
+  }
+
+  editPost(post: Post): Observable<any>{
+    return this.http.put<any>(apiUrl + `/post`, post);
+  }
+
+  editImgPost(list: number[]): Observable<any>{
+    return this.http.put<any>(apiUrl + `/post/image`, list)
+  }
+
+  getImg(id: any): Observable<ImagePost[]>{
+    return this.http.get<ImagePost[]>(apiUrl + `/post/image/${id}`)
+  }
 }

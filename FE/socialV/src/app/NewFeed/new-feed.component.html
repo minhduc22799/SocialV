@@ -460,8 +460,8 @@
                             <div *ngIf="imgSrc.length!== 0" style=";
                                 height: 130px;
                                 overflow: auto;">
-                              <div *ngFor="let imageUrl of imgSrc"  style="width:100px ;float: left; margin: 12px" >
-                              <i  style="margin-left: 87px;background-color: white;color: #0a0a0a  "class="ri-delete-back-fill"></i>
+                              <div *ngFor="let imageUrl of imgSrc, index as j"  style="width:100px ;float: left; margin: 12px" >
+                              <i (click)="deleteImgCreate(j)"  style="margin-left: 87px;background-color: white;color: #0a0a0a  "class="ri-delete-back-fill"></i>
                               <img  [src]="imageUrl" alt="img" style="height: 100px; width: 100px;z-index:-1;margin-top: -10px">
 
                               </div>

@@ -40,7 +40,7 @@
                 <a href="#" class="float-end">Forgot password?</a>
                 <input type="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password" formControlName="password">
                 <span *ngIf="loginForm.get('password')?.errors?.['minlength']" style="color: red">Must be more than 6 characters .</span>
-                <span *ngIf="loginForm.get('password')?.errors?.['maxlength']" style="color: red">Must be more than 32 characters .</span>
+                <span *ngIf="loginForm.get('password')?.errors?.['maxlength']" style="color: red">Must be not more than 32 characters .</span>
                 <span *ngIf="loginForm.get('password')?.errors?.['pattern']" style="color: red">Not Be special characters .</span>
                 <span *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched" style="color: red">Not Be Empty </span>
               </div>

@@ -47,4 +47,6 @@ public class UserService implements IUserService {
     public List<Users> findAllLikePost(Long id) {
         return userRepository.findAllLikePost(id);
     }
+
+
 }

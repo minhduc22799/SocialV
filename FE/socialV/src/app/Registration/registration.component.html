@@ -45,7 +45,7 @@
               <div class="form-group">
                 <input type="password" class="form-control mb-0" id="password" placeholder="Password" formControlName="password" >
                 <span *ngIf="registerForm.get('password')?.errors?.['minlength']" style="color: red">Must be more than 6 characters .</span>
-                <span *ngIf="registerForm.get('password')?.errors?.['maxlength']" style="color: red">Must be more than 32 characters .</span>
+                <span *ngIf="registerForm.get('password')?.errors?.['maxlength']" style="color: red">Must be not more than 32 characters .</span>
                 <span *ngIf="registerForm.get('password')?.errors?.['pattern']" style="color: red">Not Be special characters .</span>
                 <span *ngIf="registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched" style="color: red">Not Be Empty </span>
 
@@ -54,7 +54,7 @@
                 <input type="password" class="form-control mb-0" id="confirmPassword"
                        placeholder="Password Confirm" formControlName="confirmPassword" >
                 <span *ngIf="registerForm.get('confirmPassword')?.errors?.['minlength']" style="color: red">Must be more than 6 characters .</span>
-                <span *ngIf="registerForm.get('confirmPassword')?.errors?.['maxlength']" style="color: red">Must be more than 32 characters .</span>
+                <span *ngIf="registerForm.get('confirmPassword')?.errors?.['maxlength']" style="color: red">Must be not more than 32 characters .</span>
                 <span *ngIf="registerForm.get('confirmPassword')?.errors?.['pattern']" style="color: red">Not Be special characters .</span>
                 <span *ngIf="registerForm.get('confirmPassword')?.errors?.['required'] && registerForm.get('confirmPassword')?.touched" style="color: red">Not Be Empty </span>
               </div>
