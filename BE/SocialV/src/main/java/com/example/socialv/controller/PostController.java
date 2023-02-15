@@ -77,7 +77,7 @@ public class PostController {
         for (Long i: deleteList){
             imagePostService.remove(i);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
