@@ -23,9 +23,7 @@ public class PostStatusService implements IPostStatusService{
     }
 
     @Override
-    public Users save(PostStatus postStatus) {
-
-        return null;
+    public void save(PostStatus postStatus) {
     }
 
     @Override

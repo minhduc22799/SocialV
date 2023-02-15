@@ -25,9 +25,8 @@ public class ImagePostService implements IImagePostService{
     }
 
     @Override
-    public Users save(ImagePost imagePost) {
+    public void save(ImagePost imagePost) {
         iImagePostRepository.save(imagePost);
-        return null;
     }
 
     @Override

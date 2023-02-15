@@ -38,9 +38,8 @@ public class PostService implements IPostService{
     }
 
     @Override
-    public Users save(Post post) {
+    public void save(Post post) {
         postRepository.save(post);
-        return null;
     }
 
 

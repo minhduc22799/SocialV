@@ -26,9 +26,8 @@ public class PostLikeService implements IPostLikeService {
     }
 
     @Override
-    public Users save(PostLike postLike) {
-
-        return null;
+    public void save(PostLike postLike) {
+        postLikeRepository.save(postLike);
     }
 
     @Override

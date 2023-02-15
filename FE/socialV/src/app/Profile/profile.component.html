@@ -601,7 +601,7 @@
                                 <div style="width: 100px" class="btn btn-soft-primary">
                                   <label for="image-post"><img alt="" src="assets/images/small/07.png">
                                     Photo</label>
-                                  <input class="file-upload" id="image-post" type="file"/>
+                                  <input class="file-upload" id="image-post" type="file" multiple (change)="submitAvatar($event)"/>
                                 </div>
                               </li>
                               <li>
@@ -650,6 +650,68 @@
                         </div>
                       </div>
                     </div>
+
+                    <!--edit post-->
+                    <div  class="modal fade" id="post-modal-edit" tabindex="-1" aria-labelledby="post-modalLabel"
+                          aria-hidden="true">
+                      <div class="modal-dialog  modal-fullscreen-sm-down">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="post-modalLabel-edit">edit Post</h5>
+                            <button (click)="clearImgSrc()" type="button" id="btn-close-edit" class="btn btn-secondary" data-bs-dismiss="modal"><i
+                              class="ri-close-fill"></i></button>
+                          </div>
+                          <div class="modal-body">
+                            <form class="post-text ms-3 w-100" [formGroup]="postUpdateForm" (ngSubmit)="editPost()">
+                              <div class="d-flex align-items-center">
+                                <div class="user-img">
+                                  <img src="{{user.avatar}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+                                </div>
+                                <input formControlName="content" type="text" class="form-control rounded" placeholder="Write something here..."
+                                       style="border:none;">
+                                <input formControlName="id" type="text" hidden>
+                                <input formControlName="createAt" type="date" hidden>
+                              </div>
+                              <hr>
+                              <ul style="height: 70px" class="d-flex flex-wrap list-inline m-0 p-0">
+                                <li style="margin-right: 50px; margin-top: 5px" class="col-md-1 mb-3">
+                                  <div style="width: 100px" class="btn btn-soft-primary">
+                                    <label for="image-post"><img alt="" src="assets/images/small/07.png">
+                                      Photo</label>
+                                    <input class="file-upload" id="image-post-edit" type="file" multiple (change)="submitAvatar($event)"/>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="form-group" formGroupName="postStatus" style="margin-top: 5px; width: 140px">
+                                    <select class="form-select mb-3" formControlName="id">
+                                      <option *ngFor="let lps of listPostStatus" value="{{lps.id}}">{{lps.name}}</option>
+                                    </select>
+                                  </div>
+                                </li>
+                              </ul>
+                              <div *ngIf="imgSrc.length!== 0 || listImgUpdate.length !== 0" style=";
+                                height: 130px;
+                                overflow: auto;">
+                                <div *ngFor="let imageUrl of listImgUpdate, index as i"  style="width:100px ;float: left; margin: 12px" >
+                                  <i (click)="editListImgDelete(imageUrl.id, i)" style="margin-left: 87px;background-color: white;color: #0a0a0a; cursor: pointer" class="ri-delete-back-fill"></i>
+                                  <img  [src]="imageUrl.img" alt="img" style="height: 100px; width: 100px;z-index:-1;margin-top: -10px">
+
+                                </div>
+                                <div *ngFor="let imageUrl of imgSrc, index as i"  style="width:100px ;float: left; margin: 12px" >
+                                  <i (click)="deleteImgCreate(i)" style="margin-left: 87px;background-color: white;color: #0a0a0a; cursor: pointer" class="ri-delete-back-fill"></i>
+                                  <img  [src]="imageUrl"  alt="img" style="height: 100px; width: 100px;z-index:-1;margin-top: -10px">
+
+                                </div>
+                              </div>
+                                <mat-progress-bar style="color: blue" mode="indeterminate" *ngIf="checkUploadMultiple"></mat-progress-bar>
+                              <hr>
+                              <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+<!--                    +++++++++++++++++++-->
                   </div>
                   <div *ngFor="let p of listPostProfile, index as i" class="col-sm-12">
                     <div class="card card-block card-stretch card-height">
@@ -677,7 +739,7 @@
                                     <i class="ri-more-fill"></i>
                                     </span>
                                     <div class="dropdown-menu m-0 p-0" aria-labelledby="postdata-5">
-                                      <a class="dropdown-item p-3" href="#">
+                                      <a (click)="getPost(p.id)" class="dropdown-item p-3" data-bs-toggle="modal" data-bs-target="#post-modal-edit">
                                         <div class="d-flex align-items-top">
                                           <i class="ri-save-line h4"></i>
                                           <div class="data ms-2">
@@ -1535,3 +1597,4 @@
     </div>
   </div>
 </div>
+

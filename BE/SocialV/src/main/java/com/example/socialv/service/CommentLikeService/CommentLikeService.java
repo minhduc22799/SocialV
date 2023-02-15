@@ -25,14 +25,13 @@ public class CommentLikeService implements ICommentLikeService {
     }
 
     @Override
-    public Users save(CommentLike commentLike) {
-
-        return null;
+    public void save(CommentLike commentLike) {
+        commentLikeRepository.save(commentLike);
     }
 
     @Override
     public void remove(Long id) {
-
+        commentLikeRepository.deleteById(id);
     }
 
     @Override
