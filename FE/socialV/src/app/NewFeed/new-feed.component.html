@@ -39,11 +39,7 @@
             <img src="assets/images/logo.png" class="img-fluid" alt="">
             <span>SocialV</span>
           </a>
-          <div class="iq-menu-bt align-self-center">
-            <div class="wrapper-menu">
-              <div class="main-circle"><i class="ri-menu-line"></i></div>
-            </div>
-          </div>
+
         </div>
         <div class="iq-search-bar device-search">
           <form action="#" class="searchbox">
@@ -58,8 +54,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav  ms-auto navbar-list">
-            <li>
-              <a href="" class="  d-flex align-items-center">
+            <li style="cursor: pointer" routerLink="/NewFeed">
+              <a class=" d-flex align-items-center">
                 <i class="ri-home-line"></i>
               </a>
             </li>
@@ -366,8 +362,8 @@
                         </div>
                       </div>
                     </a>
-                    <div class="d-inline-block w-100 text-center p-3">
-                      <a class="btn btn-primary iq-sign-btn" href="" role="button">Sign
+                    <div (click)="logOut()" class="d-inline-block w-100 text-center p-3">
+                      <a class="btn btn-primary iq-sign-btn"  role="button">Sign
                         out<i class="ri-login-box-line ms-2"></i></a>
                     </div>
                   </div>
@@ -379,17 +375,17 @@
       </nav>
     </div>
   </div>
-  <div class="right-sidebar-mini right-sidebar">
+  <div  class="right-sidebar-mini active-menu ">
     <div class="right-sidebar-panel p-0">
       <div class="card shadow-none">
         <div class="card-body p-0">
           <div class="media-height p-3" data-scrollbar="init">
             <div *ngFor="let f of listFriend" class="d-flex align-items-center mb-4">
               <div *ngIf="f.checkOn" class="iq-profile-avatar status-online">
-                <img class="rounded-circle avatar-50" src="{{f?.avatar}}" alt="">
+                <img class="rounded-circle avatar-50" src="{{f?.avatar}}" >
               </div>
               <div *ngIf="!f.checkOn" class="iq-profile-avatar status-offline">
-                <img class="rounded-circle avatar-50" src="{{f?.avatar}}" alt="">
+                <img class="rounded-circle avatar-50" src="{{f?.avatar}}" >
               </div>
               <div class="ms-3">
                 <h6 class="mb-0">{{f?.name}}</h6>
@@ -399,19 +395,15 @@
             </div>
 
           </div>
-          <div class="right-sidebar-toggle bg-primary text-white mt-3">
-            <i class="ri-arrow-left-line side-left-icon"></i>
-            <i class="ri-arrow-right-line side-right-icon"><span class="ms-3 d-inline-block">Close Menu</span></i>
-          </div>
         </div>
       </div>
     </div>
   </div>
-  <div id="content-page" class="content-page">
+  <div style="margin-left:12.5%" id="content-page" class="content-page">
     <div class="container">
       <div class="row">
-        <div class="col-lg-12 row m-0 p-0">
-          <div style="width: 91.5%;margin-left: 42px" class="col-sm-12">
+        <div  class="col-lg-10 row m-0 p-0">
+          <div style="width: 90%;margin-left: 42px" class="col-sm-12">
             <div id="post-modal-data" class="card card-block card-stretch card-height">
               <div class="card-header d-flex justify-content-between">
                 <div class="header-title">
@@ -439,8 +431,8 @@
                       <button type="button" id="btn-close" class="btn btn-secondary" data-bs-dismiss="modal"><i
                         class="ri-close-fill"></i></button>
                     </div>
-                    <div class="modal-body">
-                          <form class="post-text ms-3 w-100" [formGroup]="postForm" (ngSubmit)="createPost()">
+                    <div  class="modal-body">
+                      <form class="post-text ms-3 w-100" [formGroup]="postForm" (ngSubmit)="createPost()">
                         <div class="d-flex align-items-center">
                           <div class="user-img">
                             <img src="{{user.avatar}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
@@ -448,8 +440,8 @@
                             <input formControlName="content" type="text" class="form-control rounded" placeholder="Write something here..."
                                    style="border:none;">
                         </div>
-                        <hr>
-                        <ul style="height: 70px" class="d-flex flex-wrap list-inline m-0 p-0">
+                        <hr style="width: 95%">
+                        <ul style="height: 50px" class="d-flex flex-wrap list-inline m-0 p-0">
                           <li style="margin-right: 50px; margin-top: 5px" class="col-md-1 mb-3">
                             <div style="width: 100px" class="btn btn-soft-primary">
                               <label for="image-post"><img alt="" src="assets/images/small/07.png">
@@ -475,8 +467,10 @@
                               </div>
                              <mat-progress-bar style="color: blue" mode="indeterminate" *ngIf="checkUploadMultiple"></mat-progress-bar>
                             </div>
-                            <hr>
-                        <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
+                            <hr style="width: 95%">
+                            <div class="col-lg-11">
+                          <button style="margin-left: 2%"  type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
+                            </div>
                           </form>
                     </div>
                   </div>
@@ -484,7 +478,7 @@
               </div>
             </div>
           </div>
-          <div style="padding-left: 50px; padding-right: 50px;margin-bottom: 20px; margin-top: 10px" *ngFor="let p of postsDisplay, index as i" class="col-sm-12">
+          <div  style="padding-left: 50px; padding-right: 50px;margin-bottom: 20px; margin-top: 10px" *ngFor="let p of postsDisplay, index as i" class="col-sm-12">
             <div class="card card-block card-stretch card-height">
               <div class="card-body">
                 <div class="user-post-data">
@@ -556,12 +550,12 @@
                     <div style="margin-left: 3px" class="mt-3">
                       <p>{{p?.content}}</p>
                     </div>
-                    <div *ngIf="listImg[i]?.length > 0">
+                    <div  *ngIf="listImg[i]?.length > 0">
                       <ng-image-slider
                         [images]="listImg[i]"
                         [infinite]="false"
                         [autoSlide]="1"
-                        [imageSize]="{width: '100%', height: '600px'}"
+                        [imageSize]="{width: '100%', height: '470px'}"
                         slideImage="1">
                       </ng-image-slider>
                     </div>
@@ -706,55 +700,4 @@
     </div>
   </div>
 
-<div  class="modal fade" id="post-modal-edit" tabindex="-1" aria-labelledby="post-modalLabel"
-      aria-hidden="true">
-  <div class="modal-dialog  modal-fullscreen-sm-down">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="post-modalLabel-edit">edit Post</h5>
-        <button type="button" id="btn-close-edit" class="btn btn-secondary" data-bs-dismiss="modal"><i
-          class="ri-close-fill"></i></button>
-      </div>
-      <div class="modal-body">
-        <form class="post-text ms-3 w-100" [formGroup]="postForm" (ngSubmit)="createPost()">
-          <div class="d-flex align-items-center">
-            <div class="user-img">
-              <img src="{{user.avatar}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
-            </div>
-            <input formControlName="content" type="text" class="form-control rounded" placeholder="Write something here..."
-                   style="border:none;">
-          </div>
-          <hr>
-          <ul style="height: 70px" class="d-flex flex-wrap list-inline m-0 p-0">
-            <li style="margin-right: 50px; margin-top: 5px" class="col-md-1 mb-3">
-              <div style="width: 100px" class="btn btn-soft-primary">
-                <label for="image-post"><img alt="" src="assets/images/small/07.png">
-                  Photo</label>
-                <input class="file-upload" id="image-post-edit" type="file" (change)="submitAvatar($event)" multiple/>
-              </div>
-            </li>
-            <li>
-              <div class="form-group" formGroupName="postStatus" style="margin-top: 5px; width: 140px">
-                <select class="form-select mb-3" formControlName="id">
-                  <option *ngFor="let lps of listPostStatus" value="{{lps.id}}">{{lps.name}}</option>
-                </select>
-              </div>
-            </li>
-          </ul>
-          <div *ngIf="imgSrc.length!== 0" style=";
-                                height: 130px;
-                                overflow: auto;">
-            <div *ngFor="let imageUrl of imgSrc"  style="width:100px ;float: left; margin: 12px" >
-              <i  style="margin-left: 87px;background-color: white;color: #0a0a0a  "class="ri-delete-back-fill"></i>
-              <img  [src]="imageUrl" alt="img" style="height: 100px; width: 100px;z-index:-1;margin-top: -10px">
 
-            </div>
-            <mat-progress-bar style="color: blue" mode="indeterminate" *ngIf="checkUploadMultiple"></mat-progress-bar>
-          </div>
-          <hr>
-          <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>

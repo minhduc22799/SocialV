@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Users} from "../Model/Users";
 import {UserService} from "../service/user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-edit-profile',
@@ -12,7 +13,8 @@ export class EditProfileComponent implements OnInit{
   // @ts-ignore
   user: Users = JSON.parse(this.data)
   listFriend: Users[] = [];
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,
+              private router:Router) {
 
   }
 
@@ -26,5 +28,11 @@ export class EditProfileComponent implements OnInit{
   ngOnInit(): void {
     this.findAllFriend()
   }
+  logOut(){
+    localStorage.removeItem("user");
+    this.router.navigate(['']);
+
+  }
+
 
 }

@@ -6,6 +6,7 @@ import {user} from "@angular/fire/auth";
 import {PostDisplay} from "../Model/Post-display";
 import {Post} from "../Model/Post";
 import {ImagePost} from "../Model/image-post";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -30,7 +31,8 @@ export class ProfileComponent implements OnInit{
   }
 
   constructor( private userService: UserService ,
-               private postService: PostService ) {
+               private postService: PostService ,
+               private router:Router) {
   }
   findAllFriend(){
     // @ts-ignore
@@ -91,5 +93,11 @@ export class ProfileComponent implements OnInit{
     this.postService.deletePost(id).subscribe(()=>{
       this.findPostAllProfile()
     })
+  }
+
+  logOut(){
+    localStorage.removeItem("user");
+    this.router.navigate(['']);
+
   }
 }
