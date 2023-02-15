@@ -6,6 +6,7 @@ import {ImagePost} from "../Model/image-post";
 import {UserService} from "../service/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Post} from "../Model/Post";
+import * as moment from "moment/moment";
 
 @Component({
   selector: 'app-friend-profile',
@@ -19,6 +20,7 @@ export class FriendProfileComponent implements OnInit{
 
   postsDisplayFriend:PostDisplay[] = [];
   listFriend:Users[] = [];
+  timeMoment: any[] = [];
   listMutualFriend:Users[] = [];
   listFriendOfFriend:Users[] = [];
   listImgPost:ImagePost[][] = [];
@@ -54,6 +56,9 @@ export class FriendProfileComponent implements OnInit{
     // @ts-ignore
     this.postService.findAllPostWallFriend(this.idFiend,this.user.id).subscribe(data=>{
         this.postsDisplayFriend = data
+      for (let j = 0; j < this.postsDisplayFriend.length; j++){
+        this.timeMoment.push(moment(this.postsDisplayFriend[j].createAt).fromNow())
+      }
       this.findAllImgPost(data)
       this.findFriendLike(data)
       this.findCountLike(data)
