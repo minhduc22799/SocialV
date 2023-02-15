@@ -10,7 +10,6 @@ import {PostStatus} from "../Model/post-status";
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import {AngularFireStorage, AngularFireStorageReference} from "@angular/fire/compat/storage";
-import {finalize} from "rxjs";
 
 @Component({
   selector: 'app-newfeed',
