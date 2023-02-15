@@ -12,6 +12,8 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import {FormControl, FormGroup} from "@angular/forms";
 import {PostStatus} from "../Model/post-status";
 import {AngularFireStorage, AngularFireStorageReference} from "@angular/fire/compat/storage";
+import {Router} from "@angular/router";
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -57,7 +59,8 @@ export class ProfileComponent implements OnInit{
   constructor( private userService: UserService ,
                private postService: PostService ,
                private routerActive:ActivatedRoute,
-               private storage: AngularFireStorage) {
+               private storage: AngularFireStorage,
+               private router:Router) {
   }
   findAllFriend(){
     // @ts-ignore
@@ -239,5 +242,11 @@ export class ProfileComponent implements OnInit{
         }
       })
     }
+  }
+
+  logOut(){
+    localStorage.removeItem("user");
+    this.router.navigate(['']);
+
   }
 }

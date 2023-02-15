@@ -131,4 +131,11 @@ export class FriendProfileComponent implements OnInit{
       window.onload
     }
 
+  logOut(){
+    localStorage.removeItem("user");
+    this.router.navigate(['']);
+
+  }
+
+
 }
