@@ -1,5 +1,6 @@
 
 <!-- loader END -->
+
 <!-- Wrapper Start -->
 <div class="wrapper">
   <div class="iq-sidebar  sidebar-default ">
@@ -40,11 +41,6 @@
             <img src="  assets/images/logo.png" class="img-fluid" alt="">
             <span>SocialV</span>
           </a>
-          <div class="iq-menu-bt align-self-center">
-            <div class="wrapper-menu">
-              <div class="main-circle"><i class="ri-menu-line"></i></div>
-            </div>
-          </div>
         </div>
         <div class="iq-search-bar device-search">
           <form action="#" class="searchbox">
@@ -59,8 +55,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav  ms-auto navbar-list">
-            <li>
-              <a href="" class="  d-flex align-items-center">
+            <li style="cursor: pointer" routerLink="/NewFeed">
+              <a  class="  d-flex align-items-center">
                 <i class="ri-home-line"></i>
               </a>
             </li>
@@ -365,8 +361,8 @@
                         </div>
                       </div>
                     </a>
-                    <div class="d-inline-block w-100 text-center p-3">
-                      <a class="btn btn-primary iq-sign-btn" href="" role="button">Sign
+                    <div (click)="logOut()" class="d-inline-block w-100 text-center p-3">
+                      <a class="btn btn-primary iq-sign-btn"  role="button">Sign
                         out<i class="ri-login-box-line ms-2"></i></a>
                     </div>
                   </div>
@@ -378,7 +374,7 @@
       </nav>
     </div>
   </div>
-  <div class="right-sidebar-mini right-sidebar">
+  <div class="right-sidebar-mini  active-menu" >
     <div class="right-sidebar-panel p-0">
       <div class="card shadow-none">
         <div class="card-body p-0">
@@ -398,10 +394,7 @@
             </div>
 
           </div>
-          <div class="right-sidebar-toggle bg-primary text-white mt-3">
-            <i class="ri-arrow-left-line side-left-icon"></i>
-            <i class="ri-arrow-right-line side-right-icon"><span class="ms-3 d-inline-block">Close Menu</span></i>
-          </div>
+
         </div>
       </div>
     </div>
@@ -502,15 +495,15 @@
                           <i class="ri-git-repository-line pe-3 font-size-20"></i>
                           <p class="mb-0">{{user.phone}}</p>
                         </li>
-                        <li class="mb-2 d-flex align-items-center">
+                        <li *ngIf="user.address !== '' " class="mb-2 d-flex align-items-center">
                           <i class="ri-map-pin-line pe-3 font-size-20"></i>
                           <p class="mb-0">{{user.address}}</p>
                         </li>
-                        <li class="mb-2 d-flex align-items-center">
+                        <li *ngIf="user.hobby !== '' " class="mb-2 d-flex align-items-center">
                           <i class="ri-git-repository-line pe-3 font-size-20"></i>
                           <p class="mb-0">{{user.hobby}}</p>
                         </li>
-                        <li class="mb-2 d-flex align-items-center">
+                        <li  class="mb-2 d-flex align-items-center">
                           <i class="ri-map-pin-line pe-3 font-size-20"></i>
                           <p class="mb-0">{{user.birthday}}</p>
                         </li>
@@ -549,8 +542,7 @@
                     <div class="card-body">
                       <ul class="profile-img-gallary p-0 m-0 list-unstyled">
                         <li routerLink="/friendProfile/{{f.id}}" class="" *ngFor = "let f of listFriend">
-
-                            <img  src="{{f.avatar}}" alt="gallary-image" width="84.66px" height="84.66px"  />
+                            <img  src="{{f.avatar}}" alt="gallary-image" width="84.66px" height="84.66px" />
                           <h6 style="width: 84.66px" class="mt-2 text-center">{{f.name}}</h6>
                         </li>
                       </ul>
@@ -702,8 +694,8 @@
                                   <img  [src]="imageUrl"  alt="img" style="height: 100px; width: 100px;z-index:-1;margin-top: -10px">
 
                                 </div>
-                                <mat-progress-bar style="color: blue" mode="indeterminate" *ngIf="checkUploadMultiple"></mat-progress-bar>
                               </div>
+                                <mat-progress-bar style="color: blue" mode="indeterminate" *ngIf="checkUploadMultiple"></mat-progress-bar>
                               <hr>
                               <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
                             </form>
@@ -732,8 +724,8 @@
 
                                   <p class="mb-0 text-primary">{{p?.createAt}}</p>
                                 </div>
-                                <div class="card-post-toolbar">
-                                  <div class="dropdown">
+                                <div  class="card-post-toolbar">
+                                  <div style="width: 50px" class="dropdown">
                                     <span class="dropdown-toggle" id="postdata-5" data-bs-toggle="dropdown"
                                           aria-haspopup="true" aria-expanded="false" role="button">
                                     <i class="ri-more-fill"></i>
@@ -748,15 +740,12 @@
                                           </div>
                                         </div>
                                       </a>
-                                      <a (click)="deletePost(p.id)" class="dropdown-item p-3">
-                                        <div class="d-flex align-items-top">
-                                          <i class="ri-chat-delete-line h4"></i>
-                                          <div class="data ms-2">
-                                            <h6>Delete Post</h6>
-                                          </div>
+                                      <a  (click)="deletePost(p.id)" class="dropdown-item p-1">
+                                        <div  class="d-flex align-items-top ">
+                                          <i style="padding-right: 10px"  class="ri-chat-delete-line h6"></i>
+                                          <h6>Delete</h6>
                                         </div>
                                       </a>
-
                                     </div>
                                   </div>
                                 </div>

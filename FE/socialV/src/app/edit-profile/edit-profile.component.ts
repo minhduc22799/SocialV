@@ -112,5 +112,11 @@ export class EditProfileComponent implements OnInit {
       this.pathName = this.imageFile.name
     }
   }
+  logOut(){
+    localStorage.removeItem("user");
+    this.router.navigate(['']);
+
+  }
+
 
 }
