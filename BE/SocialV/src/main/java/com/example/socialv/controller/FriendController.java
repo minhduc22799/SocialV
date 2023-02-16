@@ -41,16 +41,26 @@ public class FriendController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @DeleteMapping("/{id1}/{id2}")
-//    public ResponseEntity<?> deleteFriend(@PathVariable("id1") Long id1, @PathVariable("id2") Long id2){
-//
-//    }
+    @DeleteMapping("/{id1}/{id2}")
+    public ResponseEntity<?> deleteFriend(@PathVariable("id1") Long id1, @PathVariable("id2") Long id2){
+        friendRequestService.deleteFriendRequest(id1, id2);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<List<Users>> getListFriend(@PathVariable Long id){
         List<Users> usersList = userService.findFriendRequestsByIdAndStatusTrue(id);
         return new ResponseEntity<>(usersList, HttpStatus.OK);
     }
 
+    @PostMapping("/accept/{id1}/{id2}")
+    public ResponseEntity<?> acceptFriend(@PathVariable("id1") Long id1, @PathVariable("id2") Long id2){
+        friendRequestService.acceptFriendRequest(id1, id2);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-
+    @GetMapping("/list/request/{id}")
+    public ResponseEntity<List<Users>> listFriendRequest(@PathVariable Long id){
+        List<Users> list = userService.listFriendRequest(id);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 }
