@@ -3,6 +3,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../service/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Users} from "../Model/Users";
+import Swal from "sweetalert2";
+
 
 @Component({
   selector: 'app-registration',
@@ -34,12 +36,13 @@ export class RegistrationComponent implements OnInit{
     this.user = this.registerForm.value;
     this.userService.register(this.user).subscribe(() => {
       console.log('Đăng ký thành công');
-      this.router.navigate(['/Login']);
+      this.router.navigate(['']);
     }, err => {
-      console.log(err);
-      this.router.navigate(['/Login']);
+      Swal.fire({
+        icon: 'error',
+        text: 'Username or email already exists'
+      })
     });
-    console.log(this.user);
   }
 
 

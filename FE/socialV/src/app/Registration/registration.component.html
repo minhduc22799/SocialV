@@ -67,9 +67,11 @@
               <div class="form-group">
                 <input type="date" class="form-control mb-0" id="date" placeholder="birthday" formControlName="birthday">
                 <span *ngIf="registerForm.get('birthday')?.errors?.['required'] && registerForm.get('birthday')?.touched" style="color: red">Not Be Empty </span>
-
               </div>
-              <div class="d-inline-block w-100">
+              <div >
+                <span  style="color: black">You have an account?<span routerLink="/" style="color: #0495ff; cursor: pointer"> Sign In</span></span>
+              </div>
+              <div style="margin-top: 20px" class="d-inline-block w-100">
                 <button type="submit" class="btn btn-primary ">Sign Up</button>
               </div>
 

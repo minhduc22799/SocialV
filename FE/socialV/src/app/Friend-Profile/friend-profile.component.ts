@@ -4,7 +4,7 @@ import {Users} from "../Model/Users";
 import {PostDisplay} from "../Model/Post-display";
 import {ImagePost} from "../Model/image-post";
 import {UserService} from "../service/user.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {Post} from "../Model/Post";
 
 @Component({
@@ -39,6 +39,7 @@ export class FriendProfileComponent implements OnInit{
     this.findFriend()
     this.findFriendOfFriend()
     this.findMutualFriend()
+    this.onMoveTop()
   }
 
 
@@ -135,6 +136,14 @@ export class FriendProfileComponent implements OnInit{
     localStorage.removeItem("user");
     this.router.navigate(['']);
 
+  }
+
+  onMoveTop(){
+    this.router.events.subscribe((event)=>{
+      if (event instanceof NavigationEnd) {
+        window.scrollTo(0, 0);
+      }
+    })
   }
 
 

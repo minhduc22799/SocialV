@@ -6,7 +6,7 @@ import {user} from "@angular/fire/auth";
 import {PostDisplay} from "../Model/Post-display";
 import {Post} from "../Model/Post";
 import {ImagePost} from "../Model/image-post";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, NavigationEnd} from "@angular/router";
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import {FormControl, FormGroup} from "@angular/forms";
@@ -54,6 +54,15 @@ export class ProfileComponent implements OnInit{
     this.findAllFriend()
     this.findPostAllProfile()
     this.getAllPostStatus()
+    this.onMoveTop()
+
+  }
+  onMoveTop(){
+    this.router.events.subscribe((event)=>{
+      if (event instanceof NavigationEnd) {
+        window.scrollTo(0, 0);
+      }
+    })
   }
 
   constructor( private userService: UserService ,
@@ -118,8 +127,20 @@ export class ProfileComponent implements OnInit{
   }
 
   deletePost(id: any){
-    this.postService.deletePost(id).subscribe(()=>{
-      this.findPostAllProfile()
+
+      Swal.fire({
+        title: 'Are you sure?',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result:any) => {
+        if (result.isConfirmed) {
+          this.postService.deletePost(id).subscribe(()=>{
+            this.findPostAllProfile()
+          })
+        }
+
     })
   }
 

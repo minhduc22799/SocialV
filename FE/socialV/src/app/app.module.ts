@@ -20,6 +20,7 @@ import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     InfiniteScrollModule,
     BrowserAnimationsModule,
     MatProgressBarModule,
-
+    SweetAlert2Module
   ],
   providers: [],
   bootstrap: [AppComponent]

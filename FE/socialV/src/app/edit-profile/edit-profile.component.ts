@@ -4,7 +4,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 // @ts-ignore
 import {Users} from "../model/Users";
 import {UserUpdate} from "../model/UserUpdate";
-import {Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import {finalize} from "rxjs";
@@ -33,6 +33,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.onMoveTop()
     this.formChangePass = new FormGroup({
       oldPass: new FormControl('', [Validators.required,Validators.pattern('^[a-zA-Z0-9]*$'), Validators.minLength(6), Validators.maxLength(32)]),
       newPass: new FormControl('', [Validators.required,Validators.pattern('^[a-zA-Z0-9]*$'), Validators.minLength(6), Validators.maxLength(32)]),
@@ -117,6 +118,12 @@ export class EditProfileComponent implements OnInit {
     this.router.navigate(['']);
 
   }
-
+  onMoveTop(){
+    this.router.events.subscribe((event)=>{
+      if (event instanceof NavigationEnd) {
+        window.scrollTo(0, 0);
+      }
+    })
+  }
 
 }

@@ -10,7 +10,7 @@ import {PostStatus} from "../Model/post-status";
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import {AngularFireStorage, AngularFireStorageReference} from "@angular/fire/compat/storage";
-import {Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
 
 import {finalize} from "rxjs";
 
@@ -52,6 +52,14 @@ export class NewFeedComponent implements OnInit {
     this.findAll()
     this.findAllFriend()
     this.getAllPostStatus()
+    this.onMoveTop()
+  }
+  onMoveTop(){
+    this.router.events.subscribe((event)=>{
+      if (event instanceof NavigationEnd) {
+        window.scrollTo(0, 0);
+      }
+    })
   }
 
   constructor(private postService: PostService,
@@ -181,11 +189,13 @@ export class NewFeedComponent implements OnInit {
           document.getElementById("btn-close")?.click()
           this.postForm.reset();
           this.imgSrc = []
-          Swal.fire(
-            'Good job!',
-            'You clicked the button!',
-            'success'
-          )
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            text: 'Post successfully posted',
+            showConfirmButton: false,
+            timer: 1500
+          })
         }
       })
     }
