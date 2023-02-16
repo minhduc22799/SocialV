@@ -106,6 +106,18 @@ export class NewFeedComponent implements OnInit {
     })
   }
 
+  deleteRequest(friendRequestId: any) {
+    this.userService.deleteRequest(this.user.id, friendRequestId).subscribe(() => {
+      this.findListRequest()
+    })
+  }
+
+  confirmRequest(friendRequestId: any){
+    this.userService.confirmRequest(this.user.id, friendRequestId).subscribe(()=>{
+      this.findListRequest()
+    })
+  }
+
   findCountComment(posts: Post[]) {
     this.postService.findCountCommentPost(posts).subscribe(countComment => {
       this.countComment = countComment

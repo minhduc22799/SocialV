@@ -57,5 +57,11 @@ export class UserService {
   checkRequest(id1:number, id2:number):Observable<any>{
     return this.httpClient.get<any>(`${API_URL}/friend/checkRequest/${id1}/${id2}`);
   }
+  deleteRequest(id1:number|undefined, id2:number|undefined):Observable<any> {
+    return this.httpClient.delete<any>(`${API_URL}/friend/${id1}/${id2}`);
+  }
 
+  confirmRequest(id1:number|undefined, id2:number|undefined):Observable<any> {
+    return this.httpClient.get<any>(`${API_URL}/friend/accept/${id1}/${id2}`);
+  }
 }
