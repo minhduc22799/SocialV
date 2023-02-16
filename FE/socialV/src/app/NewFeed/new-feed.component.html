@@ -312,7 +312,7 @@
                 <div class="card shadow-none m-0">
                   <div class="card-header  bg-primary">
                     <div class="header-title">
-                      <h5 class="mb-0 text-white">Hello Bni Cyst</h5>
+                      <h5 class="mb-0 text-white">Hello {{user.name}}</h5>
                       <span class="text-white font-size-12">Available</span>
                     </div>
                   </div>
@@ -458,7 +458,7 @@
                           </li>
                         </ul>
                             <div *ngIf="imgSrc.length!== 0" style=";
-                                height: 130px;
+                                height: 140px;
                                 overflow: auto;">
                               <div *ngFor="let imageUrl of imgSrc, index as j"  style="width:100px ;float: left; margin: 12px" >
                               <i (click)="deleteImgCreate(j)"  style="margin-left: 87px;background-color: white;color: #0a0a0a  "class="ri-delete-back-fill"></i>
@@ -466,9 +466,10 @@
 
                               </div>
                             </div>
-                             <mat-progress-bar style="color: blue" mode="indeterminate" *ngIf="checkUploadMultiple"></mat-progress-bar>
+
                             <hr style="width: 95%">
-                            <div class="col-lg-11">
+                        <div class="col-lg-11">
+                          <mat-progress-bar style="color: blue;margin-left: 2%" mode="indeterminate" *ngIf="checkUploadMultiple"></mat-progress-bar>
                           <button style="margin-left: 2%"  type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
                             </div>
                           </form>

@@ -1,4 +1,6 @@
-
+.iq-sub-card{
+  cursor: pointer;
+}
 
 img{
   object-fit: cover;

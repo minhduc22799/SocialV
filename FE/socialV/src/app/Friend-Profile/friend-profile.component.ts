@@ -4,7 +4,7 @@ import {Users} from "../Model/Users";
 import {PostDisplay} from "../Model/Post-display";
 import {ImagePost} from "../Model/image-post";
 import {UserService} from "../service/user.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {Post} from "../Model/Post";
 import * as moment from "moment/moment";
 
@@ -41,6 +41,8 @@ export class FriendProfileComponent implements OnInit{
     this.findFriend()
     this.findFriendOfFriend()
     this.findMutualFriend()
+    this.onMoveTop()
+    this.checkExsitFriend()
   }
 
 
@@ -66,12 +68,39 @@ export class FriendProfileComponent implements OnInit{
 
     })
   }
+  checkExsit(user:Users){
+    for (let i = 0; i<this.listMutualFriend.length;i++){
+      if (user.id === this.listMutualFriend[i].id){
+        return 1
+      }
+      if(user.id === this.user.id){
+        return  0
+      }
+
+    }return -1;
+  }
+
+  checkExsitFriend():boolean{
+    for (let i = 0; i<this.listFriendOfFriend.length;i++){
+      if (this.user.id === this.listFriendOfFriend[i].id){
+        return true
+      }
+    }
+    return false
+  }
+
   findFriend(){
     this.userService.findUserById(this.idFiend).subscribe(data =>{
       this.friend = data
-      console.log(this.friend)
+      this.router.routeReuseStrategy.shouldReuseRoute = function() {
+        return false;
+      };
     })
   }
+
+  // isExistInMutualList(user:Users):boolean{
+  //   return ;
+  // }
 
   findAllFriend(){
     // @ts-ignore
@@ -113,7 +142,6 @@ export class FriendProfileComponent implements OnInit{
           this.listImg[i].push(imageObject1);
         }
       }
-      console.log(this.listImg)
     })
   }
 
@@ -122,6 +150,9 @@ export class FriendProfileComponent implements OnInit{
       // @ts-ignore
       this.userService.findMutualFriends(this.idFiend,this.user.id).subscribe((data) =>{
         this.listMutualFriend = data
+        console.log(data)
+        console.log("---------------")
+        console.log(this.listFriendOfFriend)
       })
     }
 
@@ -140,6 +171,14 @@ export class FriendProfileComponent implements OnInit{
     localStorage.removeItem("user");
     this.router.navigate(['']);
 
+  }
+
+  onMoveTop(){
+    this.router.events.subscribe((event)=>{
+      if (event instanceof NavigationEnd) {
+        window.scrollTo(0, 0);
+      }
+    })
   }
 
 
