@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 @Repository
 public interface IFriendRequestRepository extends JpaRepository<FriendRequest, Long> {
-    @Query(value = "select * from friend_request where user_request_id = ?1 and user_receive_id = ?2", nativeQuery = true)
+    @Query(value = "select * from friend_request where user_request_id = ?1 and user_receive_id = ?2 and status = true" , nativeQuery = true)
     Optional<FriendRequest> findFriendRequest(Long id1, Long id2);
 
     @Modifying
@@ -20,4 +20,7 @@ public interface IFriendRequestRepository extends JpaRepository<FriendRequest, L
     @Modifying
     @Query(value = "insert into friend_request(user_request_id, user_receive_id, status) values(?1, ?2, true)", nativeQuery = true)
     void acceptFriendRequest(Long id1, Long id2);
+
+    @Query(value = "select * from friend_request where user_request_id = ?1 and user_receive_id = ?2 and status = false" , nativeQuery = true)
+    Optional<FriendRequest> findRequest(Long id1, Long id2);
 }

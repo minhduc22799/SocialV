@@ -27,6 +27,7 @@ public class FriendRequestService implements IFriendRequestService {
 
     @Override
     public void save(FriendRequest friendRequest) {
+        friendRequestRepository.save(friendRequest);
     }
 
     @Override
@@ -37,6 +38,11 @@ public class FriendRequestService implements IFriendRequestService {
     @Override
     public Optional<FriendRequest> findFriendRequest(Long id1, Long id2) {
         return friendRequestRepository.findFriendRequest(id1, id2);
+    }
+
+    @Override
+    public Optional<FriendRequest> findRequest(Long id1, Long id2) {
+        return friendRequestRepository.findRequest(id1,id2);
     }
 
     @Override

@@ -37,6 +37,7 @@ export class NewFeedComponent implements OnInit {
   imageFiles: any[] = [];
   imgSrc: string[] = [];
   timeMoment: any[] = []
+  listRequest:Users[] = [];
   pathName!: string
   flag!: false;
   postForm: FormGroup = new FormGroup({
@@ -55,6 +56,7 @@ export class NewFeedComponent implements OnInit {
     this.findAllFriend()
     this.getAllPostStatus()
     this.onMoveTop()
+    this.findListRequest()
   }
   onMoveTop(){
     this.router.events.subscribe((event)=>{
@@ -204,6 +206,15 @@ export class NewFeedComponent implements OnInit {
       })
     }
   }
+
+  findListRequest(){
+    // @ts-ignore
+    this.userService.findListRequestFriend(this.user.id).subscribe((data)=>{
+      this.listRequest = data
+
+    })
+  }
+
 
   deleteImgCreate(id: any | undefined) {
     this.imgSrc.splice(id, 1);

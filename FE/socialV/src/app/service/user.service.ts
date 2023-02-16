@@ -4,6 +4,7 @@ import {Users} from "../Model/Users";
 import {Observable} from "rxjs";
 import {FormControl, FormGroup} from "@angular/forms";
 import {UserUpdate} from "../model/UserUpdate";
+import {FriendRequest} from "../Model/friend-request";
 const API_URL='http://localhost:8080'
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,17 @@ export class UserService {
   }
   findFriendOfFriend(id:number):Observable<Users[]>{
     return this.httpClient.get<Users[]>(`${API_URL}/friend/${id}`)
-
   }
+
+  findListRequestFriend(id:number):Observable<Users[]>{
+    return this.httpClient.get<Users[]>(`${API_URL}/friend/list/request/${id}`)
+  }
+
+  requestFriend(friendRequest: FriendRequest): Observable<FriendRequest> {
+    return this.httpClient.post<FriendRequest>(`${API_URL}/friend`,friendRequest);
+  }
+  checkRequest(id1:number, id2:number):Observable<any>{
+    return this.httpClient.get<any>(`${API_URL}/friend/checkRequest/${id1}/${id2}`);
+  }
+
 }
