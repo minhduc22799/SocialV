@@ -12,6 +12,9 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import {FormControl, FormGroup} from "@angular/forms";
 import {PostStatus} from "../Model/post-status";
 import {AngularFireStorage, AngularFireStorageReference} from "@angular/fire/compat/storage";
+import {Router} from "@angular/router";
+import * as moment from "moment/moment";
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -30,6 +33,7 @@ export class ProfileComponent implements OnInit{
   listImg:any[] = [];
   listImgCreate: ImagePost[] = [];
   checkUploadMultiple = false;
+  timeMoment: any[] = [];
   countLike:any[] = [];
   imageFiles: any[] = [];
   imgSrc: string[] = [];
@@ -57,7 +61,8 @@ export class ProfileComponent implements OnInit{
   constructor( private userService: UserService ,
                private postService: PostService ,
                private routerActive:ActivatedRoute,
-               private storage: AngularFireStorage) {
+               private storage: AngularFireStorage,
+               private router:Router) {
   }
   findAllFriend(){
     // @ts-ignore
@@ -70,6 +75,9 @@ export class ProfileComponent implements OnInit{
     // @ts-ignore
     this.postService.findAllPostProfile(this.user.id).subscribe(data =>{
       this.listPostProfile = data
+      for (let j = 0; j < this.listPostProfile.length; j++){
+        this.timeMoment.push(moment(this.listPostProfile[j].createAt).fromNow())
+      }
       this.findAllImgPost(data)
       this.findFriendLike(data)
       this.findCountLike(data)
@@ -239,5 +247,11 @@ export class ProfileComponent implements OnInit{
         }
       })
     }
+  }
+
+  logOut(){
+    localStorage.removeItem("user");
+    this.router.navigate(['']);
+
   }
 }

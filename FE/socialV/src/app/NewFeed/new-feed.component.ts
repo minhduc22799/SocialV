@@ -10,6 +10,8 @@ import {PostStatus} from "../Model/post-status";
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import {AngularFireStorage, AngularFireStorageReference} from "@angular/fire/compat/storage";
+import {Router} from "@angular/router";
+import * as moment from 'moment';
 import {finalize} from "rxjs";
 
 @Component({
@@ -33,6 +35,7 @@ export class NewFeedComponent implements OnInit {
   listImgCreate: ImagePost[] = [];
   imageFiles: any[] = [];
   imgSrc: string[] = [];
+  timeMoment: any[] = []
   pathName!: string
   flag!: false;
   postForm: FormGroup = new FormGroup({
@@ -54,7 +57,8 @@ export class NewFeedComponent implements OnInit {
 
   constructor(private postService: PostService,
               private userService: UserService,
-              private storage: AngularFireStorage) {
+              private storage: AngularFireStorage,
+              private router:Router) {
   }
 
   findAllFriend() {
@@ -67,6 +71,9 @@ export class NewFeedComponent implements OnInit {
   findAll() {
     this.postService.findAllPostNewFeed(this.user).subscribe((post) => {
       this.postsDisplay = post
+      for (let j = 0; j < this.postsDisplay.length; j++){
+        this.timeMoment.push(moment(this.postsDisplay[j].createAt).fromNow())
+      }
       this.findAllImgPost(post)
       this.findFriendLike(post)
       this.findCountLike(post)
@@ -110,7 +117,6 @@ export class NewFeedComponent implements OnInit {
           this.listImg[i].push(imageObject1);
         }
       }
-      console.log(this.listImg)
     })
   }
 
@@ -197,6 +203,12 @@ export class NewFeedComponent implements OnInit {
       }
     }
     this.imageFiles = a
+  }
+
+  logOut(){
+    localStorage.removeItem("user");
+    this.router.navigate(['']);
+
   }
 
 }

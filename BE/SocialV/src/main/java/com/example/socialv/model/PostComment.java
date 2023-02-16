@@ -21,5 +21,4 @@ public class PostComment {
     @JoinColumn(name = "post_id")
     private Post post;
     private String content;
-    private Integer countLikes;
 }

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -20,7 +21,7 @@ public class Post {
     @JoinColumn(name = "user_id")
     private Users users;
     private String content;
-    private LocalDate createAt;
+    private LocalDateTime createAt;
     @ManyToOne
     @JoinColumn(name = "postStatus_id")
     private PostStatus postStatus;

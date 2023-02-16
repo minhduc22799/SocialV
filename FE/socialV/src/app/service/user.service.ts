@@ -36,7 +36,7 @@ export class UserService {
   }
 
   editProfile(user: Users):Observable<any>{
-    return this.httpClient.put<any>(API_URL+"/user/"+user.id,user)
+    return this.httpClient.put<any>(API_URL+"/user/" + user.id, user)
   }
 
   findMutualFriends(idFriend:number, idUser:number): Observable<Users[]>{
