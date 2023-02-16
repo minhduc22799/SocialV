@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -16,6 +17,6 @@ public class PostDisplay {
     private Users users;
     private String content;
     private PostStatus postStatus;
-    private LocalDate createAt;
+    private LocalDateTime createAt;
     private boolean checkUserLiked;
 }

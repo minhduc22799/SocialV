@@ -16,10 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @RestController
 @CrossOrigin("*")
@@ -44,7 +42,7 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<Post> create(@RequestBody Post post) {
-        post.setCreateAt(LocalDate.now());
+        post.setCreateAt(LocalDateTime.now());
         postService.save(post);
         return new ResponseEntity<>(post, HttpStatus.CREATED);
     }
@@ -98,6 +96,7 @@ public class PostController {
         for (PostDisplay p : postDisplays) {
             p.setCheckUserLiked(checkUserLiked(userService.findById(id).get(), p));
         }
+        Collections.sort(postDisplays, Comparator.comparing(PostDisplay::getCreateAt).reversed());
         return new ResponseEntity<>(postDisplays, HttpStatus.OK);
     }
 

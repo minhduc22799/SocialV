@@ -63,9 +63,10 @@ export class EditProfileComponent implements OnInit {
         finalize(() => {
           fileRef.getDownloadURL().subscribe(url => {
             const user = this.formEditProfile.value
-            user.img = url
-            this.userService.editProfile( user).subscribe(data => {
+            user.avatar = url
+            this.userService.editProfile(user).subscribe(data => {
               window.localStorage.setItem("user", JSON.stringify(data));
+              this.user = data
               Swal.fire(
                 'Good job!',
                 'You clicked the button!',
