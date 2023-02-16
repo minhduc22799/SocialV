@@ -11,4 +11,6 @@ public interface IPostLikeService extends IGeneralService<PostLike> {
     Optional<PostLike> findPostLike(Long userId, Long postId);
     Integer countPostLike(Long postId);
     void deleteAllByPost(Post post);
+    void like(Long id1, Long id2);
+    void unLike(Long id1, Long id2);
 }
