@@ -41,16 +41,10 @@ public class FriendController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @DeleteMapping("/{id1}/{id2}")
-//    public ResponseEntity<?> deleteFriend(@PathVariable("id1") Long id1, @PathVariable("id2") Long id2){
-//
-//    }
     @GetMapping("/{id}")
     public ResponseEntity<List<Users>> getListFriend(@PathVariable Long id){
         List<Users> usersList = userService.findFriendRequestsByIdAndStatusTrue(id);
         return new ResponseEntity<>(usersList, HttpStatus.OK);
     }
-
-
 
 }

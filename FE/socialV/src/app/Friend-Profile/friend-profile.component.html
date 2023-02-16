@@ -55,8 +55,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav  ms-auto navbar-list">
-            <li  style="cursor: pointer" routerLink="/NewFeed">
-              <a  class="  d-flex align-items-center">
+            <li style="cursor: pointer" routerLink="/NewFeed">
+              <a class="  d-flex align-items-center">
                 <i class="ri-home-line"></i>
               </a>
             </li>
@@ -445,9 +445,30 @@
                     </ul>
                   </div>
                   <div class="social-info">
+                    <span *ngIf="checkExsitFriend()"
+                           style="background-color: #5d94ef; border: none"
+                          class="dropdown-toggle btn btn-secondary me-2"
+                          id="dropdownMenuButton80" data-bs-toggle="dropdown"
+                          aria-expanded="true" role="button">
+                                                   <i class="ri-check-line me-1 text-white"></i> Friend
+                                                   </span>
 
+                    <div  class="dropdown-menu dropdown-menu-right p-0"
+                         aria-labelledby="dropdownMenuButton80">
+                      <a class="dropdown-item  ">Unfriend</a>
+                    </div>
+
+
+                    <span *ngIf="!checkExsitFriend()"
+                          style="background-color: #5d94ef; border: none"
+                          class="btn btn-secondary me-2"
+                          aria-expanded="true" role="button">
+                      <i class="ri-add-fill me-1 text-white"></i> Add Friend
+                    </span>
                   </div>
                 </div>
+
+
               </div>
             </div>
           </div>
@@ -738,65 +759,50 @@
                   <div class="friend-list-tab mt-2">
                     <ul class="nav nav-pills d-flex align-items-center justify-content-left friend-list-items p-0 mb-2">
                       <li>
-                        <a style="cursor: pointer" class="nav-link active" data-bs-toggle="pill" data-bs-target="#all-friends">All Friends</a>
+                        <a style="cursor: pointer" class="nav-link active" data-bs-toggle="pill"
+                           data-bs-target="#all-friends">All Friends</a>
                       </li>
                       <li>
-                        <a style="cursor: pointer" class="nav-link" data-bs-toggle="pill" data-bs-target="#mutual-friend"> Mutual Friends ({{listMutualFriend.length}})</a>
+                        <a style="cursor: pointer" class="nav-link" data-bs-toggle="pill"
+                           data-bs-target="#mutual-friend"> Mutual Friends ({{listMutualFriend.length}})</a>
                       </li>
                     </ul>
                     <div class="tab-content">
-                      <div class="tab-pane fade active show" id="all-friends" role="tabpanel">
+                      <div class="tab-pane show active" id="all-friends" role="tabpanel">
                         <div class="card-body p-0">
                           <div class="row">
-                            <div *ngFor="let f of listFriendOfFriend" class="col-md-6 col-lg-6 mb-3">
+                            <div *ngFor="let fOf of listFriendOfFriend" class="col-md-6 col-lg-6 mb-3">
                               <div class="iq-friendlist-block">
                                 <div class="d-flex align-items-center justify-content-between">
-                                  <div  class="d-flex align-items-center">
-                                    <a *ngIf="user.id !== f.id" style="cursor: pointer" routerLink="/friendProfile/{{f.id}}">
-                                      <img src="{{f?.avatar}}" width="140.56px" height="140.56px" alt="profile-img">
+                                  <div class="d-flex align-items-center">
+                                    <a style="cursor: pointer" routerLink="/friendProfile/{{fOf.id}}">
+                                      <img src="{{fOf.avatar}}" width="140.56px" height="140.56px" alt="profile-img">
                                     </a>
-
-                                    <a  *ngIf="user.id === f.id" style="cursor: pointer" routerLink="/Profile">
-                                      <img src="{{f?.avatar}}" width="140.56px" height="140.56px" alt="profile-img">
-                                    </a>
-
-                                    <div  *ngIf="user.id !== f.id"  style="cursor: pointer" routerLink="/friendProfile/{{f.id}}"
+                                    <div style="cursor: pointer" routerLink="/friendProfile/{{fOf.id}}"
                                          class="friend-info ms-3">
-                                      <h5>{{f?.name}}</h5>
+                                      <h5>{{fOf.name}}</h5>
                                       <p class="mb-0">19 friends</p>
                                     </div>
-
-                                    <div  *ngIf="user.id === f.id"  style="cursor: pointer" routerLink="/Profile"
-                                          class="friend-info ms-3">
-                                      <h5>{{f?.name}}</h5>
-                                    </div>
-
                                   </div>
-                                  <div *ngFor="let u of listMutualFriend"
-                                       class="card-header-toolbar d-flex align-items-center">
-                                    <div *ngIf="f.id === u.id" class="dropdown">
-                                                   <span
-                                                     style="background-color: white; color: black ;border: 3px solid #5d94ef "
-                                                     class="dropdown-toggle btn btn-secondary me-2"
-                                                     id="dropdownMenuButton69" data-bs-toggle="dropdown"
-                                                     aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-black-50"></i> Friend
-                                                   </span>
-                                      <div class="dropdown-menu dropdown-menu-right"
-                                           aria-labelledby="dropdownMenuButton69">
-                                        <a class="dropdown-item">Unfriend</a>
-                                      </div>
-                                    </div>
-
+                                  <div class="card-header-toolbar d-flex align-items-center">
                                     <div class="dropdown">
-                                                   <span *ngIf="f.id !== u.id &&  f.id !==user.id" style="background-color: #5d94ef; border: none"
-                                                         class="dropdown-toggle btn btn-secondary me-2"
-                                                         data-bs-toggle="dropdown" aria-expanded="true" role="button">
-                                                   <i class="ri-add-fill text-white"></i> Add Friend
+                                                  <span *ngIf="checkExsit(fOf) > 0"
+                                                        span style="background-color: #5d94ef; border: none"
+                                                        class="dropdown-toggle btn btn-secondary me-2"
+                                                        id="dropdownMenuButton70" data-bs-toggle="dropdown"
+                                                        aria-expanded="true" role="button">
+                                                   <i class="ri-check-line me-1 text-white"></i>Friend
                                                    </span>
+
+                                      <span *ngIf="checkExsit(fOf) < 0"
+                                            span style="background-color: #5d94ef; border: none"
+                                            class="dropdown-toggle btn btn-secondary me-2"
+                                            id="dropdownMenuButton71" data-bs-toggle="dropdown"
+                                            aria-expanded="true" role="button">
+                                                   <i class="ri-add-fill me-1 text-white"></i> Add Friend
+                                                   </span>
+
                                     </div>
-
-
                                   </div>
                                 </div>
                               </div>
@@ -823,12 +829,12 @@
                                   </div>
                                   <div class="card-header-toolbar d-flex align-items-center">
                                     <div class="dropdown">
-                                                   <span
-                                                     style="background-color: white; color: black ;border: 3px solid #5d94ef "
-                                                     class="dropdown-toggle btn btn-secondary me-2"
-                                                     id="dropdownMenuButton68" data-bs-toggle="dropdown"
-                                                     aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-black-50"></i> Friend
+                                                    <span
+                                                      span style="background-color: #5d94ef; border: none"
+                                                      class="dropdown-toggle btn btn-secondary me-2"
+                                                      id="dropdownMenuButton72" data-bs-toggle="dropdown"
+                                                      aria-expanded="true" role="button">
+                                                   <i class="ri-check-line me-1 text-white"></i> Friend
                                                    </span>
                                       <div class="dropdown-menu dropdown-menu-right"
                                            aria-labelledby="dropdownMenuButton68">
