@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -21,4 +22,5 @@ public class PostComment {
     @JoinColumn(name = "post_id")
     private Post post;
     private String content;
+    private LocalDateTime cmtAt;
 }
