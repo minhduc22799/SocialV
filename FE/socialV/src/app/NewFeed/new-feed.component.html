@@ -429,6 +429,14 @@
                     </div>
                   </div>
                 </div>
+
+
+
+
+
+
+
+
               </div>
             </div>
           </div>
@@ -481,15 +489,15 @@
                       <div class="d-flex align-items-center">
                         <div class="like-data">
 
-                                    <span (click)="likePost(p?.id)"  aria-haspopup="true"
-                                         role="button">
-                                    <img src="assets/images/icon/01.png" class="img-fluid" >
+                                    <span (click)="likePost(p?.id)" aria-haspopup="true"
+                                          role="button">
+                                    <img src="assets/images/icon/01.png" class="img-fluid">
                                     </span>
                         </div>
                         <div class="total-like-block ms-2 me-3">
                           <div *ngIf="listFriendPost[i].length >0" class="dropdown">
                             <div *ngIf="p.checkUserLiked">
-                                    <span style="color: #408cfc" >
+                                    <span style="color: #408cfc">
                                      Liked &nbsp; {{countLike[i]}}
                                     </span>
                             </div>
@@ -504,9 +512,9 @@
                             </div>
                           </div>
 
-                          <div  *ngIf="listFriendPost[i].length < 1" >
+                          <div *ngIf="listFriendPost[i].length < 1">
                             <div *ngIf="p.checkUserLiked">
-                                    <span style="color: #408cfc" >
+                                    <span style="color: #408cfc">
                                      Liked &nbsp; {{countLike[i]}}
                                     </span>
                             </div>
@@ -525,7 +533,7 @@
                         </div>
                       </div>
                       <div class="total-comment-block">
-                        <div >
+                        <div>
                                  <span style="color: #5e5d5d">
                                  {{countComment[i]}} &nbsp; Comment
                                  </span>
@@ -535,60 +543,89 @@
                   </div>
                   <hr>
 
-                  <form class="comment-text d-flex align-items-center mt-3" action="">
-                    <input type="text" class="form-control rounded" placeholder="Enter Your Comment">
+                  <form [formGroup]="commentForm" (ngSubmit)="addComment(p)" class="comment-text d-flex align-items-center mt-3">
+                    <input type="text" class="form-control rounded" formControlName = "content" placeholder="Enter Your Comment">
                     <div class="comment-attagement d-flex">
-                      <a href=""><i class="ri-link me-3"></i></a>
-                      <a href=""><i class="ri-user-smile-line me-3"></i></a>
-                      <a href=""><i class="ri-camera-line me-3"></i></a>
+                      <button style="border: 1px solid #8f8b8b;font-size: 16px" type="submit">Comment</button>
                     </div>
                   </form>
                 </div>
                 <div style="margin-top: 20px">
-                  <ul style="" class="post-comments list-inline p-0 m-0">
-                    <li class="mb-2">
-                      <div class="d-flex">
-                        <div class="user-img">
-                          <img src="../assets/images/user/02.jpg" alt="userimg"
-                               class="avatar-35 rounded-circle img-fluid">
-                        </div>
-                        <div class="comment-data-block ms-3">
-                          <div style="width: 100% ;display: grid;grid-template-columns: 80% 20%">
-                            <div>
-                              <h6>Monty Carlo</h6>
+                  <ul class="post-comments list-inline p-0 m-0">
+                    <li *ngFor="let comment of listAllComment[i]" class="mb-2">
+                      <div>
+                        <div class="d-flex">
+                          <div class="user-img">
+                            <img src="{{comment.users.avatar}}"
+                                 class="avatar-35 rounded-circle ">
+                          </div>
+                          <div class="comment-data-block ms-3">
+                            <div class="container"
+                                 style="background-color: #e9eef8 ;padding:0px 18px 0px 18px; border-radius: 20px">
+                              <span style="color: #0a0a0a;padding: 0px">{{comment.users.name}}</span>
+                              <p style="margin-top: -5px;padding: 0px 0px 3px 10px"
+                                 class="row mb-0">{{comment.content}}</p>
                             </div>
-                            <div class="card-post-toolbar">
-                              <div style="width: 50px" class="btn-group dropend">
-                                    <span style="margin-bottom: 3%" class="dropdown-toggle" id="postdata-6"
+
+                          </div>
+                        </div>
+                      </div>
+                      <div style="margin-left: 70px">
+                        <div style="display: grid; grid-template-columns: 9% 30% 20% 15%">
+                          <div style="padding: 0">
+                           <span>Like(0)</span>
+                          </div>
+                          <div>
+                            <span> {{comment.cmtAt}} </span>
+                          </div>
+                          <div style="width: 50px" class="btn-group dropend">
+                                    <span (click)="getCommentById(comment.id)" style="margin-bottom: 3%" class="dropdown-toggle" id="postdata-6"
                                           data-bs-toggle="dropdown"
                                           aria-haspopup="true" aria-expanded="false" role="button">
                                     <i class="ri-more-fill"></i>
                                     </span>
-                                <div class="dropdown-menu m-0 p-0" aria-labelledby="postdata-6">
-                                  <div style="display: grid; grid-template-columns: 50% 50%">
-                                    <a class="dropdown-item p-1" data-bs-toggle="modal"
-                                       data-bs-target="#post-modal-edit">
-                                      <div class="d-flex align-items-">
-                                        <i class="ri-edit-2-line h6"></i>
-                                      </div>
-                                    </a>
-                                    <a class="dropdown-item p-1">
-                                      <div class="d-flex align-items-top ">
-                                        <i class="ri-chat-delete-line h6"></i>
-                                      </div>
-                                    </a>
+                            <div class="dropdown-menu m-0 p-0" aria-labelledby="postdata-6">
+                              <div style="display: grid; grid-template-columns: 50% 50%">
+                                <a class="dropdown-item p-1" data-bs-toggle="modal"
+                                   data-bs-target="#edit-modal">
+                                  <div class="d-flex align-items-">
+                                    <i class="ri-edit-2-line h6"></i>
                                   </div>
-                                </div>
+                                </a>
+                                <a (click)="deleteComment(comment.id)" class="dropdown-item p-1">
+                                  <div class="d-flex align-items-top ">
+                                    <i class="ri-chat-delete-line h6"></i>
+                                  </div>
+                                </a>
                               </div>
                             </div>
                           </div>
+                          <div></div>
+                        </div>
+                      </div>
 
+                      <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalCenterTitle">Edit Comment</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                              </button>
+                            </div>
+                            <div class="iq-search-bar device-search">
 
-                          <p class="mb-0">Lorem ipsum dolor sit amet</p>
-                          <div class="d-flex flex-wrap align-items-center comment-activity">
-                            <a>like</a>
+                              <form [formGroup]="commentFormEdit" (ngSubmit)="editComment(comment)" action="#" class="searchbox">
 
-                            <span> 5 min </span>
+                                <div hidden class="form-group" formGroupName = "post">
+                                  <input hidden formControlName="content" type="text" class="text search-input">
+                                </div>
+                                <input formControlName="content" type="text" class="text search-input">
+                              </form>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary">Edit</button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -596,14 +633,17 @@
                   </ul>
 
 
+
+
                 </div>
-
-
               </div>
             </div>
           </div>
         </div>
       </div>
+
+
+
 
       <div class="col-sm-12 text-center">
         <img src="assets/images/page-img/page-load-loader.gif" alt="loader" style="height: 100px;">

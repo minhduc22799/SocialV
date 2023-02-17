@@ -82,6 +82,24 @@ export class PostService {
     return this.http.get<PostComment[]>(apiUrl +`/post/${id}/comment`)
 
   }
+  getAllListComment(posts: Post[]):Observable<any>{
+    return this.http.post<any>(apiUrl +`/post/list/comment`,posts)
+
+  }
+  addComment(postComment:PostComment):Observable<PostComment>{
+    return this.http.post<PostComment>(apiUrl +`/post/interact/comment`,postComment)
+  }
+
+  deleteComment(id:number):Observable<any>{
+    return this.http.delete<any>(apiUrl +`/post/comment/${id}`)
+  }
+
+  editComment(id:number,postComment:PostComment):Observable<any>{
+    return this.http.put<any>(apiUrl +`/post/comment/${id}`,postComment)
+  }
+  getCommentById(id:number):Observable<any>{
+    return this.http.get<any>(apiUrl +`/post/interact/comment/${id}`)
+  }
 
 
 }

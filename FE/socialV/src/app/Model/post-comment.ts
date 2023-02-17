@@ -6,4 +6,5 @@ export interface PostComment {
   users:Users,
   post:Post,
   content: string
+  cmtAt:Date
 }
