@@ -38,4 +38,19 @@ public class NotificationService implements INotificationService {
     public void deleteAllByPost(Post post) {
         notificationRepository.deleteAllByPost(post);
     }
+
+    @Override
+    public Iterable<Notification> getAllByUsers(Users users) {
+        return notificationRepository.getAllByUsers(users);
+    }
+
+    @Override
+    public void deleteNotification(Long postId, Long typeId) {
+        notificationRepository.deleteNotification(postId, typeId);
+    }
+
+    @Override
+    public void createNotification(Long userId, Long postId, Long typeId) {
+        notificationRepository.createNotification(userId, postId, typeId);
+    }
 }

@@ -4,6 +4,7 @@ import com.example.socialv.model.Post;
 import com.example.socialv.model.PostLike;
 import com.example.socialv.model.Users;
 import com.example.socialv.repository.IPostLikeRepository;
+import com.example.socialv.service.NotificationService.INotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ public class PostLikeService implements IPostLikeService {
 
     @Autowired
     private IPostLikeRepository postLikeRepository;
+    @Autowired
+    private INotificationService notificationService;
 
     @Override
     public Iterable<PostLike> findAll() {
@@ -54,6 +57,8 @@ public class PostLikeService implements IPostLikeService {
     @Override
     @Transactional
     public void like(Long id1, Long id2) {
+        notificationService.deleteNotification(id2, 2L);
+        notificationService.createNotification(id1, id2, 2L);
         postLikeRepository.like(id1, id2);
     }
 

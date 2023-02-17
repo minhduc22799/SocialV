@@ -221,6 +221,16 @@ public class PostController {
         return new ResponseEntity<>(objects, HttpStatus.OK);
     }
 
+    @PostMapping("/list/comment")
+    public ResponseEntity<?> getListCommentAllPost(@RequestBody Post[] posts){
+        List<Object> objects = new ArrayList<>();
+        for (Post p : posts) {
+            List<PostComment> postCommentList = postCommentService.findAllByPost(p);
+            objects.add(postCommentList);
+        }
+        return new ResponseEntity<>(objects, HttpStatus.OK);
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<?> deletePost(@PathVariable Long id) {
         postService.remove(id);
@@ -246,8 +256,15 @@ public class PostController {
 
     @PostMapping("/interact/comment")
     public ResponseEntity<?> comment(@RequestBody PostComment postComment){
+        postComment.setCmtAt(LocalDateTime.now());
         postCommentService.save(postComment);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/interact/comment/{id}")
+    public ResponseEntity<PostComment> getComment(@PathVariable Long id){
+        Optional<PostComment> postComment = postCommentService.findById(id);
+        return postComment.map(comment -> new ResponseEntity<>(comment, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/interact/comment/like/{id1}/{id2}")
