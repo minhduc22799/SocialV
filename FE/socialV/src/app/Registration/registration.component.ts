@@ -14,11 +14,15 @@ import Swal from "sweetalert2";
 export class RegistrationComponent implements OnInit{
   registerForm!:FormGroup
   user!:Users
+  dateCurrent = new  Date()
+  maxDate?: string;
+
 
 
   constructor(private userService:UserService,
               private router:Router,
               private routerActive:ActivatedRoute) {
+    this.maxDate = this.dateCurrent.toISOString().substring(0, 10);
   }
   ngOnInit(): void {
     this.registerForm =new FormGroup({

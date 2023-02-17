@@ -21,6 +21,8 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
+import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { AdminManagementComponent } from './admin-management/admin-management.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
     PostModalComponent,
     ProfileComponent,
     FriendProfileComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    AdminLoginComponent,
+    AdminManagementComponent
   ],
   imports: [
     BrowserModule,
