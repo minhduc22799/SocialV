@@ -40,7 +40,6 @@
             <img src="  assets/images/logo.png" class="img-fluid" alt="">
             <span>SocialV</span>
           </a>
-
         </div>
         <div class="iq-search-bar device-search">
           <form action="#" class="searchbox">
@@ -746,35 +745,24 @@
                               <div class="iq-friendlist-block">
                                 <div class="d-flex align-items-center justify-content-between">
                                   <div class="d-flex align-items-center">
-                                    <a style="cursor: pointer" routerLink="/friendProfile/{{fOf.id}}">
+                                    <a *ngIf="fOf.id !== user.id" style="cursor: pointer" routerLink="/friendProfile/{{fOf.id}}">
                                       <img src="{{fOf?.avatar}}" width="140.56px" height="140.56px" alt="profile-img">
                                     </a>
-                                    <div style="cursor: pointer" routerLink="/friendProfile/{{fOf.id}}"
+
+                                    <a *ngIf="fOf.id === user.id" style="cursor: pointer" routerLink="/Profile">
+                                      <img src="{{fOf?.avatar}}" width="140.56px" height="140.56px" alt="profile-img">
+                                    </a>
+                                    <div *ngIf="fOf.id !== user.id" style="cursor: pointer" routerLink="/friendProfile/{{fOf.id}}"
                                          class="friend-info ms-3">
                                       <h5>{{fOf.name}}</h5>
-                                      <p class="mb-0">19 friends</p>
+                                    </div>
+
+                                    <div *ngIf="fOf.id === user.id" style="cursor: pointer" routerLink="/Profile"
+                                         class="friend-info ms-3">
+                                      <h5>{{fOf.name}}</h5>
                                     </div>
                                   </div>
-                                  <div  class="card-header-toolbar d-flex align-items-center">
-                                    <div class="dropdown" >
-                                                  <span *ngIf="checkFriendExist(fOf)"
-                                                        style="background-color: #5d94ef; border: none"
-                                                        class="dropdown-toggle btn btn-secondary me-2"
-                                                        id="dropdownMenuButton70" data-bs-toggle="dropdown"
-                                                        aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i>Friend
-                                                   </span>
 
-
-                                      <span (click)="requestFriend(fOf)" *ngIf="!checkFriendExist(fOf) && (fOf.id !== user.id)"
-                                            style="background-color: #5d94ef; border: none"
-                                            class="dropdown-toggle btn btn-secondary me-2"
-                                            id="addFriend" data-bs-toggle="dropdown"
-                                            aria-expanded="true" role="button">
-                                                   <i class="ri-add-fill me-1 text-white"></i> Add Friend
-                                      </span>
-                                    </div>
-                                  </div>
                                 </div>
                               </div>
                             </div>
