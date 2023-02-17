@@ -234,7 +234,7 @@ public class PostController {
         }return new ResponseEntity<>(posts,HttpStatus.OK);
     }
 
-    @PostMapping("/interact/like/{id1}/{id2}")
+    @GetMapping("/interact/like/{id1}/{id2}")
     public ResponseEntity<?> likeOrUnlike(@PathVariable("id1") Long userId, @PathVariable("id2") Long postId){
         if (checkUserLiked(userId, postId)){
             postLikeService.unLike(userId, postId);

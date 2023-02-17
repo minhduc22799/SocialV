@@ -14,6 +14,7 @@ import {NavigationEnd, Router} from "@angular/router";
 
 import * as moment from 'moment';
 import {finalize} from "rxjs";
+import {PostComment} from "../Model/post-comment";
 
 @Component({
   selector: 'app-newfeed',
@@ -30,6 +31,7 @@ export class NewFeedComponent implements OnInit {
   listImgPost: ImagePost[][] = [];
   listFriendPost: Users[][] = [];
   listImg: any[] = [];
+  listComment: PostComment[] = [];
   countLike: any[] = [];
   countComment: any[] = [];
   listPostStatus: PostStatus[] = [];
@@ -89,6 +91,7 @@ export class NewFeedComponent implements OnInit {
       this.findFriendLike(post)
       this.findCountLike(post)
       this.findCountComment(post)
+      // this.getAllComment(post.id)
     })
     // })
 
@@ -141,6 +144,12 @@ export class NewFeedComponent implements OnInit {
         }
       }
     })
+  }
+
+  getCommentByIdPost(id:number){
+      this.postService.getListComment(id).subscribe(data =>{
+          this.listComment = data
+      })
   }
 
   getAllPostStatus() {
@@ -226,7 +235,11 @@ export class NewFeedComponent implements OnInit {
 
     })
   }
-
+  likePost(idPost?:number){
+    this.postService.likePost(this.user.id, idPost).subscribe(() =>{
+      this.findAll()
+    })
+  }
 
   deleteImgCreate(id: any | undefined) {
     this.imgSrc.splice(id, 1);
