@@ -10,7 +10,8 @@ import {PostStatus} from "../Model/post-status";
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import {AngularFireStorage, AngularFireStorageReference} from "@angular/fire/compat/storage";
-import {Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
+
 import * as moment from 'moment';
 import {finalize} from "rxjs";
 
@@ -36,6 +37,7 @@ export class NewFeedComponent implements OnInit {
   imageFiles: any[] = [];
   imgSrc: string[] = [];
   timeMoment: any[] = []
+  listRequest:Users[] = [];
   pathName!: string
   flag!: false;
   postForm: FormGroup = new FormGroup({
@@ -53,6 +55,15 @@ export class NewFeedComponent implements OnInit {
     this.findAll()
     this.findAllFriend()
     this.getAllPostStatus()
+    this.onMoveTop()
+    this.findListRequest()
+  }
+  onMoveTop(){
+    this.router.events.subscribe((event)=>{
+      if (event instanceof NavigationEnd) {
+        window.scrollTo(0, 0);
+      }
+    })
   }
 
   constructor(private postService: PostService,
@@ -92,6 +103,18 @@ export class NewFeedComponent implements OnInit {
   findCountLike(posts: Post[]) {
     this.postService.findCountLikePost(posts).subscribe(countLike => {
       this.countLike = countLike
+    })
+  }
+
+  deleteRequest(friendRequestId: any) {
+    this.userService.deleteRequest(this.user.id, friendRequestId).subscribe(() => {
+      this.findListRequest()
+    })
+  }
+
+  confirmRequest(friendRequestId: any){
+    this.userService.confirmRequest(this.user.id, friendRequestId).subscribe(()=>{
+      this.findListRequest()
     })
   }
 
@@ -184,15 +207,26 @@ export class NewFeedComponent implements OnInit {
           document.getElementById("btn-close")?.click()
           this.postForm.reset();
           this.imgSrc = []
-          Swal.fire(
-            'Good job!',
-            'You clicked the button!',
-            'success'
-          )
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            text: 'Post successfully posted',
+            showConfirmButton: false,
+            timer: 1500
+          })
         }
       })
     }
   }
+
+  findListRequest(){
+    // @ts-ignore
+    this.userService.findListRequestFriend(this.user.id).subscribe((data)=>{
+      this.listRequest = data
+
+    })
+  }
+
 
   deleteImgCreate(id: any | undefined) {
     this.imgSrc.splice(id, 1);

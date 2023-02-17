@@ -38,7 +38,12 @@ public class PostService implements IPostService{
     }
 
     @Override
+    @Transactional
     public void save(Post post) {
+        if (post.getId() == null){
+            postRepository.save(post);
+            notificationService.createNotification(post.getUsers().getId(), post.getId(), 1L);
+        }
         postRepository.save(post);
     }
 

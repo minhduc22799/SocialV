@@ -5,9 +5,11 @@ import com.example.socialv.model.PostComment;
 import com.example.socialv.model.Users;
 import com.example.socialv.repository.ICommentLikeRepository;
 import com.example.socialv.repository.IPostCommentRepository;
+import com.example.socialv.service.NotificationService.INotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +19,8 @@ public class PostCommentService implements IPostCommentService{
     private IPostCommentRepository postCommentRepository;
     @Autowired
     private ICommentLikeRepository commentLikeRepository;
+    @Autowired
+    private INotificationService notificationService;
     @Override
     public Iterable<PostComment> findAll() {
         return null;
@@ -24,11 +28,16 @@ public class PostCommentService implements IPostCommentService{
 
     @Override
     public Optional<PostComment> findById(Long id) {
-        return Optional.empty();
+        return postCommentRepository.findById(id);
     }
 
     @Override
+    @Transactional
     public void save(PostComment postComment) {
+        if (postComment.getId() == null){
+            notificationService.deleteNotification(postComment.getPost().getId(), 3L);
+            notificationService.createNotification(postComment.getUsers().getId(), postComment.getPost().getId(), 3L);
+        }
         postCommentRepository.save(postComment);
     }
 

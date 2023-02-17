@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Users} from "../Model/Users";
 import {UserService} from "../service/user.service";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-login',
@@ -29,6 +30,11 @@ export class LoginComponent implements OnInit{
         window.localStorage.setItem("user", JSON.stringify(user));
         console.log("Đăng nhập thành công");
         this.router.navigate(['/NewFeed']);
-      })
+      }, err => {
+        Swal.fire({
+          icon: 'error',
+          text: 'Login failed'
+        })
+      });
   }
 }
