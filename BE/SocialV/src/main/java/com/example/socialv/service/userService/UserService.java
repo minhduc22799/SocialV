@@ -48,5 +48,10 @@ public class UserService implements IUserService {
         return userRepository.findAllLikePost(id);
     }
 
+    @Override
+    public List<Users> findUsersActiveByName(String name) {
+        return userRepository.findUsersByNameContainingAndStatusIsFalse(name);
+    }
+
 
 }

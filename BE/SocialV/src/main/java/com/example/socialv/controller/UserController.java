@@ -50,5 +50,9 @@ public class UserController {
         userService.save(users);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
-
+    @GetMapping("search")
+    ResponseEntity<List<Users>>findUsersByNameContain(@RequestParam ("search") String name){
+        List<Users> usersList=userService.findUsersActiveByName(name);
+        return new ResponseEntity<>(usersList,HttpStatus.OK);
+    }
 }
