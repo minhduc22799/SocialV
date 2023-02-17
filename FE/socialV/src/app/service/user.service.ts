@@ -31,7 +31,7 @@ export class UserService {
     return this.httpClient.get<any>(`${API_URL}/post/wall/${id}/search?search=${content}`)
   }
 
-  changePassword(userUpdate: any):Observable<any>{
+  changePassword(userUpdate: UserUpdate):Observable<any>{
     return this.httpClient.put<any>(API_URL+'/changePw',userUpdate)
   }
 
@@ -45,5 +45,8 @@ export class UserService {
   findFriendOfFriend(id:number):Observable<Users[]>{
     return this.httpClient.get<Users[]>(`${API_URL}/friend/${id}`)
 
+  }
+  findUsersByNameContaining(name:string):Observable<Users[]>{
+    return this.httpClient.get<Users[]>(API_URL +"/user/search?search="+name)
   }
 }

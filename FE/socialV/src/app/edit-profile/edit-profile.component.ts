@@ -95,7 +95,12 @@ export class EditProfileComponent implements OnInit {
     userUpdate.newPassword = this.formChangePass.get('newPass')?.value
     userUpdate.confirmNewPassword = this.formChangePass.get('confirmPass')?.value
     userUpdate.id = this.user.id
-    this.userService.changePassword(userUpdate).subscribe(() => {
+    this.userService.changePassword(userUpdate).subscribe((data) => {
+      window.localStorage.setItem("user", JSON.stringify(data));
+      Swal.fire('Changed!', '', 'success')
+      this.formChangePass.reset()
+    },err=>{
+      Swal.fire('Not Match', '', 'error')
 
     })
   }
