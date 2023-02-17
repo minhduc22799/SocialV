@@ -83,9 +83,9 @@
                           </div>
                         </div>
                         <div class="d-flex align-items-center">
-                          <a href=""
+                          <a (click)="confirmRequest(friendRequest.id)"
                              class="me-3 btn btn-primary rounded">Confirm</a>
-                          <a href=""
+                          <a (click)="deleteRequest(friendRequest.id)"
                              class="me-3 btn btn-secondary rounded">Delete Request</a>
                         </div>
                       </div>
@@ -429,14 +429,14 @@
                 <div class="user-post-data">
                   <div class="d-flex justify-content-between">
                     <div class="me-3">
-                      <img *ngIf="p.id === user.id" routerLink="/Profile"  style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
-                      <img *ngIf="p.id !== user.id" routerLink="/friendProfile/{{p?.users?.id}}" style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
+                      <img *ngIf="p?.users?.id == user.id" routerLink="/Profile"  style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
+                      <img *ngIf="p?.users?.id != user.id" routerLink="/friendProfile/{{p?.users?.id}}" style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
                     </div>
                     <div class="w-100">
                       <div class="d-flex  justify-content-between">
                         <div class="">
-                          <h5 *ngIf="p.id === user.id" routerLink="/Profile" class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
-                          <h5 *ngIf="p.id !== user.id" routerLink="/friendProfile/{{p?.users?.id}}" class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
+                          <h5 *ngIf="p?.users?.id === user.id" routerLink="/Profile" class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
+                          <h5 *ngIf="p?.users?.id !== user.id" routerLink="/friendProfile/{{p?.users?.id}}" class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
 
                           <span class="mb-0 d-inline-block"> &nbsp; Added New a Post </span>
 

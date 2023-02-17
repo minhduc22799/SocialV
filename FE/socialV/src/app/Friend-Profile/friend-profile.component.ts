@@ -33,6 +33,7 @@ export class FriendProfileComponent implements OnInit {
   countComment: any[] = [];
   listRequest:Users[] = [];
   // @ts-ignore
+  //nick wall
   friend: Users
 
   // @ts-ignore
@@ -74,7 +75,7 @@ export class FriendProfileComponent implements OnInit {
     })
   }
 
-  checkExsit(user: Users) {
+  checkExist(user: Users) {
     for (let i = 0; i < this.listMutualFriend.length; i++) {
       if (user.id === this.listMutualFriend[i].id) {
         return 1
@@ -87,7 +88,16 @@ export class FriendProfileComponent implements OnInit {
     return -1;
   }
 
-  checkExsitFriend() {
+  checkFriendExist(user: Users): boolean{
+    for (let i = 0; i < this.listFriend.length; i++) {
+      if (user.id === this.listFriend[i].id){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  checkExistFriend() {
     this.existF = false
     for (let i = 0; i < this.listFriendOfFriend.length; i++) {
       if (this.user.id === this.listFriendOfFriend[i].id) {
@@ -100,23 +110,24 @@ export class FriendProfileComponent implements OnInit {
     this.userService.findUserById(this.idFiend).subscribe(data => {
       this.friend = data
       this.checkRequest()
+      this.checkRequest2()
       this.router.routeReuseStrategy.shouldReuseRoute = function () {
         return false;
       };
     })
   }
 
-  requestFriend() {
+  requestFriend(user: Users) {
 
     // @ts-ignore
     const friendRequest: FriendRequest = {
-      usersReceive: this.friend,
+      usersReceive: user,
       usersRequest: this.user,
       status: false
     }
       // @ts-ignore
       this.userService.requestFriend(friendRequest).subscribe(() => {
-        this.checkExsitFriend()
+        this.checkExistFriend()
         this.checkRequest()
       })
 
@@ -143,10 +154,22 @@ export class FriendProfileComponent implements OnInit {
     })
   }
 
-
-  // isExistInMutualList(user:Users):boolean{
-  //   return ;
-  // }
+  deleteRequest(){
+    this.userService.deleteRequest(this.user.id, this.friend.id).subscribe(()=>{
+      this.findFriendOfFriend()
+      this.checkExistFriend();
+      this.checkRequest();
+      this.checkRequest2();
+    })
+  }
+  confirmRequest(){
+    this.userService.confirmRequest(this.user.id, this.friend.id).subscribe(()=>{
+      this.findFriendOfFriend()
+      this.checkExistFriend();
+      this.checkRequest();
+      this.checkRequest2();
+    })
+  }
 
   findAllFriend() {
     // @ts-ignore
@@ -197,16 +220,14 @@ export class FriendProfileComponent implements OnInit {
     // @ts-ignore
     this.userService.findMutualFriends(this.idFiend, this.user.id).subscribe((data) => {
       this.listMutualFriend = data
-      console.log(data)
-      console.log("---------------")
-      console.log(this.listFriendOfFriend)
     })
   }
 
   findFriendOfFriend() {
     this.userService.findFriendOfFriend(this.idFiend).subscribe(data => {
       this.listFriendOfFriend = data
-      this.checkExsitFriend()
+      this.checkExistFriend()
+
     })
   }
 

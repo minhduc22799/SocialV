@@ -45,7 +45,7 @@ import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
     InfiniteScrollModule,
     BrowserAnimationsModule,
     MatProgressBarModule,
-    SweetAlert2Module
+    SweetAlert2Module,
   ],
   providers: [],
   bootstrap: [AppComponent]

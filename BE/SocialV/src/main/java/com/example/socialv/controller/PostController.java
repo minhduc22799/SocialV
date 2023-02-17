@@ -94,7 +94,7 @@ public class PostController {
             transferPostDisplay(postDisplays, post);
         }
         for (PostDisplay p : postDisplays) {
-            p.setCheckUserLiked(checkUserLiked(userService.findById(id).get(), p));
+            p.setCheckUserLiked(checkUserLiked(id, p.getId()));
         }
         Collections.sort(postDisplays, Comparator.comparing(PostDisplay::getCreateAt).reversed());
         return new ResponseEntity<>(postDisplays, HttpStatus.OK);
@@ -107,7 +107,7 @@ public class PostController {
             transferPostDisplay(postDisplays, post);
         }
         for (PostDisplay p : postDisplays) {
-            p.setCheckUserLiked(checkUserLiked(userService.findById(id).get(), p));
+            p.setCheckUserLiked(checkUserLiked(id, p.getId()));
         }
         Collections.reverse(postDisplays);
         return new ResponseEntity<>(postDisplays, HttpStatus.OK);
@@ -128,7 +128,7 @@ public class PostController {
             }
         }
         for (PostDisplay p : postDisplays) {
-            p.setCheckUserLiked(checkUserLiked(userService.findById(id2).get(), p));
+            p.setCheckUserLiked(checkUserLiked(id2, p.getId()));
         }
         Collections.reverse(postDisplays);
         return new ResponseEntity<>(postDisplays, HttpStatus.OK);
@@ -145,9 +145,14 @@ public class PostController {
         postDisplays.add(postDisplay);
     }
 
-    private boolean checkUserLiked(Users users, PostDisplay post) {
-        Optional<PostLike> postLike = postLikeService.findPostLike(users.getId(), post.getId());
+    private boolean checkUserLiked(Long userId, Long postId) {
+        Optional<PostLike> postLike = postLikeService.findPostLike(userId, postId);
         return postLike.isPresent();
+    }
+
+    private boolean checkUserLikedComment(Long userId, Long commentId) {
+        Optional<CommentLike> commentLike = commentLikeService.findCommentLike(userId, commentId);
+        return commentLike.isPresent();
     }
 
     @PostMapping("/image")
@@ -227,5 +232,49 @@ public class PostController {
         if (!posts.iterator().hasNext()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }return new ResponseEntity<>(posts,HttpStatus.OK);
+    }
+
+    @PostMapping("/interact/like/{id1}/{id2}")
+    public ResponseEntity<?> likeOrUnlike(@PathVariable("id1") Long userId, @PathVariable("id2") Long postId){
+        if (checkUserLiked(userId, postId)){
+            postLikeService.unLike(userId, postId);
+        }else {
+            postLikeService.like(userId, postId);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/interact/comment")
+    public ResponseEntity<?> comment(@RequestBody PostComment postComment){
+        postCommentService.save(postComment);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/interact/comment/like/{id1}/{id2}")
+    public ResponseEntity<?> likeOrUnlikeComment(@PathVariable("id1") Long userId, @PathVariable("id2") Long cmtId){
+        if (checkUserLikedComment(userId, cmtId)){
+            commentLikeService.unLike(userId, cmtId);
+        }else {
+            commentLikeService.like(userId, cmtId);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("comment/{id}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long id){
+        Optional<PostComment> postComment = postCommentService.findById(id);
+        if (postComment.isPresent()){
+            postCommentService.remove(id);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("comment/{id}")
+    public ResponseEntity<?> editComment(@PathVariable Long id, @RequestBody PostComment postComment){
+        Optional<PostComment> postCommentOptional = postCommentService.findById(id);
+        if (postCommentOptional.isPresent()){
+            postCommentService.save(postComment);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

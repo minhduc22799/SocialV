@@ -24,7 +24,7 @@ public class PostCommentService implements IPostCommentService{
 
     @Override
     public Optional<PostComment> findById(Long id) {
-        return Optional.empty();
+        return postCommentRepository.findById(id);
     }
 
     @Override

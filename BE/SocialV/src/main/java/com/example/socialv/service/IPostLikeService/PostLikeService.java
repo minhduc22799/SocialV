@@ -7,6 +7,7 @@ import com.example.socialv.repository.IPostLikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -48,5 +49,17 @@ public class PostLikeService implements IPostLikeService {
     @Override
     public void deleteAllByPost(Post post) {
         postLikeRepository.deleteAllByPost(post);
+    }
+
+    @Override
+    @Transactional
+    public void like(Long id1, Long id2) {
+        postLikeRepository.like(id1, id2);
+    }
+
+    @Override
+    @Transactional
+    public void unLike(Long id1, Long id2) {
+        postLikeRepository.unLike(id1, id2);
     }
 }
