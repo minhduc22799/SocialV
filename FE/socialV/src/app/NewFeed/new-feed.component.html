@@ -431,12 +431,6 @@
                 </div>
 
 
-
-
-
-
-
-
               </div>
             </div>
           </div>
@@ -543,106 +537,154 @@
                   </div>
                   <hr>
 
-                  <form [formGroup]="commentForm" (ngSubmit)="addComment(p)" class="comment-text d-flex align-items-center mt-3">
-                    <input type="text" class="form-control rounded" formControlName = "content" placeholder="Enter Your Comment">
+                  <form [formGroup]="commentForm" (ngSubmit)="addComment(p)"
+                        class="comment-text d-flex align-items-center mt-3">
+                    <input type="text" class="form-control rounded" formControlName="content"
+                           placeholder="Enter Your Comment">
                     <div class="comment-attagement d-flex">
-                      <button style="border: 1px solid #8f8b8b;font-size: 16px" type="submit">Comment</button>
+                      <button style="border:none #8f8b8b;background:none;font-size: 20px;margin-right: 10px"
+                              type="submit"><i style="color: #0495ff;background: none" class="ri-send-plane-2-line"></i>
+                      </button>
                     </div>
                   </form>
                 </div>
                 <div style="margin-top: 20px">
                   <ul class="post-comments list-inline p-0 m-0">
-                    <li *ngFor="let comment of listAllComment[i]" class="mb-2">
+                    <li *ngFor="let comment of listAllComment[i] , index as j" class="mb-2">
                       <div>
                         <div class="d-flex">
                           <div class="user-img">
                             <img src="{{comment.users.avatar}}"
                                  class="avatar-35 rounded-circle ">
                           </div>
-                          <div class="comment-data-block ms-3">
-                            <div class="container"
-                                 style="background-color: #e9eef8 ;padding:0px 18px 0px 18px; border-radius: 20px">
-                              <span style="color: #0a0a0a;padding: 0px">{{comment.users.name}}</span>
-                              <p style="margin-top: -5px;padding: 0px 0px 3px 10px"
-                                 class="row mb-0">{{comment.content}}</p>
+                          <div *ngIf="user.id === comment.users.id" style="display: grid; grid-template-columns: 96% 4%">
+                            <div class="comment-data-block ms-3">
+                              <div class="container"
+                                   style="background-color: #e9eef8 ;padding:0px 0px 0px 18px; border-radius: 20px">
+                                <span style="color: #0a0a0a;padding: 0px">{{comment.users.name}}</span>
+                                <div >
+                                <p  style="margin-top: -5px;max-width: 590px;word-break: break-all;padding: 0px 10px 3px 10px;"
+                                   class="row mb-0">{{comment.content}}</p>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div  style="margin-left: 5px;display: flex; align-items: center" class="btn-group dropdown">
+                                    <span (click)="getCommentById(comment.id)" style=""
+                                          class="dropdown-toggle" id="postdata-6"
+                                          data-bs-toggle="dropdown"
+                                          aria-haspopup="true" aria-expanded="false" role="button">
+                                    <i  class="ri-more-fill"></i>
+                                    </span>
+                              <div class="dropdown-menu m-0 p-0" aria-labelledby="postdata-6">
+                                <div style="display: grid; grid-template-columns: 50% 50%">
+                                  <a class="dropdown-item p-1" data-bs-toggle="modal"
+                                     data-bs-target="#edit-modal">
+                                    <div class="d-flex align-items-">
+                                      <i class="ri-edit-2-line h6"></i>
+                                    </div>
+                                  </a>
+                                  <a (click)="deleteComment(comment.id)" class="dropdown-item p-1">
+                                    <div class="d-flex align-items-top ">
+                                      <i class="ri-chat-delete-line h6"></i>
+                                    </div>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+
+                          <div *ngIf="user.id !== comment.users.id">
+                            <div class="comment-data-block ms-3">
+                              <div class="container"
+                                   style="background-color: #e9eef8 ;padding:0px 0px 0px 18px; border-radius: 20px">
+                                <span style="color: #0a0a0a;padding: 0px">{{comment.users.name}}</span>
+                                <div >
+                                  <p  style="margin-top: -5px;max-width: 590px;word-break: break-all;padding: 0px 30px 3px 10px;"
+                                      class="row mb-0">{{comment.content}}</p>
+                                </div>
+                              </div>
                             </div>
 
                           </div>
+
+
                         </div>
                       </div>
                       <div style="margin-left: 70px">
                         <div style="display: grid; grid-template-columns: 9% 30% 20% 15%">
                           <div style="padding: 0">
-                           <span>Like(0)</span>
+                            <span *ngIf="listCheckLikeComment[i][j]" (click)="likeComment(comment.id)" style="color:blue;">Liked {{listCommentLike[i][j]}}</span>
+                            <span *ngIf="!listCheckLikeComment[i][j]" (click)="likeComment(comment.id)">Like {{listCommentLike[i][j]}}</span>
                           </div>
                           <div>
-                            <span> {{comment.cmtAt}} </span>
+                            <span> {{timeMomentComment[i][j]}} </span>
                           </div>
-                          <div style="width: 50px" class="btn-group dropend">
-                                    <span (click)="getCommentById(comment.id)" style="margin-bottom: 3%" class="dropdown-toggle" id="postdata-6"
-                                          data-bs-toggle="dropdown"
-                                          aria-haspopup="true" aria-expanded="false" role="button">
-                                    <i class="ri-more-fill"></i>
-                                    </span>
-                            <div class="dropdown-menu m-0 p-0" aria-labelledby="postdata-6">
-                              <div style="display: grid; grid-template-columns: 50% 50%">
-                                <a class="dropdown-item p-1" data-bs-toggle="modal"
-                                   data-bs-target="#edit-modal">
-                                  <div class="d-flex align-items-">
-                                    <i class="ri-edit-2-line h6"></i>
-                                  </div>
-                                </a>
-                                <a (click)="deleteComment(comment.id)" class="dropdown-item p-1">
-                                  <div class="d-flex align-items-top ">
-                                    <i class="ri-chat-delete-line h6"></i>
-                                  </div>
-                                </a>
-                              </div>
-                            </div>
-                          </div>
+
                           <div></div>
                         </div>
                       </div>
 
-                      <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog"
+                           aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalCenterTitle">Edit Comment</h5>
+                              <h5 class="modal-title" id="exampleModalCenterTitle"><img src="{{comment.users.avatar}}"
+                                                                                        class="avatar-35 rounded-circle ">
+                                <span style="color: #0a0a0a;padding: 0px;margin-left: 5px">{{comment.users.name}}</span>
+                              </h5>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                               </button>
                             </div>
                             <div class="iq-search-bar device-search">
 
-                              <form [formGroup]="commentFormEdit" (ngSubmit)="editComment(comment)" action="#" class="searchbox">
+                              <form [formGroup]="commentFormEdit" (ngSubmit)="editComment()" action="#"
+                                    class="searchbox">
 
-                                <div hidden class="form-group" formGroupName = "post">
-                                  <input hidden formControlName="content" type="text" class="text search-input">
+                                <div hidden class="form-group" formGroupName="post">
+                                  <input hidden formControlName="id" type="text" class="text search-input">
                                 </div>
-                                <input formControlName="content" type="text" class="text search-input">
+                                <input hidden="" style="border-radius: 20px" formControlName="id" type="text"
+                                       class="text search-input">
+                                <input style="border-radius: 20px" formControlName="content" type="text"
+                                       class="text search-input">
+                                <input hidden style="border-radius: 20px" formControlName="cmtAt" type="date">
                               </form>
+
+                              <div class="modal-footer">
+                                <button type="button" id="edit-comment" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close
+                                </button>
+                                <button (click)="editComment()" type="submit" class="btn btn-primary">Edit</button>
+                              </div>
                             </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-primary">Edit</button>
-                            </div>
+
                           </div>
                         </div>
                       </div>
                     </li>
+
+
+
+
                   </ul>
-
-
-
-
+                  <div *ngIf="listAllComment[i].length > 0">
+                    <span style="color: #0495ff;cursor: pointer" *ngIf="!showMore" (click)="showMoreItems()">Show more...</span>
+                    <span style="color: #0495ff;cursor: pointer" *ngIf="showMore"
+                          (click)="showLessItems()">Show less</span>
+                  </div>
+                  <div style="text-align: center" *ngIf="listAllComment[i].length === 0">
+                    <span>No Comment</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-
 
 
       <div class="col-sm-12 text-center">
