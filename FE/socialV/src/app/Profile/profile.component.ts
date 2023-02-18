@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Users} from "../Model/Users";
 import {UserService} from "../service/user.service";
 import {PostService} from "../PostService/post.service";
-import {user} from "@angular/fire/auth";
 import {PostDisplay} from "../Model/Post-display";
 import {Post} from "../Model/Post";
 import {ImagePost} from "../Model/image-post";
@@ -14,6 +13,8 @@ import {PostStatus} from "../Model/post-status";
 import {AngularFireStorage, AngularFireStorageReference} from "@angular/fire/compat/storage";
 import {Router} from "@angular/router";
 import * as moment from "moment/moment";
+import {NotificationService} from "../notificationService/notification.service";
+import {Notifications} from "../Model/notifications";
 
 @Component({
   selector: 'app-profile',
@@ -32,6 +33,7 @@ export class ProfileComponent implements OnInit{
   listPostStatus: PostStatus[] = [];
   listImg:any[] = [];
   listImgCreate: ImagePost[] = [];
+  listNotification: Notifications[] = [];
   checkUploadMultiple = false;
   timeMoment: any[] = [];
   countLike:any[] = [];
@@ -40,6 +42,8 @@ export class ProfileComponent implements OnInit{
   listImgDelete: number[] = [];
   listImgUpdate: ImagePost[] = [];
   countComment:any[] = [];
+  timeNotificationMoment: any[] = [];
+  countOther: any[] = [];
   post!: Post
   postUpdateForm: FormGroup = new FormGroup({
     id: new FormControl(),
@@ -57,7 +61,7 @@ export class ProfileComponent implements OnInit{
     this.findPostAllProfile()
     this.getAllPostStatus()
     this.onMoveTop()
-
+    this.getAllNotification()
   }
   onMoveTop(){
     this.router.events.subscribe((event)=>{
@@ -67,8 +71,9 @@ export class ProfileComponent implements OnInit{
     })
   }
 
-  constructor( private userService: UserService ,
-               private postService: PostService ,
+  constructor( private userService: UserService,
+               private postService: PostService,
+               private notificationService: NotificationService,
                private routerActive:ActivatedRoute,
                private storage: AngularFireStorage,
                private router:Router) {
@@ -79,6 +84,32 @@ export class ProfileComponent implements OnInit{
       this.listFriend = data
     })
   }
+
+  getAllNotification(){
+    this.notificationService.getNotification(this.user.id).subscribe(data =>{
+      this.listNotification = data
+      for (let j = 0; j < this.checkValidNotification(data).length; j++){
+        this.timeNotificationMoment.push(moment(this.listNotification[j].notificationAt).fromNow())
+      }
+      this.countOtherNotification(this.listNotification);
+    })
+  }
+
+  countOtherNotification(notification: Notifications[]){
+    this.notificationService.countOther(notification).subscribe(data =>{
+      this.countOther = data
+    })
+  }
+
+  checkValidNotification(notification: Notifications[]){
+    for (let t = 0; t < this.listNotification.length; t++){
+      if (this.listNotification[t]?.users?.id == this.user.id){
+        this.listNotification.splice(t,1)
+        t--;
+      }
+    }
+    return this.listNotification;
+}
 
   findPostAllProfile(){
     // @ts-ignore
@@ -127,7 +158,7 @@ export class ProfileComponent implements OnInit{
           this.listImg[i].push(imageObject1);
         }
       }
-      console.log(this.listImg)
+
     })
   }
 
@@ -145,12 +176,10 @@ export class ProfileComponent implements OnInit{
             this.findPostAllProfile()
           })
         }
-
     })
   }
 
   searchOnWall(content:string){
-   // const  id = Number(this.routerActive.snapshot.paramMap.get("id"))
     this.userService.searchPostOnWall(this.user.id,content).subscribe((data)=>{
       this.listPostProfile=data
     })

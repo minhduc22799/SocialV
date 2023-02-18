@@ -129,6 +129,8 @@ export class FriendProfileComponent implements OnInit {
       this.userService.requestFriend(friendRequest).subscribe(() => {
         this.checkExistFriend()
         this.checkRequest()
+      },() =>{
+        location.reload()
       })
 
   }
