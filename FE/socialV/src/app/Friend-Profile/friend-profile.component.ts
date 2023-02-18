@@ -8,6 +8,8 @@ import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {Post} from "../Model/Post";
 import * as moment from "moment/moment";
 import {FriendRequest} from "../Model/friend-request";
+import {Notifications} from "../Model/notifications";
+import {NotificationService} from "../notificationService/notification.service";
 
 @Component({
   selector: 'app-friend-profile',
@@ -32,6 +34,9 @@ export class FriendProfileComponent implements OnInit {
   checkRequestFr2?:boolean;
   countComment: any[] = [];
   listRequest:Users[] = [];
+  listNotification: Notifications[] = [];
+  timeNotificationMoment: any[] = [];
+  countOther: any[] = [];
   // @ts-ignore
   //nick wall
   friend: Users
@@ -55,6 +60,7 @@ export class FriendProfileComponent implements OnInit {
   constructor(private postService: PostService,
               private userService: UserService,
               private routerActive: ActivatedRoute,
+              private notificationService: NotificationService,
               private router: Router
   ) {
   }
@@ -73,6 +79,48 @@ export class FriendProfileComponent implements OnInit {
       this.findCountComment(data)
 
     })
+  }
+
+  getAllNotification(){
+    this.notificationService.getNotification(this.user.id).subscribe(data =>{
+      this.listNotification = data
+      for (let j = 0; j < this.checkValidNotification().length; j++){
+        this.timeNotificationMoment.push(moment(this.listNotification[j].notificationAt).fromNow())
+      }
+      this.countOtherNotification(this.listNotification);
+    })
+  }
+
+  countOtherNotification(notification: Notifications[]){
+    this.notificationService.countOther(notification).subscribe(data =>{
+      this.countOther = data
+    })
+  }
+
+  checkValidNotification(){
+    for (let t = 0; t < this.listNotification.length; t++){
+      if (this.listNotification[t]?.users?.id == this.user.id){
+        this.listNotification.splice(t,1)
+        t--;
+      }
+      if (this.listNotification[t]?.notificationType?.id == 1 ){
+        let flag = true;
+        for (let k = 0; k < this.listFriend.length; k++){
+          if (this.listNotification[t].users?.id == this.listFriend[k].id){
+            flag = false;
+          }
+        }
+        if (flag){
+          this.listNotification.splice(t,1)
+          t--;
+        }
+      }
+    }
+    return this.listNotification;
+  }
+
+  seenNotification(id: number | undefined){
+    this.notificationService.seenNotification(id).subscribe();
   }
 
   checkExist(user: Users) {
@@ -177,6 +225,7 @@ export class FriendProfileComponent implements OnInit {
     // @ts-ignore
     this.userService.findAllFriend(this.user.id).subscribe((data) => {
       this.listFriend = data
+      this.getAllNotification()
     })
   }
 

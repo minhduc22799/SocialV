@@ -9,6 +9,9 @@ import {NavigationEnd, Router} from "@angular/router";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import {finalize} from "rxjs";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
+import {Notifications} from "../Model/notifications";
+import {NotificationService} from "../notificationService/notification.service";
+import * as moment from "moment";
 
 
 @Component({
@@ -24,12 +27,16 @@ export class EditProfileComponent implements OnInit {
   // @ts-ignore
   user: Users = JSON.parse(this.data)
   listFriend: Users[] = [];
+  listNotification: Notifications[] = [];
+  timeNotificationMoment: any[] = [];
+  countOther: any[] = [];
    imageFile: any;
    pathName!: string;
 
   constructor(private userService: UserService,
               private router:Router,
-              private storage:AngularFireStorage) {
+              private storage:AngularFireStorage,
+              private notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
@@ -53,6 +60,48 @@ export class EditProfileComponent implements OnInit {
       address: new FormControl('',[Validators.required]),
     })
     this.formEditProfile.patchValue(this.user)
+  }
+
+  getAllNotification(){
+    this.notificationService.getNotification(this.user.id).subscribe(data =>{
+      this.listNotification = data
+      for (let j = 0; j < this.checkValidNotification().length; j++){
+        this.timeNotificationMoment.push(moment(this.listNotification[j].notificationAt).fromNow())
+      }
+      this.countOtherNotification(this.listNotification);
+    })
+  }
+
+  countOtherNotification(notification: Notifications[]){
+    this.notificationService.countOther(notification).subscribe(data =>{
+      this.countOther = data
+    })
+  }
+
+  checkValidNotification(){
+    for (let t = 0; t < this.listNotification.length; t++){
+      if (this.listNotification[t]?.users?.id == this.user.id){
+        this.listNotification.splice(t,1)
+        t--;
+      }
+      if (this.listNotification[t]?.notificationType?.id == 1 ){
+        let flag = true;
+        for (let k = 0; k < this.listFriend.length; k++){
+          if (this.listNotification[t].users?.id == this.listFriend[k].id){
+            flag = false;
+          }
+        }
+        if (flag){
+          this.listNotification.splice(t,1)
+          t--;
+        }
+      }
+    }
+    return this.listNotification;
+  }
+
+  seenNotification(id: number | undefined){
+    this.notificationService.seenNotification(id).subscribe();
   }
 
   saveProfile() {
@@ -106,6 +155,7 @@ export class EditProfileComponent implements OnInit {
     // @ts-ignore
     this.userService.findAllFriend(this.user.id).subscribe((data) => {
       this.listFriend = data
+      this.getAllNotification()
     })
   }
   submitAvatar(event: any) {

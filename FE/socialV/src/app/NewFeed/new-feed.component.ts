@@ -91,7 +91,6 @@ export class NewFeedComponent implements OnInit {
     this.getAllPostStatus()
     // this.onMoveTop()
     this.findListRequest()
-    this.getAllNotification()
   }
 
   onMoveTop() {
@@ -112,7 +111,7 @@ export class NewFeedComponent implements OnInit {
   getAllNotification(){
     this.notificationService.getNotification(this.user.id).subscribe(data =>{
       this.listNotification = data
-      for (let j = 0; j < this.checkValidNotification(data).length; j++){
+      for (let j = 0; j < this.checkValidNotification().length; j++){
         this.timeNotificationMoment.push(moment(this.listNotification[j].notificationAt).fromNow())
       }
       this.countOtherNotification(this.listNotification);
@@ -125,20 +124,37 @@ export class NewFeedComponent implements OnInit {
     })
   }
 
-  checkValidNotification(notification: Notifications[]){
+  checkValidNotification(){
     for (let t = 0; t < this.listNotification.length; t++){
       if (this.listNotification[t]?.users?.id == this.user.id){
         this.listNotification.splice(t,1)
         t--;
       }
+      if (this.listNotification[t]?.notificationType?.id == 1 ){
+        let flag = true;
+        for (let k = 0; k < this.listFriend.length; k++){
+          if (this.listNotification[t].users?.id == this.listFriend[k].id){
+            flag = false;
+          }
+        }
+        if (flag){
+          this.listNotification.splice(t,1)
+          t--;
+        }
+      }
     }
     return this.listNotification;
+  }
+
+  seenNotification(id: number | undefined){
+    this.notificationService.seenNotification(id).subscribe();
   }
 
   findAllFriend() {
     // @ts-ignore
     this.userService.findAllFriend(this.user.id).subscribe((data) => {
       this.listFriend = data
+      this.getAllNotification()
     })
   }
 

@@ -108,11 +108,27 @@
                     <div class="header-title bg-primary">
                       <h5 class="mb-0 text-white">All Notifications</h5>
                     </div>
-                    <small class="badge  bg-light text-dark">4</small>
+                    <small class="badge  bg-light text-dark">{{listNotification.length}}</small>
                   </div>
                   <div class="card-body p-0">
                     <div *ngFor="let n of listNotification, index as q">
-                      <a *ngIf="countOther[q] > 0" class="iq-sub-card">
+                      <a *ngIf="countOther[q] > 0 && !n.status" (click)="seenNotification(n.id)" class="iq-sub-card" style="background-color: #b2bcc5">
+                        <div class="d-flex align-items-center">
+                          <div class="">
+                            <img class="avatar-40 rounded" src="{{n?.users?.avatar}}" alt="">
+                          </div>
+                          <div class="ms-3 w-100">
+                            <h6 *ngIf="countOther[q] > 1" class="mb-0 ">{{n?.users?.name}} and {{countOther[q] - 1}}
+                              others {{n?.notificationType?.type}}</h6>
+                            <h6 *ngIf="countOther[q] == 1"
+                                class="mb-0 ">{{n?.users?.name}} {{n?.notificationType?.type}}</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                              <p class="mb-0">{{timeNotificationMoment[q]}}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                      <a *ngIf="countOther[q] > 0 && n.status" class="iq-sub-card">
                         <div class="d-flex align-items-center">
                           <div class="">
                             <img class="avatar-40 rounded" src="{{n?.users?.avatar}}" alt="">
@@ -404,17 +420,17 @@
                 <div class="user-post-data">
                   <div class="d-flex justify-content-between">
                     <div class="me-3">
-                      <img *ngIf="p?.users?.id == user.id" routerLink="/Profile" style="border-radius: 50%" width="50px"
+                      <img *ngIf="p?.users?.id == user.id" routerLink="/Profile" style="border-radius: 50%;cursor: pointer" width="50px"
                            height="50px" src="{{p?.users?.avatar}}" alt="">
                       <img *ngIf="p?.users?.id != user.id" routerLink="/friendProfile/{{p?.users?.id}}"
-                           style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
+                           style="border-radius: 50%;cursor: pointer" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
                     </div>
                     <div class="w-100">
                       <div class="d-flex  justify-content-between">
                         <div class="">
-                          <h5 *ngIf="p?.users?.id === user.id" routerLink="/Profile"
+                          <h5 *ngIf="p?.users?.id === user.id" style="cursor: pointer" routerLink="/Profile"
                               class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
-                          <h5 *ngIf="p?.users?.id !== user.id" routerLink="/friendProfile/{{p?.users?.id}}"
+                          <h5 *ngIf="p?.users?.id !== user.id"  style="cursor: pointer" routerLink="/friendProfile/{{p?.users?.id}}"
                               class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
 
                           <span class="mb-0 d-inline-block"> &nbsp; Added New a Post </span>
