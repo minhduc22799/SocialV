@@ -13,6 +13,8 @@ import {AngularFireStorage, AngularFireStorageReference} from "@angular/fire/com
 import {NavigationEnd, Router} from "@angular/router";
 import * as moment from 'moment';
 import {PostComment} from "../Model/post-comment";
+import {Notifications} from "../Model/notifications";
+import {NotificationService} from "../notificationService/notification.service";
 
 @Component({
   selector: 'app-newfeed',
@@ -42,28 +44,32 @@ export class NewFeedComponent implements OnInit {
   timeMoment: any[] = []
   timeMomentComment: any[][] = []
   listRequest: Users[] = [];
+  listNotification: Notifications[] = [];
+  timeNotificationMoment: any[] = [];
+  countOther: any[] = [];
   pathName!: string
   flag!: false;
-  postCm?:Post
-  commentP?:PostComment
+  postCm?: Post
+  commentP?: PostComment
   showMore: boolean = false;
 
-  commentForm:FormGroup = new FormGroup({
-      content: new FormControl()
+  commentForm: FormGroup = new FormGroup({
+    content: new FormControl()
   })
 
-  commentFormEdit:FormGroup = new FormGroup({
-    id:new FormControl(),
+  commentFormEdit: FormGroup = new FormGroup({
+    id: new FormControl(),
     content: new FormControl(),
     cmtAt: new FormControl(),
     post: new FormGroup({
-      id:new FormControl()
+      id: new FormControl()
     })
   })
 
   showMoreItems() {
     this.showMore = true;
   }
+
   showLessItems() {
     this.showMore = false;
   }
@@ -85,6 +91,7 @@ export class NewFeedComponent implements OnInit {
     this.getAllPostStatus()
     // this.onMoveTop()
     this.findListRequest()
+    this.getAllNotification()
   }
 
   onMoveTop() {
@@ -98,10 +105,35 @@ export class NewFeedComponent implements OnInit {
   constructor(private postService: PostService,
               private userService: UserService,
               private storage: AngularFireStorage,
+              private notificationService: NotificationService,
               private router: Router) {
 
   }
+  getAllNotification(){
+    this.notificationService.getNotification(this.user.id).subscribe(data =>{
+      this.listNotification = data
+      for (let j = 0; j < this.checkValidNotification(data).length; j++){
+        this.timeNotificationMoment.push(moment(this.listNotification[j].notificationAt).fromNow())
+      }
+      this.countOtherNotification(this.listNotification);
+    })
+  }
 
+  countOtherNotification(notification: Notifications[]){
+    this.notificationService.countOther(notification).subscribe(data =>{
+      this.countOther = data
+    })
+  }
+
+  checkValidNotification(notification: Notifications[]){
+    for (let t = 0; t < this.listNotification.length; t++){
+      if (this.listNotification[t]?.users?.id == this.user.id){
+        this.listNotification.splice(t,1)
+        t--;
+      }
+    }
+    return this.listNotification;
+  }
 
   findAllFriend() {
     // @ts-ignore
@@ -155,41 +187,42 @@ export class NewFeedComponent implements OnInit {
     })
   }
 
-  addComment(post:Post){
+  addComment(post: Post) {
 
     const postComment = this.commentForm.value
-      postComment.users = this.user
-      postComment.post = post
+    postComment.users = this.user
+    postComment.post = post
 
-    this.postService.addComment(postComment).subscribe(() =>{
-        this.findAll()
-        this.commentForm.reset()
+    this.postService.addComment(postComment).subscribe(() => {
+      this.findAll()
+      this.commentForm.reset()
     })
   }
 
 
-  getCommentById(id:number){
-    this.postService.getCommentById(id).subscribe((data)=>{
+  getCommentById(id: number) {
+    this.postService.getCommentById(id).subscribe((data) => {
       this.commentP = data
       this.commentFormEdit.patchValue(data)
       console.log(data)
     })
   }
-  editComment(){
-   const postComment = this.commentFormEdit.value
+
+  editComment() {
+    const postComment = this.commentFormEdit.value
     postComment.users = this.user
     postComment.cmtAt = this.commentP?.cmtAt
     // @ts-ignore
-    this.postService.editComment(this.commentP.id,postComment).subscribe(() =>{
+    this.postService.editComment(this.commentP.id, postComment).subscribe(() => {
       this.findAll()
       document.getElementById("edit-comment")?.click()
     })
   }
 
-  deleteComment(id:number){
-      this.postService.deleteComment(id).subscribe(()=>{
-        this.findAll()
-      })
+  deleteComment(id: number) {
+    this.postService.deleteComment(id).subscribe(() => {
+      this.findAll()
+    })
   }
 
 
@@ -197,14 +230,14 @@ export class NewFeedComponent implements OnInit {
     this.postService.getAllListComment(posts).subscribe(data => {
       this.listAllComment = data
       // console.log(moment(data[2][1].cmtAt).fromNow())
-      for (let e = 0; e < data.length; e++){
+      for (let e = 0; e < data.length; e++) {
         if (data[e].length > 0) {
           this.timeMomentComment[e] = []
           for (let f = 0; f < data[e].length; f++) {
             // @ts-ignore
             this.timeMomentComment[e][f] = moment(data[e][f].cmtAt).fromNow()
           }
-        }else {
+        } else {
           this.timeMomentComment[e] = []
         }
       }
@@ -213,9 +246,9 @@ export class NewFeedComponent implements OnInit {
     })
   }
 
-  likeComment(id:number){
+  likeComment(id: number) {
     // @ts-ignore
-    this.postService.likeComment(this.user.id, id).subscribe(()=>{
+    this.postService.likeComment(this.user.id, id).subscribe(() => {
       this.findAll()
     })
   }
@@ -321,8 +354,6 @@ export class NewFeedComponent implements OnInit {
     }
   }
 
-
-
   findListRequest() {
     // @ts-ignore
     this.userService.findListRequestFriend(this.user.id).subscribe((data) => {
@@ -354,16 +385,15 @@ export class NewFeedComponent implements OnInit {
 
   }
 
-  getListCommentLike(){
-      this.postService.getCountComment(this.listAllComment).subscribe(data=>{
-        this.listCommentLike = data
-      })
-  }
-
-  getListCheckLikeComment(){
-    this.postService.getCheckLikeComment(this.listAllComment, this.user.id).subscribe(data=>{
-      this.listCheckLikeComment = data
+  getListCommentLike() {
+    this.postService.getCountComment(this.listAllComment).subscribe(data => {
+      this.listCommentLike = data
     })
   }
 
+  getListCheckLikeComment() {
+    this.postService.getCheckLikeComment(this.listAllComment, this.user.id).subscribe(data => {
+      this.listCheckLikeComment = data
+    })
+  }
 }
