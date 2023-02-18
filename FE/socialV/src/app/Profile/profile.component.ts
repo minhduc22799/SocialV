@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Users} from "../Model/Users";
 import {UserService} from "../service/user.service";
 import {PostService} from "../PostService/post.service";
-import {user} from "@angular/fire/auth";
 import {PostDisplay} from "../Model/Post-display";
 import {Post} from "../Model/Post";
 import {ImagePost} from "../Model/image-post";
@@ -14,6 +13,8 @@ import {PostStatus} from "../Model/post-status";
 import {AngularFireStorage, AngularFireStorageReference} from "@angular/fire/compat/storage";
 import {Router} from "@angular/router";
 import * as moment from "moment/moment";
+import {NotificationService} from "../notificationService/notification.service";
+import {Notifications} from "../Model/notifications";
 
 @Component({
   selector: 'app-profile',
@@ -32,6 +33,7 @@ export class ProfileComponent implements OnInit{
   listPostStatus: PostStatus[] = [];
   listImg:any[] = [];
   listImgCreate: ImagePost[] = [];
+  listNotification: Notifications[] = [];
   checkUploadMultiple = false;
   timeMoment: any[] = [];
   countLike:any[] = [];
@@ -57,7 +59,7 @@ export class ProfileComponent implements OnInit{
     this.findPostAllProfile()
     this.getAllPostStatus()
     this.onMoveTop()
-
+    this.getAllNotification()
   }
   onMoveTop(){
     this.router.events.subscribe((event)=>{
@@ -67,8 +69,9 @@ export class ProfileComponent implements OnInit{
     })
   }
 
-  constructor( private userService: UserService ,
-               private postService: PostService ,
+  constructor( private userService: UserService,
+               private postService: PostService,
+               private notificationService: NotificationService,
                private routerActive:ActivatedRoute,
                private storage: AngularFireStorage,
                private router:Router) {
@@ -77,6 +80,12 @@ export class ProfileComponent implements OnInit{
     // @ts-ignore
     this.userService.findAllFriend(this.user.id).subscribe((data)=>{
       this.listFriend = data
+    })
+  }
+
+  getAllNotification(){
+    this.notificationService.getNotification(this.user.id).subscribe(data =>{
+      this.listNotification = data
     })
   }
 
