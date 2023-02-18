@@ -31,6 +31,8 @@ export class NewFeedComponent implements OnInit {
   listImg: any[] = [];
   listComment: PostComment[] = [];
   listAllComment: PostComment[][] = [];
+  listCommentLike: number[][] = [];
+  listCheckLikeComment: boolean[][] = [];
   countLike: any[] = [];
   countComment: any[] = [];
   listPostStatus: PostStatus[] = [];
@@ -44,19 +46,27 @@ export class NewFeedComponent implements OnInit {
   flag!: false;
   postCm?:Post
   commentP?:PostComment
-
+  showMore: boolean = false;
 
   commentForm:FormGroup = new FormGroup({
       content: new FormControl()
   })
 
   commentFormEdit:FormGroup = new FormGroup({
+    id:new FormControl(),
     content: new FormControl(),
+    cmtAt: new FormControl(),
     post: new FormGroup({
       id:new FormControl()
     })
   })
 
+  showMoreItems() {
+    this.showMore = true;
+  }
+  showLessItems() {
+    this.showMore = false;
+  }
 
   postForm: FormGroup = new FormGroup({
     content: new FormControl(),
@@ -73,7 +83,7 @@ export class NewFeedComponent implements OnInit {
     this.findAll()
     this.findAllFriend()
     this.getAllPostStatus()
-    this.onMoveTop()
+    // this.onMoveTop()
     this.findListRequest()
   }
 
@@ -89,7 +99,9 @@ export class NewFeedComponent implements OnInit {
               private userService: UserService,
               private storage: AngularFireStorage,
               private router: Router) {
+
   }
+
 
   findAllFriend() {
     // @ts-ignore
@@ -109,10 +121,8 @@ export class NewFeedComponent implements OnInit {
       this.findCountLike(post)
       this.findCountComment(post)
       this.getAllListComment(post)
-      // this.getAllComment(post.id)
-    })
-    // })
 
+    })
   }
 
   findFriendLike(posts: Post[]) {
@@ -153,23 +163,26 @@ export class NewFeedComponent implements OnInit {
 
     this.postService.addComment(postComment).subscribe(() =>{
         this.findAll()
+        this.commentForm.reset()
     })
   }
 
-
-
-  editComment(postComment:PostComment){
-    postComment = this.commentFormEdit.value
-    postComment.users = this.user
-    this.postService.editComment(postComment.id,postComment).subscribe(() =>{
-      this.findAll()
-    })
-  }
 
   getCommentById(id:number){
     this.postService.getCommentById(id).subscribe((data)=>{
-        this.commentP = data
+      this.commentP = data
       this.commentFormEdit.patchValue(data)
+      console.log(data)
+    })
+  }
+  editComment(){
+   const postComment = this.commentFormEdit.value
+    postComment.users = this.user
+    postComment.cmtAt = this.commentP?.cmtAt
+    // @ts-ignore
+    this.postService.editComment(this.commentP.id,postComment).subscribe(() =>{
+      this.findAll()
+      document.getElementById("edit-comment")?.click()
     })
   }
 
@@ -183,20 +196,27 @@ export class NewFeedComponent implements OnInit {
   getAllListComment(posts: Post[]) {
     this.postService.getAllListComment(posts).subscribe(data => {
       this.listAllComment = data
-      // for (let j = 0; j < data.length; j++) {
-      //   if (data[j].length != 0) {
-      //     for (let k = 0; k < data[j].length; k++) {
-      //       if (data[j][k] != undefined) {
-      //         this.timeMomentComment[j][k] = undefined
-      //       }else {
-      //         this.timeMomentComment[j][k] = moment(data[j][k].cmtAt).fromNow()
-      //       }
-      //
-      //
-      //     }
-      //   }
-      // }
-      console.log(this.timeMomentComment)
+      // console.log(moment(data[2][1].cmtAt).fromNow())
+      for (let e = 0; e < data.length; e++){
+        if (data[e].length > 0) {
+          this.timeMomentComment[e] = []
+          for (let f = 0; f < data[e].length; f++) {
+            // @ts-ignore
+            this.timeMomentComment[e][f] = moment(data[e][f].cmtAt).fromNow()
+          }
+        }else {
+          this.timeMomentComment[e] = []
+        }
+      }
+      this.getListCommentLike()
+      this.getListCheckLikeComment()
+    })
+  }
+
+  likeComment(id:number){
+    // @ts-ignore
+    this.postService.likeComment(this.user.id, id).subscribe(()=>{
+      this.findAll()
     })
   }
 
@@ -302,6 +322,7 @@ export class NewFeedComponent implements OnInit {
   }
 
 
+
   findListRequest() {
     // @ts-ignore
     this.userService.findListRequestFriend(this.user.id).subscribe((data) => {
@@ -331,6 +352,18 @@ export class NewFeedComponent implements OnInit {
     localStorage.removeItem("user");
     this.router.navigate(['']);
 
+  }
+
+  getListCommentLike(){
+      this.postService.getCountComment(this.listAllComment).subscribe(data=>{
+        this.listCommentLike = data
+      })
+  }
+
+  getListCheckLikeComment(){
+    this.postService.getCheckLikeComment(this.listAllComment, this.user.id).subscribe(data=>{
+      this.listCheckLikeComment = data
+    })
   }
 
 }

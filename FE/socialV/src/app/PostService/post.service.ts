@@ -101,5 +101,15 @@ export class PostService {
     return this.http.get<any>(apiUrl +`/post/interact/comment/${id}`)
   }
 
+  getCountComment(postsComment:PostComment[][]):Observable<any>{
+    return this.http.post<any>(apiUrl +`/post/comment/countlike`,postsComment)
+  }
 
+  getCheckLikeComment(postsComment: PostComment[][], id: number | undefined):Observable<any> {
+    return this.http.post<any>(apiUrl + `/post/comment/check/like/${id}`, postsComment)
+  }
+
+  likeComment(idUser:number, idCmt:number):Observable<any>{
+    return this.http.get<any>(apiUrl +`/post/interact/comment/like/${idUser}/${idCmt}`)
+  }
 }
