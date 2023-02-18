@@ -14,6 +14,7 @@ import {NavigationEnd, Router} from "@angular/router";
 
 import * as moment from 'moment';
 import {finalize} from "rxjs";
+import {PostComment} from "../Model/post-comment";
 
 @Component({
   selector: 'app-newfeed',
@@ -30,6 +31,8 @@ export class NewFeedComponent implements OnInit {
   listImgPost: ImagePost[][] = [];
   listFriendPost: Users[][] = [];
   listImg: any[] = [];
+  listComment: PostComment[] = [];
+  listAllComment: PostComment[][] = [];
   countLike: any[] = [];
   countComment: any[] = [];
   listPostStatus: PostStatus[] = [];
@@ -37,9 +40,26 @@ export class NewFeedComponent implements OnInit {
   imageFiles: any[] = [];
   imgSrc: string[] = [];
   timeMoment: any[] = []
-  listRequest:Users[] = [];
+  timeMomentComment: any[][] = []
+  listRequest: Users[] = [];
   pathName!: string
   flag!: false;
+  postCm?:Post
+  commentP?:PostComment
+
+
+  commentForm:FormGroup = new FormGroup({
+      content: new FormControl()
+  })
+
+  commentFormEdit:FormGroup = new FormGroup({
+    content: new FormControl(),
+    post: new FormGroup({
+      id:new FormControl()
+    })
+  })
+
+
   postForm: FormGroup = new FormGroup({
     content: new FormControl(),
     postStatus: new FormGroup({
@@ -58,8 +78,9 @@ export class NewFeedComponent implements OnInit {
     this.onMoveTop()
     this.findListRequest()
   }
-  onMoveTop(){
-    this.router.events.subscribe((event)=>{
+
+  onMoveTop() {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         window.scrollTo(0, 0);
       }
@@ -69,7 +90,7 @@ export class NewFeedComponent implements OnInit {
   constructor(private postService: PostService,
               private userService: UserService,
               private storage: AngularFireStorage,
-              private router:Router) {
+              private router: Router) {
   }
 
   findAllFriend() {
@@ -82,13 +103,15 @@ export class NewFeedComponent implements OnInit {
   findAll() {
     this.postService.findAllPostNewFeed(this.user).subscribe((post) => {
       this.postsDisplay = post
-      for (let j = 0; j < this.postsDisplay.length; j++){
+      for (let j = 0; j < this.postsDisplay.length; j++) {
         this.timeMoment.push(moment(this.postsDisplay[j].createAt).fromNow())
       }
       this.findAllImgPost(post)
       this.findFriendLike(post)
       this.findCountLike(post)
       this.findCountComment(post)
+      this.getAllListComment(post)
+      // this.getAllComment(post.id)
     })
     // })
 
@@ -112,8 +135,8 @@ export class NewFeedComponent implements OnInit {
     })
   }
 
-  confirmRequest(friendRequestId: any){
-    this.userService.confirmRequest(this.user.id, friendRequestId).subscribe(()=>{
+  confirmRequest(friendRequestId: any) {
+    this.userService.confirmRequest(this.user.id, friendRequestId).subscribe(() => {
       this.findListRequest()
     })
   }
@@ -121,6 +144,61 @@ export class NewFeedComponent implements OnInit {
   findCountComment(posts: Post[]) {
     this.postService.findCountCommentPost(posts).subscribe(countComment => {
       this.countComment = countComment
+    })
+  }
+
+  addComment(post:Post){
+
+    const postComment = this.commentForm.value
+      postComment.users = this.user
+      postComment.post = post
+
+    this.postService.addComment(postComment).subscribe(() =>{
+        this.findAll()
+    })
+  }
+
+
+
+  editComment(postComment:PostComment){
+    postComment = this.commentFormEdit.value
+    postComment.users = this.user
+    this.postService.editComment(postComment.id,postComment).subscribe(() =>{
+      this.findAll()
+    })
+  }
+
+  getCommentById(id:number){
+    this.postService.getCommentById(id).subscribe((data)=>{
+        this.commentP = data
+      this.commentFormEdit.patchValue(data)
+    })
+  }
+
+  deleteComment(id:number){
+      this.postService.deleteComment(id).subscribe(()=>{
+        this.findAll()
+      })
+  }
+
+
+  getAllListComment(posts: Post[]) {
+    this.postService.getAllListComment(posts).subscribe(data => {
+      this.listAllComment = data
+      // for (let j = 0; j < data.length; j++) {
+      //   if (data[j].length != 0) {
+      //     for (let k = 0; k < data[j].length; k++) {
+      //       if (data[j][k] != undefined) {
+      //         this.timeMomentComment[j][k] = undefined
+      //       }else {
+      //         this.timeMomentComment[j][k] = moment(data[j][k].cmtAt).fromNow()
+      //       }
+      //
+      //
+      //     }
+      //   }
+      // }
+      console.log(this.timeMomentComment)
     })
   }
 
@@ -140,6 +218,12 @@ export class NewFeedComponent implements OnInit {
           this.listImg[i].push(imageObject1);
         }
       }
+    })
+  }
+
+  getCommentByIdPost(id: number) {
+    this.postService.getListComment(id).subscribe(data => {
+      this.listComment = data
     })
   }
 
@@ -219,14 +303,20 @@ export class NewFeedComponent implements OnInit {
     }
   }
 
-  findListRequest(){
+
+  findListRequest() {
     // @ts-ignore
-    this.userService.findListRequestFriend(this.user.id).subscribe((data)=>{
+    this.userService.findListRequestFriend(this.user.id).subscribe((data) => {
       this.listRequest = data
 
     })
   }
 
+  likePost(idPost?: number) {
+    this.postService.likePost(this.user.id, idPost).subscribe(() => {
+      this.findAll()
+    })
+  }
 
   deleteImgCreate(id: any | undefined) {
     this.imgSrc.splice(id, 1);
@@ -239,7 +329,7 @@ export class NewFeedComponent implements OnInit {
     this.imageFiles = a
   }
 
-  logOut(){
+  logOut() {
     localStorage.removeItem("user");
     this.router.navigate(['']);
 
