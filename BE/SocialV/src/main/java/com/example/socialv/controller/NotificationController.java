@@ -1,6 +1,6 @@
 package com.example.socialv.controller;
 
-import com.example.socialv.model.Notification;
+import com.example.socialv.model.Notifications;
 import com.example.socialv.model.Users;
 import com.example.socialv.service.NotificationService.INotificationService;
 import com.example.socialv.service.userService.IUserService;
@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -18,18 +20,18 @@ public class NotificationController {
     @Autowired
     private IUserService userService;
 
-    @PutMapping("/seen/{id}")
+    @GetMapping("/seen/{id}")
     public ResponseEntity<?> seenNotification(@PathVariable Long id) {
-        Notification notification = notificationService.findById(id).get();
+        Notifications notification = notificationService.findById(id).get();
         notification.setStatus(true);
         notificationService.save(notification);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Iterable<Notification>> getAll(@PathVariable Long id){
+    public ResponseEntity<List<Notifications>> getAll(@PathVariable Long id){
         Users users = userService.findById(id).get();
-        Iterable<Notification> notifications = notificationService.getAllByUsers(users);
+        List<Notifications> notifications = notificationService.getAllByUsers(users);
         return new ResponseEntity<>(notifications, HttpStatus.OK);
     }
 }
