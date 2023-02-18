@@ -11,9 +11,7 @@ import {PostStatus} from "../Model/post-status";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import {AngularFireStorage, AngularFireStorageReference} from "@angular/fire/compat/storage";
 import {NavigationEnd, Router} from "@angular/router";
-
 import * as moment from 'moment';
-import {finalize} from "rxjs";
 import {PostComment} from "../Model/post-comment";
 
 @Component({
