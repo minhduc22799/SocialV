@@ -42,6 +42,8 @@ export class ProfileComponent implements OnInit{
   listImgDelete: number[] = [];
   listImgUpdate: ImagePost[] = [];
   countComment:any[] = [];
+  timeNotificationMoment: any[] = [];
+  countOther: any[] = [];
   post!: Post
   postUpdateForm: FormGroup = new FormGroup({
     id: new FormControl(),
@@ -86,8 +88,28 @@ export class ProfileComponent implements OnInit{
   getAllNotification(){
     this.notificationService.getNotification(this.user.id).subscribe(data =>{
       this.listNotification = data
+      for (let j = 0; j < this.checkValidNotification(data).length; j++){
+        this.timeNotificationMoment.push(moment(this.listNotification[j].notificationAt).fromNow())
+      }
+      this.countOtherNotification(this.listNotification);
     })
   }
+
+  countOtherNotification(notification: Notifications[]){
+    this.notificationService.countOther(notification).subscribe(data =>{
+      this.countOther = data
+    })
+  }
+
+  checkValidNotification(notification: Notifications[]){
+    for (let t = 0; t < this.listNotification.length; t++){
+      if (this.listNotification[t]?.users?.id == this.user.id){
+        this.listNotification.splice(t,1)
+        t--;
+      }
+    }
+    return this.listNotification;
+}
 
   findPostAllProfile(){
     // @ts-ignore
@@ -136,7 +158,7 @@ export class ProfileComponent implements OnInit{
           this.listImg[i].push(imageObject1);
         }
       }
-      console.log(this.listImg)
+
     })
   }
 
@@ -154,12 +176,10 @@ export class ProfileComponent implements OnInit{
             this.findPostAllProfile()
           })
         }
-
     })
   }
 
   searchOnWall(content:string){
-   // const  id = Number(this.routerActive.snapshot.paramMap.get("id"))
     this.userService.searchPostOnWall(this.user.id,content).subscribe((data)=>{
       this.listPostProfile=data
     })

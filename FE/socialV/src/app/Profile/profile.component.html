@@ -164,23 +164,27 @@
                     <div class="header-title bg-primary">
                       <h5 class="mb-0 text-white">All Notifications</h5>
                     </div>
-                    <small class="badge  bg-light text-dark">4</small>
+                    <small class="badge  bg-light text-dark">{{listNotification.length}}</small>
                   </div>
                   <div class="card-body p-0">
-                    <a *ngFor="let n of listNotification" class="iq-sub-card" >
-                      <div class="d-flex align-items-center">
-                        <div class="">
-                          <img class="avatar-40 rounded" src="  assets/images/user/01.jpg" alt="">
-                        </div>
-                        <div class="ms-3 w-100">
-                          <h6 class="mb-0 ">{{n?.users?.name}}&nbsp;{{n?.notificationType?.type}}</h6>
-                          <div class="d-flex justify-content-between align-items-center">
-                            <p class="mb-0">{{n?.notificationAt}}</p>
+                    <div *ngFor="let n of listNotification, index as q">
+                      <a *ngIf="countOther[q] > 0" class="iq-sub-card">
+                        <div class="d-flex align-items-center">
+                          <div class="">
+                            <img class="avatar-40 rounded" src="{{n?.users?.avatar}}" alt="">
+                          </div>
+                          <div class="ms-3 w-100">
+                            <h6 *ngIf="countOther[q] > 1" class="mb-0 ">{{n?.users?.name}} and {{countOther[q] - 1}}
+                              others {{n?.notificationType?.type}}</h6>
+                            <h6 *ngIf="countOther[q] == 1"
+                                class="mb-0 ">{{n?.users?.name}} {{n?.notificationType?.type}}</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                              <p class="mb-0">{{timeNotificationMoment[q]}}</p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </a>
-
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -717,10 +721,10 @@
                                     <span *ngIf="p?.postStatus?.id === 3"
                                           style="color: #0d6efd"> &nbsp; Friend Only </span>
 
-                                  <p class="mb-0 text-primary">{{timeMoment[i]}}</p>
-                                </div>
-                                <div  class="card-post-toolbar">
-                                  <div style="width: 50px" class="dropdown">
+                                    <p class="mb-0 text-primary">{{timeMoment[i]}}</p>
+                                  </div>
+                                  <div class="card-post-toolbar">
+                                    <div style="width: 50px" class="dropdown">
                                     <span class="dropdown-toggle" id="postdata-5" data-bs-toggle="dropdown"
                                           aria-haspopup="true" aria-expanded="false" role="button">
                                     <i class="ri-more-fill"></i>

@@ -41,8 +41,11 @@ public class NotificationService implements INotificationService {
     }
 
     @Override
-    public List<Notifications> getAllByUsers(Users users) {
-        return notificationRepository.getAllByUsers(users);
+    public List<Notifications> getAll(Long userId) {
+        List<Notifications> notifications = notificationRepository.getAll(userId);
+        List<Notifications> notifications1 = notificationRepository.getAllNewFriendPost(userId);
+        notifications.addAll(notifications1);
+        return notifications;
     }
 
     @Override

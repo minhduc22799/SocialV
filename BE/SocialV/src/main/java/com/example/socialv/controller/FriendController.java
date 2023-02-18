@@ -37,13 +37,15 @@ public class FriendController {
 
     @PostMapping
     public ResponseEntity<?> requestFriend(@RequestBody FriendRequest friendRequest){
+        if (friendRequestService.findRequest(friendRequest.getUsersReceive().getId(), friendRequest.getUsersRequest().getId()).isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         friendRequestService.save(friendRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/checkRequest/{id1}/{id2}")
     public ResponseEntity<Boolean> checkRequest(@PathVariable("id1") Long id1, @PathVariable("id2") Long id2){
-        boolean flag = friendRequestService.findRequest(id1,id2).isPresent();
         return new ResponseEntity<>(friendRequestService.findRequest(id1,id2).isPresent(),HttpStatus.OK);
     }
 
