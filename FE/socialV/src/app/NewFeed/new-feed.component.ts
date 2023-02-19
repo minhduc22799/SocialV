@@ -15,6 +15,7 @@ import * as moment from 'moment';
 import {PostComment} from "../Model/post-comment";
 import {Notifications} from "../Model/notifications";
 import {NotificationService} from "../notificationService/notification.service";
+import {Stomp} from "@stomp/stompjs";
 
 @Component({
   selector: 'app-newfeed',
@@ -52,6 +53,7 @@ export class NewFeedComponent implements OnInit {
   postCm?: Post
   commentP?: PostComment
   showMore: boolean = false;
+  private stompClient: any;
 
   commentForm: FormGroup = new FormGroup({
     content: new FormControl()
@@ -91,6 +93,7 @@ export class NewFeedComponent implements OnInit {
     this.getAllPostStatus()
     // this.onMoveTop()
     this.findListRequest()
+    this.connect()
   }
 
   onMoveTop() {
@@ -107,6 +110,22 @@ export class NewFeedComponent implements OnInit {
               private notificationService: NotificationService,
               private router: Router) {
 
+  }
+
+  connect(){
+    const socket = new WebSocket('ws://localhost:8080/ws/websocket');
+    this.stompClient = Stomp.over(socket);
+    const _this = this;
+    this.stompClient.connect({}, function (){
+      _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
+        _this.getAllNotification()
+      })
+    })
+  }
+
+  sendNotification(){
+    // @ts-ignore
+    this.stompClient.send('/app/hello',{}, this.user.id.toString());
   }
   getAllNotification(){
     this.notificationService.getNotification(this.user.id).subscribe(data =>{
@@ -212,6 +231,7 @@ export class NewFeedComponent implements OnInit {
     this.postService.addComment(postComment).subscribe(() => {
       this.findAll()
       this.commentForm.reset()
+      this.sendNotification();
     })
   }
 
@@ -305,6 +325,7 @@ export class NewFeedComponent implements OnInit {
     post.users = this.user
     this.postService.createPost(post).subscribe(data => {
       // @ts-ignore
+      this.sendNotification()
       if (this.imageFiles.length === 0) {
         this.postForm.reset();
         this.findAll();
@@ -381,6 +402,7 @@ export class NewFeedComponent implements OnInit {
   likePost(idPost?: number) {
     this.postService.likePost(this.user.id, idPost).subscribe(() => {
       this.findAll()
+      this.sendNotification();
     })
   }
 

@@ -15,6 +15,7 @@ import {Router} from "@angular/router";
 import * as moment from "moment/moment";
 import {NotificationService} from "../notificationService/notification.service";
 import {Notifications} from "../Model/notifications";
+import {Stomp} from "@stomp/stompjs";
 
 @Component({
   selector: 'app-profile',
@@ -45,6 +46,7 @@ export class ProfileComponent implements OnInit{
   timeNotificationMoment: any[] = [];
   countOther: any[] = [];
   post!: Post
+  private stompClient: any;
   postUpdateForm: FormGroup = new FormGroup({
     id: new FormControl(),
     users: new FormGroup({
@@ -61,7 +63,7 @@ export class ProfileComponent implements OnInit{
     this.findPostAllProfile()
     this.getAllPostStatus()
     this.onMoveTop()
-
+    this.connect()
   }
   onMoveTop(){
     this.router.events.subscribe((event)=>{
@@ -85,6 +87,22 @@ export class ProfileComponent implements OnInit{
       this.listFriend = data
       this.getAllNotification()
     })
+  }
+
+  connect(){
+    const socket = new WebSocket('ws://localhost:8080/ws/websocket');
+    this.stompClient = Stomp.over(socket);
+    const _this = this;
+    this.stompClient.connect({}, function (){
+      _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
+        _this.getAllNotification()
+      })
+    })
+  }
+
+  sendNotification(){
+    // @ts-ignore
+    this.stompClient.send('/app/hello',{}, this.user.id.toString());
   }
 
   getAllNotification(){

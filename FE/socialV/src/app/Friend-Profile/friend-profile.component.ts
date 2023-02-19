@@ -10,6 +10,7 @@ import * as moment from "moment/moment";
 import {FriendRequest} from "../Model/friend-request";
 import {Notifications} from "../Model/notifications";
 import {NotificationService} from "../notificationService/notification.service";
+import {Stomp} from "@stomp/stompjs";
 
 @Component({
   selector: 'app-friend-profile',
@@ -37,6 +38,7 @@ export class FriendProfileComponent implements OnInit {
   listNotification: Notifications[] = [];
   timeNotificationMoment: any[] = [];
   countOther: any[] = [];
+  private stompClient: any;
   // @ts-ignore
   //nick wall
   friend: Users
@@ -52,8 +54,7 @@ export class FriendProfileComponent implements OnInit {
     this.findFriendOfFriend()
     this.findMutualFriend()
     this.onMoveTop()
-
-
+    this.connect()
   }
 
 
@@ -79,6 +80,22 @@ export class FriendProfileComponent implements OnInit {
       this.findCountComment(data)
 
     })
+  }
+
+  connect(){
+    const socket = new WebSocket('ws://localhost:8080/ws/websocket');
+    this.stompClient = Stomp.over(socket);
+    const _this = this;
+    this.stompClient.connect({}, function (){
+      _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
+        _this.getAllNotification()
+      })
+    })
+  }
+
+  sendNotification(){
+    // @ts-ignore
+    this.stompClient.send('/app/hello',{}, this.user.id.toString());
   }
 
   getAllNotification(){
