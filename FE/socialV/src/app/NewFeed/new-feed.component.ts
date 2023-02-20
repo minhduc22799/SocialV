@@ -137,6 +137,7 @@ export class NewFeedComponent implements OnInit {
 
   }
   getAllNotification(){
+    this.timeNotificationMoment = []
     this.notificationService.getNotification(this.user.id).subscribe(data =>{
       this.listNotification = data
       for (let j = 0; j < this.checkValidNotification().length; j++){

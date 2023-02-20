@@ -134,6 +134,8 @@ export class PostDetailComponent {
   }
 
   getAllNotification() {
+    this.timeNotificationMoment = []
+
     this.notificationService.getNotification(this.user.id).subscribe(data => {
       this.listNotification = data
       this.countNotSeen = 0

@@ -340,7 +340,7 @@
                     <div class="d-flex align-items-center justify-content-between w-100">
                       <div class="ms-3" >
                         <h5 style="cursor: pointer" routerLink="/friendProfile/{{s.id}}" class="d-inline-block">{{s.name}}</h5>
-                        <p class="mb-0">{{listMutualFriend[i]}} Mutual Friends</p>
+                        <p *ngIf="listMutualFriend[i] > 0" class="mb-0">{{listMutualFriend[i]}} Mutual Friends</p>
                       </div>
                     </div>
                   </li>

@@ -83,6 +83,7 @@ export class SearchFriendComponent implements OnInit{
     this.stompClient.send('/app/hello',{}, this.user.id.toString());
   }
   getAllNotification(){
+    this.timeNotificationMoment = []
     this.notificationService.getNotification(this.user.id).subscribe(data =>{
       this.listNotification = data
       for (let j = 0; j < this.checkValidNotification().length; j++){
