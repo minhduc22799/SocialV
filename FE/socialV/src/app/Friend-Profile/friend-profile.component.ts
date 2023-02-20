@@ -20,7 +20,6 @@ import {PostComment} from "../Model/post-comment";
   styleUrls: ['./friend-profile.component.css']
 })
 export class FriendProfileComponent implements OnInit {
-  showMore: boolean = false;
   data = localStorage.getItem("user")
   // @ts-ignore
   user: Users = JSON.parse(this.data)
@@ -43,6 +42,8 @@ export class FriendProfileComponent implements OnInit {
   countOther: any[] = [];
   countNotSeen:number = 0
   private stompClient: any;
+  numToShow = 3;
+
   // @ts-ignore
   //nick wall
   friend: Users
@@ -78,13 +79,13 @@ export class FriendProfileComponent implements OnInit {
 
 
   }
-  showMoreItems() {
-    this.showMore = true;
-  }
-  showLessItems() {
-    this.showMore = false;
+  showMore() {
+    this.numToShow += 5;
   }
 
+  showLess() {
+    this.numToShow -= 5;
+  }
 
   constructor(private postService: PostService,
               private userService: UserService,

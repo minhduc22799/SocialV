@@ -54,7 +54,9 @@ export class NewFeedComponent implements OnInit {
   flag!: false;
   postCm?: Post
   commentP?: PostComment
-  showMore: boolean = false;
+  numToShow = 3;
+  showMoreButton = true;
+  showLessButton = false;
   private stompClient: any;
 
   commentForm: FormGroup = new FormGroup({
@@ -70,13 +72,7 @@ export class NewFeedComponent implements OnInit {
     })
   })
 
-  showMoreItems() {
-    this.showMore = true;
-  }
 
-  showLessItems() {
-    this.showMore = false;
-  }
 
   postForm: FormGroup = new FormGroup({
     content: new FormControl(),
@@ -96,6 +92,14 @@ export class NewFeedComponent implements OnInit {
     // this.onMoveTop()
     this.findListRequest()
     this.connect()
+  }
+
+  showMore() {
+    this.numToShow += 5;
+  }
+
+  showLess() {
+    this.numToShow -= 5;
   }
 
   onMoveTop() {

@@ -24,7 +24,6 @@ import {PostComment} from "../Model/post-comment";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit{
-  showMore: boolean = false;
   data = localStorage.getItem("user")
   // @ts-ignore
   user:Users = JSON.parse(this.data)
@@ -57,6 +56,7 @@ export class ProfileComponent implements OnInit{
   listCommentLike: number[][] = [];
   listCheckLikeComment: boolean[][] = [];
   countNotSeen:number = 0
+  numToShow = 3;
 
 
   postUpdateForm: FormGroup = new FormGroup({
@@ -91,11 +91,12 @@ export class ProfileComponent implements OnInit{
     this.findListRequest()
     this.connect()
   }
-  showMoreItems() {
-    this.showMore = true;
+  showMore() {
+    this.numToShow += 5;
   }
-  showLessItems() {
-    this.showMore = false;
+
+  showLess() {
+    this.numToShow -= 5;
   }
 
 
@@ -106,6 +107,7 @@ export class ProfileComponent implements OnInit{
                private storage: AngularFireStorage,
                private router:Router) {
   }
+
   // @ts-ignore
   findAllFriend(): Users[]{
     // @ts-ignore
