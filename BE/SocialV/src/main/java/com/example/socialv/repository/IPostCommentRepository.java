@@ -14,4 +14,6 @@ public interface IPostCommentRepository extends JpaRepository<PostComment, Long>
     Integer countPostComment(Long postId);
     List<PostComment> findAllByPost(Post post);
     void deleteAllByPost(Post post);
+    @Query(value = "SELECT count(DISTINCT user_id) FROM post_comment where post_id = ?1", nativeQuery = true)
+    Integer countUserCommentPost(Long postId);
 }

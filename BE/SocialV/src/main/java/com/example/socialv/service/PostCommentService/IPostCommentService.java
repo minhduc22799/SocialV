@@ -10,4 +10,5 @@ public interface IPostCommentService extends IGeneralService<PostComment> {
     Integer countPostComment(Long postId);
     List<PostComment> findAllByPost(Post post);
     void deleteAllByPost(Post post);
+    Integer countUserCommentPost(Long postId);
 }

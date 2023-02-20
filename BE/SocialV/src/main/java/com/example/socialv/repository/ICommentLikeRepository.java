@@ -25,4 +25,5 @@ public interface ICommentLikeRepository extends JpaRepository<CommentLike, Long>
     @Modifying
     @Query(value = "delete from comment_like where user_id = ?1 and comment_id = ?2", nativeQuery = true)
     void unLike(Long id1, Long id2);
+
 }

@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -244,7 +242,7 @@ public class PostController {
         }return new ResponseEntity<>(posts,HttpStatus.OK);
     }
 
-    @PostMapping("/interact/like/{id1}/{id2}")
+    @GetMapping("/interact/like/{id1}/{id2}")
     public ResponseEntity<?> likeOrUnlike(@PathVariable("id1") Long userId, @PathVariable("id2") Long postId){
         if (checkUserLiked(userId, postId)){
             postLikeService.unLike(userId, postId);
@@ -267,7 +265,7 @@ public class PostController {
         return postComment.map(comment -> new ResponseEntity<>(comment, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/interact/comment/like/{id1}/{id2}")
+    @GetMapping("/interact/comment/like/{id1}/{id2}")
     public ResponseEntity<?> likeOrUnlikeComment(@PathVariable("id1") Long userId, @PathVariable("id2") Long cmtId){
         if (checkUserLikedComment(userId, cmtId)){
             commentLikeService.unLike(userId, cmtId);
@@ -293,5 +291,31 @@ public class PostController {
             postCommentService.save(postComment);
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+        @PostMapping("comment/countlike")
+    public ResponseEntity<?> countLikeListComment(@RequestBody List<List<PostComment>> postComments){
+        List<Object> list = new ArrayList<>();
+        for (int i = 0; i < postComments.size(); i++){
+            List<Integer> integerList = new ArrayList<>();
+            for (int j = 0; j < postComments.get(i).size(); j++){
+                integerList.add(commentLikeService.countCommentLike(postComments.get(i).get(j).getId()));
+            }
+            list.add(integerList);
+        }
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @PostMapping("comment/check/like/{id}")
+    public ResponseEntity<?> checkLikeListComment(@RequestBody List<List<PostComment>> postComments, @PathVariable Long id){
+        List<Object> list = new ArrayList<>();
+        for (int i = 0; i < postComments.size(); i++){
+            List<Boolean> booleanList = new ArrayList<>();
+            for (int j = 0; j < postComments.get(i).size(); j++){
+                booleanList.add(checkUserLikedComment(id, postComments.get(i).get(j).getId()));
+            }
+            list.add(booleanList);
+        }
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }
