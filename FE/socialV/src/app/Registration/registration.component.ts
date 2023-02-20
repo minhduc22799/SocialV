@@ -34,16 +34,13 @@ export class RegistrationComponent implements OnInit{
   }
   register() {
     this.user = this.registerForm.value;
-    this.userService.register(this.user).subscribe(() => {
-      console.log('Đăng ký thành công');
-      this.router.navigate(['']);
-    }, err => {
+    this.userService.register(this.user).subscribe(data => {
+        window.localStorage.setItem("user", JSON.stringify(data));
+        this.router.navigate(['']);
+    },error => {
       Swal.fire({
         icon: 'error',
-        text: 'Username or email already exists'
-      })
-    });
-  }
-
-
+        text: 'Username or Email already exists'
+      })}
+    )}
 }

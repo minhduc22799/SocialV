@@ -17,9 +17,9 @@ public class SignUpController {
     private SignUpService signUpService;
 
     @PostMapping("/signUp")
-    public ResponseEntity<String> signUp(@RequestBody Users users) {
+    public ResponseEntity<Users> signUp(@RequestBody Users users) {
         if (signUpService.signUp(users)) {
-            return new ResponseEntity<>("Sign up successfully!", HttpStatus.CREATED);
+            return new ResponseEntity<>(users, HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
