@@ -74,8 +74,11 @@ export class UserService {
   showAllUser():Observable<Users[]>{
     return this.httpClient.get<Users[]>(API_URL+"/admin")
   }
-
   blockAndActive(user: Users):Observable<any>{
     return this.httpClient.post<any>(API_URL+"/admin",user)
+  }
+
+  getListCountMutualFriend(id:number,user:Users[]):Observable<any>{
+    return this.httpClient.post<any>(`${API_URL}/friend/mutual/search/${id}`,user)
   }
 }

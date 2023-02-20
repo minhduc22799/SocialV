@@ -19,7 +19,7 @@ public class LoginSevice {
     public boolean login(Users users) {
         List<Users> usersList = userRepository.findAll();
         for (Users us : usersList) {
-            if (us.getUsername().equals(users.getUsername()) && us.getPassword().equals(users.getPassword()) && us.isStatus()==false && us.getRole()==iRoleRepository.findById(1l).get()) {
+            if (us.getUsername().equals(users.getUsername()) && us.getPassword().equals(users.getPassword()) && us.isStatus()==true && us.getRole()==iRoleRepository.findById(1l).get()) {
                 us.setCheckOn(true);
                 return true;
             }

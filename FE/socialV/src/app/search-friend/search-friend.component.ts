@@ -5,6 +5,10 @@ import {NavigationEnd, Router} from "@angular/router";
 import {PostService} from "../PostService/post.service";
 import {UserService} from "../service/user.service";
 import {Observable} from "rxjs";
+import {Stomp} from "@stomp/stompjs";
+import * as moment from "moment/moment";
+import {Notifications} from "../Model/notifications";
+import {NotificationService} from "../notificationService/notification.service";
 
 @Component({
   selector: 'app-search-friend',
@@ -17,6 +21,12 @@ export class SearchFriendComponent implements OnInit{
   user: Users = JSON.parse(this.data)
   listFriend: Users[] = [];
   listRequest: Users[] = [];
+  listNotification: Notifications[] = [];
+  countNotSeen:number = 0
+  timeNotificationMoment: any[] = [];
+  countOther: any[] = [];
+  listMutualFriend: number[] = [];
+  private stompClient: any;
   // @ts-ignore
   listSearchFriend:Users[]= JSON.parse(localStorage.getItem("listUser"))
   // @ts-ignore
@@ -28,6 +38,9 @@ export class SearchFriendComponent implements OnInit{
     this.findAllFriend()
     // this.onMoveTop()
     this.findListRequest()
+    this.connect()
+    this.getAllNotification()
+    this.findMutualFriend()
   }
 
   onMoveTop() {
@@ -41,10 +54,84 @@ export class SearchFriendComponent implements OnInit{
   constructor(private postService: PostService,
               private userService: UserService,
               private storage: AngularFireStorage,
+              private notificationService: NotificationService,
               private router: Router) {
 
   }
 
+  connect(){
+    const socket = new WebSocket('ws://localhost:8080/ws/websocket');
+    this.stompClient = Stomp.over(socket);
+    const _this = this;
+    this.stompClient.connect({}, function (){
+      _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
+        _this.getAllNotification()
+      })
+    })
+  }
+
+  findMutualFriend() {
+    // @ts-ignore
+    this.userService.getListCountMutualFriend(this.user.id,this.listSearchFriend).subscribe((data) => {
+      this.listMutualFriend = data
+    })
+  }
+
+  sendNotification(){
+    // @ts-ignore
+    this.stompClient.send('/app/hello',{}, this.user.id.toString());
+  }
+  getAllNotification(){
+    this.notificationService.getNotification(this.user.id).subscribe(data =>{
+      this.listNotification = data
+      for (let j = 0; j < this.checkValidNotification().length; j++){
+        this.timeNotificationMoment.push(moment(this.listNotification[j].notificationAt).fromNow())
+      }
+      this.countNotSeen = 0
+      for (let i = 0; i <this.checkValidNotification().length ; i++) {
+        // @ts-ignore
+        if (!this.checkValidNotification()[i].status){
+          this.countNotSeen++
+        }
+
+      }
+      this.countOtherNotification(this.listNotification);
+    })
+  }
+
+  countOtherNotification(notification: Notifications[]){
+    this.notificationService.countOther(notification).subscribe(data =>{
+      this.countOther = data
+    })
+  }
+
+  checkValidNotification(){
+    for (let t = 0; t < this.listNotification.length; t++){
+      if (this.listNotification[t]?.users?.id == this.user.id){
+        this.listNotification.splice(t,1)
+        t--;
+      }
+      if (this.listNotification[t]?.notificationType?.id == 1 ){
+        let flag = true;
+        for (let k = 0; k < this.listFriend.length; k++){
+          if (this.listNotification[t].users?.id == this.listFriend[k].id){
+            flag = false;
+          }
+        }
+        if (flag){
+          this.listNotification.splice(t,1)
+          t--;
+        }
+      }
+    }
+    return this.listNotification;
+  }
+
+  seenNotification(notification: Notifications){
+    this.notificationService.seenNotification(notification.id).subscribe(()=>{
+      this.getAllNotification()
+    });
+  }
 
   findAllFriend() {
     // @ts-ignore

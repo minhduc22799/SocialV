@@ -35,6 +35,23 @@ public class FriendController {
         return new ResponseEntity<>(usersList, HttpStatus.OK);
     }
 
+    @PostMapping("/mutual/search/{id}")
+    public ResponseEntity<List<Integer>> countMutualFriend(@PathVariable Long id, @RequestBody List<Users> users){
+        List<Integer> integerList = new ArrayList<>();
+        for (Users u: users){
+            List<Users> usersList = new ArrayList<>();
+            for (Users us: userService.findFriendRequestsByIdAndStatusTrue(id)){
+                Optional<FriendRequest> friendRequest = friendRequestService.findFriendRequest(us.getId(), u.getId());
+                if (friendRequest.isPresent()){
+                    usersList.add(u);
+                }
+            }
+            integerList.add(usersList.size());
+        }
+        return new ResponseEntity<>(integerList, HttpStatus.OK);
+    }
+
+
     @PostMapping
     public ResponseEntity<?> requestFriend(@RequestBody FriendRequest friendRequest){
         if (friendRequestService.findRequest(friendRequest.getUsersReceive().getId(), friendRequest.getUsersRequest().getId()).isPresent()){
