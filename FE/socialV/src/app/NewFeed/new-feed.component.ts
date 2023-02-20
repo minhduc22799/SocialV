@@ -176,8 +176,10 @@ export class NewFeedComponent implements OnInit {
     return this.listNotification;
   }
 
-  seenNotification(id: number | undefined){
-    this.notificationService.seenNotification(id).subscribe();
+  seenNotification(notification: Notifications){
+    this.notificationService.seenNotification(notification.id).subscribe(()=>{
+      this.getAllNotification()
+    });
   }
 
   findAllFriend() {
@@ -205,7 +207,9 @@ export class NewFeedComponent implements OnInit {
 
   findFriendLike(posts: Post[]) {
     this.postService.findLikePost(posts).subscribe(like => {
-      this.listFriendPost = like
+      if (like != null) {
+        this.listFriendPost = like
+      }
     })
   }
 
@@ -275,6 +279,7 @@ export class NewFeedComponent implements OnInit {
 
   getAllListComment(posts: Post[]) {
     this.postService.getAllListComment(posts).subscribe(data => {
+      if (data != null){
       this.listAllComment = data
       // console.log(moment(data[2][1].cmtAt).fromNow())
       for (let e = 0; e < data.length; e++) {
@@ -288,6 +293,7 @@ export class NewFeedComponent implements OnInit {
           this.timeMomentComment[e] = []
         }
       }
+    }
       this.getListCommentLike()
       this.getListCheckLikeComment()
     })
@@ -336,8 +342,8 @@ export class NewFeedComponent implements OnInit {
     post.users = this.user
     this.postService.createPost(post).subscribe(data => {
       // @ts-ignore
-      this.sendNotification()
       if (this.imageFiles.length === 0) {
+      this.sendNotification()
         this.postForm.reset();
         this.findAll();
         document.getElementById("btn-close")?.click()
@@ -390,6 +396,7 @@ export class NewFeedComponent implements OnInit {
           document.getElementById("btn-close")?.click()
           this.postForm.reset();
           this.imgSrc = []
+          this.sendNotification()
           Swal.fire({
             position: 'center',
             icon: 'success',
@@ -412,8 +419,8 @@ export class NewFeedComponent implements OnInit {
 
   likePost(idPost?: number) {
     this.postService.likePost(this.user.id, idPost).subscribe(() => {
-      this.findAll()
       this.sendNotification();
+      this.findAll()
     })
   }
 
