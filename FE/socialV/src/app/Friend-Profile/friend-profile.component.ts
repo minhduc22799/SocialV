@@ -8,6 +8,8 @@ import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {Post} from "../Model/Post";
 import * as moment from "moment/moment";
 import {FriendRequest} from "../Model/friend-request";
+import {FormControl, FormGroup} from "@angular/forms";
+import {PostComment} from "../Model/post-comment";
 
 @Component({
   selector: 'app-friend-profile',
@@ -15,6 +17,7 @@ import {FriendRequest} from "../Model/friend-request";
   styleUrls: ['./friend-profile.component.css']
 })
 export class FriendProfileComponent implements OnInit {
+  showMore: boolean = false;
   data = localStorage.getItem("user")
   // @ts-ignore
   user: Users = JSON.parse(this.data)
@@ -38,7 +41,24 @@ export class FriendProfileComponent implements OnInit {
 
   // @ts-ignore
   idFiend: number = this.routerActive.snapshot.paramMap.get("id")
+  commentP?:PostComment
+  listComment: PostComment[] = [];
+  listAllComment: PostComment[][] = [];
+  listCommentLike: number[][] = [];
+  listCheckLikeComment: boolean[][] = [];
+  timeMomentComment: any[][] = []
+  commentForm:FormGroup = new FormGroup({
+    content: new FormControl()
+  })
 
+  commentFormEdit:FormGroup = new FormGroup({
+    id:new FormControl(),
+    content: new FormControl(),
+    cmtAt: new FormControl(),
+    post: new FormGroup({
+      id:new FormControl()
+    })
+  })
 
   ngOnInit(): void {
     this.findAllPostFriend()
@@ -46,9 +66,14 @@ export class FriendProfileComponent implements OnInit {
     this.findFriend()
     this.findFriendOfFriend()
     this.findMutualFriend()
-    this.onMoveTop()
 
 
+  }
+  showMoreItems() {
+    this.showMore = true;
+  }
+  showLessItems() {
+    this.showMore = false;
   }
 
 
@@ -71,6 +96,7 @@ export class FriendProfileComponent implements OnInit {
       this.findFriendLike(data)
       this.findCountLike(data)
       this.findCountComment(data)
+      this.getAllListComment(data)
 
     })
   }
@@ -244,13 +270,94 @@ export class FriendProfileComponent implements OnInit {
 
   }
 
-  onMoveTop() {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        window.scrollTo(0, 0);
-      }
+  likePost(idPost?: number) {
+    this.postService.likePost(this.user.id, idPost).subscribe(() => {
+      this.findAllPostFriend()
     })
   }
+
+  addComment(post:Post){
+
+    const postComment = this.commentForm.value
+    postComment.users = this.user
+    postComment.post = post
+
+    this.postService.addComment(postComment).subscribe(() =>{
+      this.findAllPostFriend()
+      this.commentForm.reset()
+    })
+  }
+
+
+  getCommentById(id:number){
+    this.postService.getCommentById(id).subscribe((data)=>{
+      this.commentP = data
+      this.commentFormEdit.patchValue(data)
+      console.log(data)
+    })
+  }
+  editComment(){
+    const postComment = this.commentFormEdit.value
+    postComment.users = this.user
+    postComment.cmtAt = this.commentP?.cmtAt
+    // @ts-ignore
+    this.postService.editComment(this.commentP.id,postComment).subscribe(() =>{
+      this.findAllPostFriend()
+      document.getElementById("edit-comment")?.click()
+    })
+  }
+
+  deleteComment(id:number){
+    this.postService.deleteComment(id).subscribe(()=>{
+      this.findAllPostFriend()
+    })
+  }
+
+
+  getAllListComment(posts: Post[]) {
+    this.postService.getAllListComment(posts).subscribe(data => {
+      this.listAllComment = data
+      // console.log(moment(data[2][1].cmtAt).fromNow())
+      for (let e = 0; e < data.length; e++){
+        if (data[e].length > 0) {
+          this.timeMomentComment[e] = []
+          for (let f = 0; f < data[e].length; f++) {
+            // @ts-ignore
+            this.timeMomentComment[e][f] = moment(data[e][f].cmtAt).fromNow()
+          }
+        }else {
+          this.timeMomentComment[e] = []
+        }
+      }
+      this.getListCommentLike()
+      this.getListCheckLikeComment()
+    })
+  }
+
+  likeComment(id:number){
+    // @ts-ignore
+    this.postService.likeComment(this.user.id, id).subscribe(()=>{
+      this.findAllPostFriend()
+    })
+  }
+  getCommentByIdPost(id: number) {
+    this.postService.getListComment(id).subscribe(data => {
+      this.listComment = data
+    })
+  }
+
+  getListCommentLike(){
+    this.postService.getCountComment(this.listAllComment).subscribe(data=>{
+      this.listCommentLike = data
+    })
+  }
+
+  getListCheckLikeComment(){
+    this.postService.getCheckLikeComment(this.listAllComment, this.user.id).subscribe(data=>{
+      this.listCheckLikeComment = data
+    })
+  }
+
 
 
 }
