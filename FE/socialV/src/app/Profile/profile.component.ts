@@ -48,6 +48,7 @@ export class ProfileComponent implements OnInit{
   countComment:any[] = [];
   timeNotificationMoment: any[] = [];
   countOther: any[] = [];
+  listRequest: Users[] = [];
   post!: Post
   private stompClient: any;
   commentP?:PostComment
@@ -85,6 +86,7 @@ export class ProfileComponent implements OnInit{
     this.findAllFriend()
     this.findPostAllProfile()
     this.getAllPostStatus()
+    this.findListRequest()
     this.connect()
   }
   showMoreItems() {
@@ -362,6 +364,25 @@ export class ProfileComponent implements OnInit{
     localStorage.removeItem("user");
     this.router.navigate(['']);
 
+  }
+  findListRequest() {
+    // @ts-ignore
+    this.userService.findListRequestFriend(this.user.id).subscribe((data) => {
+      this.listRequest = data
+
+    })
+  }
+
+  deleteRequest(friendRequestId: any) {
+    this.userService.deleteRequest(this.user.id, friendRequestId).subscribe(() => {
+      this.findListRequest()
+    })
+  }
+
+  confirmRequest(friendRequestId: any) {
+    this.userService.confirmRequest(this.user.id, friendRequestId).subscribe(() => {
+      this.findListRequest()
+    })
   }
 
 
