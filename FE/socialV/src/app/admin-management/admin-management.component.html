@@ -172,8 +172,8 @@
                             <td> <p *ngIf="st.status">Block</p>
                               <p  *ngIf="!st.status">Active</p></td>
                             <td>
-                              <button class="btn btn-warning" (click)="blockAndActiveUser()" *ngIf="!st.status">Block.</button>
-                              <button class="btn btn-danger" (click)="blockAndActiveUser()" *ngIf="st.status">Active</button>
+                              <a href="http://localhost:4200/AdminManagement"><button class="btn btn-warning" (click)="blockAndActiveUser(st.id!)" *ngIf="!st.status">Block.</button></a>
+                              <a href="http://localhost:4200/AdminManagement"><button class="btn btn-danger" (click)="blockAndActiveUser(st.id!)" *ngIf="st.status">Active</button></a>
                             </td>
                           </tr>
                           </tbody>

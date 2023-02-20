@@ -43,9 +43,9 @@
 
         </div>
         <div class="iq-search-bar device-search">
-          <form action="#" class="searchbox">
-            <a class="search-link" href="#"><i class="ri-search-line"></i></a>
-            <input type="text" class="text search-input" placeholder="Search here...">
+          <form  class="searchbox">
+            <a class="search-link" ><i class="ri-search-line"></i></a>
+            <input type="text" class="text search-input" #name placeholder="Search here..." (change)="searchUserByNameContaining(name.value)">
           </form>
         </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -348,16 +348,16 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-10 row m-0 p-0">
-            <h4 style="margin-bottom: 20px">Search for: </h4>
-            <div class="card p-0" >
+            <h4 style="margin-bottom: 20px">Search for : " {{search}} "</h4>
+            <div class="card p-0"  >
               <div class="card-body p-0">
                 <ul class="todo-task-lists m-0 p-0">
-                  <li  class="d-flex align-items-center p-3">
-                    <div class="user-img img-fluid"><img src="../assets/images/user/01.jpg" alt="story-img" class="rounded-circle avatar-40"></div>
+                  <li  class="d-flex align-items-center p-3"  *ngFor="let s of listSearchFriend"  >
+                    <div class="user-img img-fluid"><img src="{{s.avatar}}" alt="story-img" class="rounded-circle avatar-40"></div>
                     <div class="d-flex align-items-center justify-content-between w-100">
-                      <div class="ms-3">
-                        <h6 class="d-inline-block">Landing page for secret Project</h6>
-                        <p class="mb-0">by Danlel Cllfferton</p>
+                      <div class="ms-3" >
+                        <h6 class="d-inline-block">{{s.name}}</h6>
+                        <p class="mb-0">{{s.address}}</p>
                       </div>
 
                     </div>
