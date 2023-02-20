@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Users} from "../Model/Users";
 import {PostDisplay} from "../Model/Post-display";
 import {ImagePost} from "../Model/image-post";
@@ -12,6 +12,9 @@ import {PostService} from "../PostService/post.service";
 import {UserService} from "../service/user.service";
 import * as moment from "moment/moment";
 import Swal from "sweetalert2";
+import {Notifications} from "../Model/notifications";
+import {Stomp} from "@stomp/stompjs";
+import {NotificationService} from "../notificationService/notification.service";
 
 @Component({
   selector: 'app-post-detail',
@@ -41,30 +44,36 @@ export class PostDetailComponent {
   timeMoment: any;
   timeMomentComment: any[] = []
   listRequest: Users[] = [];
+  listNotification: Notifications[] = [];
+  countNotSeen: number = 0
+  timeNotificationMoment: any[] = [];
+  countOther: any[] = [];
   pathName!: string
   flag!: false;
-  postCm?:Post;
+  postCm?: Post;
   postId?: any = this.routerActive.snapshot.paramMap.get("id")
   postDetail!: PostDisplay
-  commentP?:PostComment
+  commentP?: PostComment
   showMore: boolean = false;
+  private stompClient: any;
 
-  commentForm:FormGroup = new FormGroup({
+  commentForm: FormGroup = new FormGroup({
     content: new FormControl()
   })
 
-  commentFormEdit:FormGroup = new FormGroup({
-    id:new FormControl(),
+  commentFormEdit: FormGroup = new FormGroup({
+    id: new FormControl(),
     content: new FormControl(),
     cmtAt: new FormControl(),
     post: new FormGroup({
-      id:new FormControl()
+      id: new FormControl()
     })
   })
 
   showMoreItems() {
     this.showMore = true;
   }
+
   showLessItems() {
     this.showMore = false;
   }
@@ -86,6 +95,8 @@ export class PostDetailComponent {
     // this.onMoveTop()
     this.findListRequest()
     this.getPost()
+    this.getAllNotification()
+    this.connect()
   }
 
   onMoveTop() {
@@ -100,10 +111,80 @@ export class PostDetailComponent {
               private userService: UserService,
               private storage: AngularFireStorage,
               private routerActive: ActivatedRoute,
+              private notificationService: NotificationService,
               private router: Router) {
 
   }
 
+  connect() {
+    const socket = new WebSocket('ws://localhost:8080/ws/websocket');
+    this.stompClient = Stomp.over(socket);
+    const _this = this;
+    this.stompClient.connect({}, function () {
+      _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
+        _this.getAllNotification()
+      })
+    })
+  }
+
+  sendNotification() {
+    // @ts-ignore
+    this.stompClient.send('/app/hello', {}, this.user.id.toString());
+  }
+
+  getAllNotification() {
+    this.notificationService.getNotification(this.user.id).subscribe(data => {
+      this.listNotification = data
+      this.countNotSeen = 0
+      for (let j = 0; j < this.checkValidNotification().length; j++) {
+        this.timeNotificationMoment.push(moment(this.listNotification[j].notificationAt).fromNow())
+        if (!this.checkValidNotification()[j].status) {
+          this.countNotSeen++
+        }
+      }
+      this.countOtherNotification(this.listNotification);
+    })
+  }
+
+  countOtherNotification(notification: Notifications[]) {
+    this.notificationService.countOther(notification).subscribe(data => {
+      this.countOther = data
+    })
+  }
+
+  checkValidNotification() {
+    for (let t = 0; t < this.listNotification.length; t++) {
+      if (this.listNotification[t]?.users?.id == this.user.id) {
+        this.listNotification.splice(t, 1)
+        t--;
+      }
+      if (this.listNotification[t]?.notificationType?.id == 1) {
+        let flag = true;
+        for (let k = 0; k < this.listFriend.length; k++) {
+          if (this.listNotification[t].users?.id == this.listFriend[k].id) {
+            flag = false;
+          }
+        }
+        if (flag) {
+          this.listNotification.splice(t, 1)
+          t--;
+        }
+      }
+    }
+    console.log(this.listNotification)
+    return this.listNotification;
+  }
+
+  seenNotification(notification: Notifications) {
+    this.notificationService.seenNotification(notification.id).subscribe(() =>{
+      this.getAllNotification()
+      this.router.navigate(['/postDetail/' + notification?.post?.id])
+      this.router.routeReuseStrategy.shouldReuseRoute = function () {
+        return false;
+      };
+      this.getPost()
+    });
+  }
 
   findAllFriend() {
     // @ts-ignore
@@ -112,10 +193,9 @@ export class PostDetailComponent {
     })
   }
 
-  getPost(){
-    this.postService.getPostDisplay(this.postId, this.user.id).subscribe(data =>{
+  getPost() {
+    this.postService.getPostDisplay(this.postId, this.user.id).subscribe(data => {
       this.postDetail = data
-      console.log(data.checkUserLiked)
       this.findFriendLike(data)
       this.timeMoment = moment(this.postDetail.createAt).fromNow()
       this.findAllImgPost(data)
@@ -125,21 +205,6 @@ export class PostDetailComponent {
       this.getAllListComment(data)
     })
   }
-
-  // findAll() {
-  //   this.postService.findAllPostNewFeed(this.user).subscribe((post) => {
-  //     this.postsDisplay = post
-  //     for (let j = 0; j < this.postsDisplay.length; j++) {
-  //       this.timeMoment.push(moment(this.postsDisplay[j].createAt).fromNow())
-  //     }
-  //     this.findAllImgPost(post)
-  //     this.findFriendLike(post)
-  //     this.findCountLike(post)
-  //     this.findCountComment(post)
-  //     this.getAllListComment(post)
-  //
-  //   })
-  // }
 
   findFriendLike(posts: Post) {
     this.postService.getListLikePost(posts).subscribe(like => {
@@ -171,40 +236,42 @@ export class PostDetailComponent {
     })
   }
 
-  addComment(id: any){
-    this.postService.getPost(id).subscribe(post =>{
+  addComment(id: any) {
+    this.postService.getPost(id).subscribe(post => {
       const postComment = this.commentForm.value
       postComment.users = this.user
       postComment.post = post
 
-      this.postService.addComment(postComment).subscribe(() =>{
+      this.postService.addComment(postComment).subscribe(() => {
         this.getPost()
         this.commentForm.reset()
+        this.sendNotification()
       })
     })
   }
 
 
-  getCommentById(id:number){
-    this.postService.getCommentById(id).subscribe((data)=>{
+  getCommentById(id: number) {
+    this.postService.getCommentById(id).subscribe((data) => {
       this.commentP = data
       this.commentFormEdit.patchValue(data)
       console.log(data)
     })
   }
-  editComment(){
+
+  editComment() {
     const postComment = this.commentFormEdit.value
     postComment.users = this.user
     postComment.cmtAt = this.commentP?.cmtAt
     // @ts-ignore
-    this.postService.editComment(this.commentP.id,postComment).subscribe(() =>{
+    this.postService.editComment(this.commentP.id, postComment).subscribe(() => {
       this.getPost()
       document.getElementById("edit-comment")?.click()
     })
   }
 
-  deleteComment(id:number){
-    this.postService.deleteComment(id).subscribe(()=>{
+  deleteComment(id: number) {
+    this.postService.deleteComment(id).subscribe(() => {
       this.getPost()
     })
   }
@@ -212,20 +279,23 @@ export class PostDetailComponent {
 
   getAllListComment(post: Post) {
     this.postService.getListComment(post.id).subscribe(data => {
+      if (data != null){
       this.listAllComment = data
-          for (let f = 0; f < data.length; f++) {
-            // @ts-ignore
-            this.timeMomentComment[f] = moment(data[f].cmtAt).fromNow()
-          }
+      for (let f = 0; f < data.length; f++) {
+        // @ts-ignore
+        this.timeMomentComment[f] = moment(data[f].cmtAt).fromNow()
+      }
       this.getListCommentLike()
       this.getListCheckLikeComment()
+    }
     })
   }
 
-  likeComment(id:number){
+  likeComment(id: number) {
     // @ts-ignore
-    this.postService.likeComment(this.user.id, id).subscribe(()=>{
+    this.postService.likeComment(this.user.id, id).subscribe(() => {
       this.getPost()
+      this.sendNotification()
     })
   }
 
@@ -233,16 +303,19 @@ export class PostDetailComponent {
   findAllImgPost(post: Post) {
     this.postService.getImg(post.id).subscribe(img => {
       this.listImgPost = img
+      // @ts-ignore
+      this.listImg = [];
+      for (let j = 0; j < this.listImgPost.length; j++) {
         // @ts-ignore
-        this.listImg = [];
-        for (let j = 0; j < this.listImgPost.length; j++) {
-          // @ts-ignore
-          let imageObject1 = {
-            image: this.listImgPost[j].img,
-            thumbImage: this.listImgPost[j].img,
-          };
-          this.listImg.push(imageObject1);
+        let imageObject1 = {
+          image: this.listImgPost[j].img,
+          thumbImage: this.listImgPost[j].img,
+        };
+        this.listImg.push(imageObject1);
+        if (j == this.listImgPost.length -1){
+          console.log(this.listImg)
         }
+      }
 
     })
   }
@@ -273,8 +346,6 @@ export class PostDetailComponent {
   i = 0;
 
 
-
-
   findListRequest() {
     // @ts-ignore
     this.userService.findListRequestFriend(this.user.id).subscribe((data) => {
@@ -285,6 +356,7 @@ export class PostDetailComponent {
 
   likePost(idPost?: number) {
     this.postService.likePost(this.user.id, idPost).subscribe(() => {
+      this.sendNotification()
       this.getPost()
     })
   }
@@ -306,8 +378,8 @@ export class PostDetailComponent {
 
   }
 
-  getListCommentLike(){
-    this.postService.getCountCommentOnePost(this.listAllComment).subscribe(data=>{
+  getListCommentLike() {
+    this.postService.getCountCommentOnePost(this.listAllComment).subscribe(data => {
       this.listCommentLike = data
     })
   }
