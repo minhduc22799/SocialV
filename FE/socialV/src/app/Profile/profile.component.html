@@ -168,7 +168,23 @@
                   </div>
                   <div class="card-body p-0">
                     <div *ngFor="let n of listNotification, index as q">
-                      <a *ngIf="countOther[q] > 0" class="iq-sub-card">
+                      <a *ngIf="countOther[q] > 0 && !n.status" (click)="seenNotification(n.id)" class="iq-sub-card" style="background-color: #b2bcc5">
+                        <div class="d-flex align-items-center">
+                          <div class="">
+                            <img class="avatar-40 rounded" src="{{n?.users?.avatar}}" alt="">
+                          </div>
+                          <div class="ms-3 w-100">
+                            <h6 *ngIf="countOther[q] > 1" class="mb-0 ">{{n?.users?.name}} and {{countOther[q] - 1}}
+                              others {{n?.notificationType?.type}}</h6>
+                            <h6 *ngIf="countOther[q] == 1"
+                                class="mb-0 ">{{n?.users?.name}} {{n?.notificationType?.type}}</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                              <p class="mb-0">{{timeNotificationMoment[q]}}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                      <a *ngIf="countOther[q] > 0 && n.status" class="iq-sub-card">
                         <div class="d-flex align-items-center">
                           <div class="">
                             <img class="avatar-40 rounded" src="{{n?.users?.avatar}}" alt="">
@@ -513,7 +529,7 @@
                       <div class="card-body">
                         <ul class="profile-img-gallary p-0 m-0 list-unstyled">
                           <li routerLink="/friendProfile/{{f.id}}" class="" *ngFor="let f of listFriend">
-                            <img src="{{f.avatar}}" alt="gallary-image" width="84.66px" height="84.66px"/>
+                            <img style="cursor: pointer" src="{{f.avatar}}" alt="gallary-image" width="84.66px" height="84.66px"/>
                             <h6 style="width: 84.66px" class="mt-2 text-center">{{f.name}}</h6>
                           </li>
                         </ul>
@@ -708,13 +724,13 @@
                           <div class="user-post-data">
                             <div class="d-flex justify-content-between">
                               <div class="me-3">
-                                <img style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}"
+                                <img style="border-radius: 50%; cursor: pointer" width="50px" height="50px" src="{{p?.users?.avatar}}"
                                      alt="">
                               </div>
                               <div class="w-100">
                                 <div class="d-flex  justify-content-between">
                                   <div class="">
-                                    <h5 class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
+                                    <h5 class="mb-0 d-inline-block" style="cursor: pointer">{{p?.users?.name}}</h5>
                                     <span class="mb-0 d-inline-block"> &nbsp; Added New Image in a Post </span>
                                     <span *ngIf="p?.postStatus?.id === 1" style="color: #0d6efd"> &nbsp; Public</span>
                                     <span *ngIf="p?.postStatus?.id === 2" style="color: #0d6efd"> &nbsp; Private </span>

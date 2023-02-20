@@ -7,6 +7,8 @@ import com.example.socialv.service.NotificationService.INotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +33,13 @@ public class NotificationController {
         notificationService.save(notification);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+    public String greeting(String id){
+        return "hello";
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<List<Notifications>> getAll(@PathVariable Long id) {

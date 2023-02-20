@@ -23,11 +23,12 @@ public class NotificationService implements INotificationService {
 
     @Override
     public Optional<Notifications> findById(Long id) {
-        return Optional.empty();
+        return notificationRepository.findById(id);
     }
 
     @Override
     public void save(Notifications notification) {
+        notificationRepository.save(notification);
     }
 
     @Override

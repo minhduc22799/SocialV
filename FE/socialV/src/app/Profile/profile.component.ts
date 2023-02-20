@@ -15,6 +15,7 @@ import {Router} from "@angular/router";
 import * as moment from "moment/moment";
 import {NotificationService} from "../notificationService/notification.service";
 import {Notifications} from "../Model/notifications";
+import {Stomp} from "@stomp/stompjs";
 import {PostComment} from "../Model/post-comment";
 
 @Component({
@@ -48,6 +49,7 @@ export class ProfileComponent implements OnInit{
   timeNotificationMoment: any[] = [];
   countOther: any[] = [];
   post!: Post
+  private stompClient: any;
   commentP?:PostComment
   listComment: PostComment[] = [];
   listAllComment: PostComment[][] = [];
@@ -83,7 +85,7 @@ export class ProfileComponent implements OnInit{
     this.findAllFriend()
     this.findPostAllProfile()
     this.getAllPostStatus()
-    this.getAllNotification()
+    this.connect()
   }
   showMoreItems() {
     this.showMore = true;
@@ -100,17 +102,35 @@ export class ProfileComponent implements OnInit{
                private storage: AngularFireStorage,
                private router:Router) {
   }
-  findAllFriend(){
+  // @ts-ignore
+  findAllFriend(): Users[]{
     // @ts-ignore
     this.userService.findAllFriend(this.user.id).subscribe((data)=>{
       this.listFriend = data
+      this.getAllNotification()
     })
+  }
+
+  connect(){
+    const socket = new WebSocket('ws://localhost:8080/ws/websocket');
+    this.stompClient = Stomp.over(socket);
+    const _this = this;
+    this.stompClient.connect({}, function (){
+      _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
+        _this.getAllNotification()
+      })
+    })
+  }
+
+  sendNotification(){
+    // @ts-ignore
+    this.stompClient.send('/app/hello',{}, this.user.id.toString());
   }
 
   getAllNotification(){
     this.notificationService.getNotification(this.user.id).subscribe(data =>{
       this.listNotification = data
-      for (let j = 0; j < this.checkValidNotification(data).length; j++){
+      for (let j = 0; j < this.checkValidNotification().length; j++){
         this.timeNotificationMoment.push(moment(this.listNotification[j].notificationAt).fromNow())
       }
       this.countOtherNotification(this.listNotification);
@@ -123,15 +143,31 @@ export class ProfileComponent implements OnInit{
     })
   }
 
-  checkValidNotification(notification: Notifications[]){
+  checkValidNotification(){
     for (let t = 0; t < this.listNotification.length; t++){
       if (this.listNotification[t]?.users?.id == this.user.id){
         this.listNotification.splice(t,1)
         t--;
       }
+      if (this.listNotification[t]?.notificationType?.id == 1 ){
+      let flag = true;
+        for (let k = 0; k < this.listFriend.length; k++){
+          if (this.listNotification[t].users?.id == this.listFriend[k].id){
+            flag = false;
+          }
+        }
+        if (flag){
+          this.listNotification.splice(t,1)
+          t--;
+        }
+      }
     }
     return this.listNotification;
 }
+
+  seenNotification(id: number | undefined){
+    this.notificationService.seenNotification(id).subscribe();
+  }
 
   findPostAllProfile(){
     // @ts-ignore

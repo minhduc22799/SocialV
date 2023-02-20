@@ -18,11 +18,11 @@ export class NotificationService {
     return this.http.get<Notifications[]>(apiUrl + `/notification/${id}`);
   }
 
-  seenNotification(id: number): Observable<any> {
+  seenNotification(id: number | undefined): Observable<any> {
     return this.http.get<any>(apiUrl + `/notification/seen/${id}`)
   }
 
-  countOther(notification: Notifications[]): Observable<any>{
+  countOther(notification: Notifications[]): Observable<any> {
     return this.http.post<any>(apiUrl + `/notification/other`, notification);
   }
 }
