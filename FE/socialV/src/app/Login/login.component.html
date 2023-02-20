@@ -30,26 +30,26 @@
             <p>Enter your email address and password to access admin panel.</p>
             <form class="mt-4"  [formGroup]="loginForm" (ngSubmit)="login()">
               <div class="form-group">
-                <label class="form-label" for="exampleInputEmail1">Users Name</label>
+                <label class="form-label" for="exampleInputEmail1">User Name</label>
                 <input type="username" class="form-control mb-0" id="exampleInputEmail1" placeholder="Enter Username" formControlName="username">
-                <span *ngIf="loginForm.get('username')?.errors?.['pattern']" style="color: red">Not Be special characters . </span>
-                <span *ngIf="loginForm.get('username')?.errors?.['required'] && loginForm.get('username')?.touched" style="color: red">Not Be Empty </span>
+                <span *ngIf="loginForm.get('username')?.errors?.['pattern']" style="color: red"> Not be special characters . </span>
+                <span *ngIf="loginForm.get('username')?.errors?.['required'] && loginForm.get('username')?.touched" style="color: red"> Not be empty .</span>
               </div>
               <div class="form-group">
                 <label class="form-label" for="exampleInputPassword1">Password</label>
                 <a href="#" class="float-end">Forgot password?</a>
                 <input type="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password" formControlName="password">
-                <span *ngIf="loginForm.get('password')?.errors?.['minlength']" style="color: red">Must be more than 6 characters .</span>
-                <span *ngIf="loginForm.get('password')?.errors?.['maxlength']" style="color: red">Must be not more than 32 characters .</span>
-                <span *ngIf="loginForm.get('password')?.errors?.['pattern']" style="color: red">Not Be special characters .</span>
-                <span *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched" style="color: red">Not Be Empty </span>
+                <span *ngIf="loginForm.get('password')?.errors?.['minlength']" style="color: red"> Must be more than 6 characters .</span>
+                <span *ngIf="loginForm.get('password')?.errors?.['maxlength']" style="color: red"> Must be not more than 32 characters .</span>
+                <span *ngIf="loginForm.get('password')?.errors?.['pattern']" style="color: red"> Not be special characters .</span>
+                <span *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched" style="color: red"> Not be empty </span>
               </div>
               <div class="d-inline-block w-100">
                 <div class="form-check d-inline-block mt-2 pt-1">
                   <input type="checkbox" class="form-check-input" id="customCheck11">
                   <label class="form-check-label" for="customCheck11">Remember Me</label>
                 </div>
-                <button type="submit" class="btn btn-primary float-end">Sign in</button>
+                <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary float-end">Sign In</button>
               </div>
               <div class="sign-info">
                 <span class="dark-color d-inline-block line-height-2">Don't have an account? <span style="color: #4c8be7; cursor:pointer" routerLink="/Registration" >Sign up</span></span>

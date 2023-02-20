@@ -143,6 +143,19 @@ public class PostController {
         postDisplays.add(postDisplay);
     }
 
+    @GetMapping("/display/get/{id1}/{id2}")
+    public ResponseEntity<PostDisplay> getPostDisplay(@PathVariable("id1") Long id1,@PathVariable("id2") Long id2){
+        Post post = postService.findById(id1).get();
+        PostDisplay postDisplay = new PostDisplay();
+        postDisplay.setId(post.getId());
+        postDisplay.setContent(post.getContent());
+        postDisplay.setPostStatus(post.getPostStatus());
+        postDisplay.setUsers(post.getUsers());
+        postDisplay.setCreateAt(post.getCreateAt());
+        postDisplay.setCheckUserLiked(checkUserLiked(id2, postDisplay.getId()));
+        return new ResponseEntity<>(postDisplay, HttpStatus.OK);
+    }
+
     private boolean checkUserLiked(Long userId, Long postId) {
         Optional<PostLike> postLike = postLikeService.findPostLike(userId, postId);
         return postLike.isPresent();
@@ -172,6 +185,11 @@ public class PostController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+    @PostMapping("/get/like")
+    public ResponseEntity<Integer> getCountLikeOnePost(@RequestBody Post post) {
+        return new ResponseEntity<>(postLikeService.countPostLike(post.getId()), HttpStatus.OK);
+    }
+
     @PostMapping("/comment")
     public ResponseEntity<List<Integer>> getCountCommentPost(@RequestBody Post[] posts) {
         List<Integer> list = new ArrayList<>();
@@ -179,6 +197,11 @@ public class PostController {
             list.add(postCommentService.countPostComment(p.getId()));
         }
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @PostMapping("/get/comment")
+    public ResponseEntity<Integer> getCountCommentOnePost(@RequestBody Post post) {
+        return new ResponseEntity<>(postCommentService.countPostComment(post.getId()), HttpStatus.OK);
     }
 
     @GetMapping("/{id}/comment")
@@ -217,6 +240,12 @@ public class PostController {
             objects.add(usersList);
         }
         return new ResponseEntity<>(objects, HttpStatus.OK);
+    }
+
+    @PostMapping("/list/get/like")
+    public ResponseEntity<?> getListLikeAllPost(@RequestBody Post post) {
+            List<Users> usersList = userService.findAllLikePost(post.getId());
+        return new ResponseEntity<>(usersList, HttpStatus.OK);
     }
 
     @PostMapping("/list/comment")
@@ -306,6 +335,15 @@ public class PostController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+    @PostMapping("comment/countlike/get")
+    public ResponseEntity<?> countLikeListCommentOnePost(@RequestBody List<PostComment> postComments){
+            List<Integer> integerList = new ArrayList<>();
+            for (int j = 0; j < postComments.size(); j++){
+                integerList.add(commentLikeService.countCommentLike(postComments.get(j).getId()));
+            }
+        return new ResponseEntity<>(integerList, HttpStatus.OK);
+    }
+
     @PostMapping("comment/check/like/{id}")
     public ResponseEntity<?> checkLikeListComment(@RequestBody List<List<PostComment>> postComments, @PathVariable Long id){
         List<Object> list = new ArrayList<>();
@@ -317,5 +355,14 @@ public class PostController {
             list.add(booleanList);
         }
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @PostMapping("comment/check/like/get/{id}")
+    public ResponseEntity<?> checkLikeComment(@RequestBody List<PostComment> postComments, @PathVariable Long id){
+        List<Boolean> booleanList = new ArrayList<>();
+        for (int j = 0; j < postComments.size(); j++){
+            booleanList.add(checkUserLikedComment(id, postComments.get(j).getId()));
+        }
+        return new ResponseEntity<>(booleanList, HttpStatus.OK);
     }
 }

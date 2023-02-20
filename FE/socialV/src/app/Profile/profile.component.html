@@ -112,7 +112,7 @@
                   </div>
                   <div style="height: 300px;overflow: auto"  class="card-body p-0">
                     <div *ngFor="let n of listNotification, index as q">
-                      <a *ngIf="countOther[q] > 0 && !n.status" (click)="seenNotification(n.id)" class="iq-sub-card" style="background-color: #eef2fc;margin-bottom: 3px">
+                      <a *ngIf="countOther[q] > 0 && !n.status" routerLink="/postDetail/{{n?.post?.id}}" (click)="seenNotification(n.id)" class="iq-sub-card" style="background-color: #eef2fc;margin-bottom: 3px">
                         <div class="d-flex align-items-center">
                           <div class="">
                             <img class="avatar-40 rounded" src="{{n?.users?.avatar}}" alt="">
@@ -128,7 +128,7 @@
                           </div>
                         </div>
                       </a>
-                      <a *ngIf="countOther[q] > 0 && n.status" class="iq-sub-card">
+                      <a *ngIf="countOther[q] > 0 && n.status" routerLink="/postDetail/{{n?.post?.id}}" class="iq-sub-card">
                         <div class="d-flex align-items-center">
                           <div class="">
                             <img class="avatar-40 rounded" src="{{n?.users?.avatar}}" alt="">

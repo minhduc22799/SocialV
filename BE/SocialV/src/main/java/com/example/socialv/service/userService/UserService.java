@@ -54,5 +54,10 @@ public class UserService implements IUserService {
         return userRepository.listFriendRequest(id);
     }
 
+    @Override
+    public List<Users> findUsersActiveByName(String name) {
+        return userRepository.findUsersByNameContainingAndStatusIsFalse(name);
+    }
+
 
 }

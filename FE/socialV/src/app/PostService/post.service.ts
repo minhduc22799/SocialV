@@ -6,6 +6,7 @@ import {PostDisplay} from "../Model/Post-display";
 import {Post} from "../Model/Post";
 import {ImagePost} from "../Model/image-post";
 import {PostComment} from "../Model/post-comment";
+import {Users} from "../Model/Users";
 
 const apiUrl = environment.apiUrl
 
@@ -32,9 +33,17 @@ export class PostService {
     return this.http.post<Post[]>(apiUrl + `/post/like`, posts);
   }
 
+  findCountLikeOnePost(post: Post):Observable<any> {
+    return this.http.post<Post>(apiUrl + `/post/get/like`, post);
+  }
+
   findCountCommentPost(posts: Post[]):Observable<any>{
       return this.http.post<Post[]>(apiUrl + `/post/comment`, posts);
 }
+
+  findCountCommentOnePost(post: Post):Observable<any> {
+    return this.http.post<Post>(apiUrl + `/post/get/comment`, post);
+  }
   findAllPostProfile(id:number):Observable<any>{
   return this.http.get<PostDisplay[]>(apiUrl+`/post/profile/${id}`);
 }
@@ -59,8 +68,12 @@ export class PostService {
     return this.http.post<any>(apiUrl + `/post/create/img`, imagePost);
   }
 
-  getPost(id: number): Observable<Post>{
+  getPost(id: number | undefined): Observable<Post>{
     return this.http.get<Post>(apiUrl + `/post/get/${id}`);
+  }
+
+  getPostDisplay(id: number | undefined, id2: number | undefined): Observable<PostDisplay> {
+    return this.http.get<PostDisplay>(apiUrl + `/post/display/get/${id}/${id2}`);
   }
 
   editPost(post: Post): Observable<any>{
@@ -75,10 +88,14 @@ export class PostService {
     return this.http.get<ImagePost[]>(apiUrl + `/post/image/${id}`)
   }
 
+  getListLikePost(post: Post): Observable<Users[]>{
+    return this.http.post<Users[]>(apiUrl + `/post/list/get/like`, post);
+  }
+
   likePost(idUser?:number, idPost?:number): Observable<any>{
     return this.http.get<any>(apiUrl +`/post/interact/like/${idUser}/${idPost}`)
   }
-  getListComment(id:number):Observable<PostComment[]> {
+  getListComment(id:number | undefined):Observable<PostComment[]> {
     return this.http.get<PostComment[]>(apiUrl +`/post/${id}/comment`)
 
   }
@@ -105,8 +122,16 @@ export class PostService {
     return this.http.post<any>(apiUrl +`/post/comment/countlike`,postsComment)
   }
 
+  getCountCommentOnePost(postsComment:PostComment[]):Observable<any>{
+    return this.http.post<any>(apiUrl +`/post/comment/countlike/get`,postsComment)
+  }
+
   getCheckLikeComment(postsComment: PostComment[][], id: number | undefined):Observable<any> {
     return this.http.post<any>(apiUrl + `/post/comment/check/like/${id}`, postsComment)
+  }
+
+  getCheckLikeCommentOnePost(postsComment: PostComment[], id: number | undefined):Observable<any> {
+    return this.http.post<any>(apiUrl + `/post/comment/check/like/get/${id}`, postsComment)
   }
 
   likeComment(idUser:number, idCmt:number):Observable<any>{
