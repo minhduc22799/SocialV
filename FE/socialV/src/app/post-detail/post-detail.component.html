@@ -5,8 +5,8 @@
     <div id="sidebar-scrollbar">
       <nav class="iq-sidebar-menu">
         <ul id="iq-sidebar-toggle" class="iq-menu">
-          <li class="active">
-            <a href="" class=" ">
+          <li>
+            <a routerLink="/NewFeed">
               <i class="las la-newspaper"></i><span>Newsfeed</span>
             </a>
           </li>
@@ -35,7 +35,7 @@
     <div class="iq-navbar-custom">
       <nav class="navbar navbar-expand-lg navbar-light p-0">
         <div class="iq-navbar-logo d-flex justify-content-between">
-          <a style="cursor: pointer" routerLink="/NewFeed}">
+          <a style="cursor: pointer" routerLink="/NewFeed">
             <img src="assets/images/logo.png" class="img-fluid" alt="">
             <span>SocialV</span>
           </a>
@@ -347,29 +347,28 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-10 row m-0 p-0">
-          <div style="padding-left: 50px; padding-right: 50px;margin-bottom: 20px; margin-top: 10px"
-               *ngFor="let p of postsDisplay, index as i" class="col-sm-12">
+          <div style="padding-left: 50px; padding-right: 50px;margin-bottom: 20px; margin-top: 10px" class="col-sm-12">
             <div class="card card-block card-stretch card-height">
               <div class="card-body">
                 <div class="user-post-data">
                   <div class="d-flex justify-content-between">
                     <div class="me-3">
-                      <img *ngIf="p?.users?.id == user.id" routerLink="/Profile" style="border-radius: 50%" width="50px"
-                           height="50px" src="{{p?.users?.avatar}}" alt="">
-                      <img *ngIf="p?.users?.id != user.id" routerLink="/friendProfile/{{p?.users?.id}}"
-                           style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
+                      <img *ngIf="postDetail?.users?.id == user.id" routerLink="/Profile" style="border-radius: 50%" width="50px"
+                           height="50px" src="{{postDetail?.users?.avatar}}" alt="">
+                      <img *ngIf="postDetail?.users?.id != user.id" routerLink="/friendProfile/{{postDetail?.users?.id}}"
+                           style="border-radius: 50%" width="50px" height="50px" src="{{postDetail?.users?.avatar}}" alt="">
                     </div>
                     <div class="w-100">
                       <div class="d-flex  justify-content-between">
                         <div class="">
-                          <h5 *ngIf="p?.users?.id === user.id" routerLink="/Profile"
-                              class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
-                          <h5 *ngIf="p?.users?.id !== user.id" routerLink="/friendProfile/{{p?.users?.id}}"
-                              class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
+                          <h5 *ngIf="postDetail?.users?.id === user.id" routerLink="/Profile"
+                              class="mb-0 d-inline-block">{{postDetail?.users?.name}}</h5>
+                          <h5 *ngIf="postDetail?.users?.id !== user.id" routerLink="/friendProfile/{{postDetail?.users?.id}}"
+                              class="mb-0 d-inline-block">{{postDetail?.users?.name}}</h5>
 
                           <span class="mb-0 d-inline-block"> &nbsp; Added New a Post </span>
 
-                          <p class="mb-0 text-primary">{{timeMoment[i].replace('an year', '1y')
+                          <p class="mb-0 text-primary">{{timeMoment.replace('an year', '1y')
                             .replace('a year', '1y')
                             .replace('years', 'y')
                             .replace('an month', '1M')
@@ -393,11 +392,11 @@
                   </div>
                 </div>
                 <div style="margin-left: 3px" class="mt-3">
-                  <p>{{p?.content}}</p>
+                  <p>{{postDetail?.content}}</p>
                 </div>
-                <div *ngIf="listImg[i]?.length > 0">
+                <div *ngIf="listImg!.length > 0">
                   <ng-image-slider
-                    [images]="listImg[i]"
+                    [images]="listImg"
                     [infinite]="false"
                     [autoSlide]="1"
                     [imageSize]="{width: '100%', height: '470px'}"
@@ -410,45 +409,45 @@
                   <div class="d-flex justify-content-between align-items-center flex-wrap">
                     <div class="like-block position-relative d-flex align-items-center">
                       <div class="d-flex align-items-center">
-                        <div (click)="likePost(p?.id)" class="like-data">
+                        <div (click)="likePost(postDetail?.id)" class="like-data">
 
-                                    <span *ngIf="!p.checkUserLiked" aria-haspopup="true"
+                                    <span *ngIf="!postDetail.checkUserLiked" aria-haspopup="true"
                                           role="button">
                                        <i style="font-size: 16px" class="fa fa-thumbs-up"></i>
                                     </span>
-                          <span class="text-primary" *ngIf="p.checkUserLiked" aria-haspopup="true"
+                          <span class="text-primary" *ngIf="postDetail.checkUserLiked" aria-haspopup="true"
                                 role="button">
                                        <i style="font-size: 16px" class="fa fa-thumbs-up"></i>
                                     </span>
                         </div>
                         <div class="total-like-block ms-2 me-3">
-                          <div *ngIf="listFriendPost[i].length >0" class="dropdown">
-                            <div *ngIf="p.checkUserLiked" style="color: #5e5d5d">
+                          <div *ngIf="listFriendPost.length >0" class="dropdown">
+                            <div *ngIf="postDetail?.checkUserLiked" style="color: #5e5d5d">
                                            <span class="text-primary">
                                              Like&nbsp; <span class="text-primary"
-                                                              *ngIf="countLike[i] > 0">  {{countLike[i]}}</span>
+                                                              *ngIf="countLike > 0">  {{countLike}}</span>
                                           </span>
                             </div>
-                            <div *ngIf="!p.checkUserLiked" style="color: #5e5d5d">
+                            <div *ngIf="!postDetail?.checkUserLiked" style="color: #5e5d5d">
                                            <span>
-                                             Like&nbsp; <span *ngIf="countLike[i] > 0"> {{countLike[i]}}</span>
+                                             Like&nbsp; <span *ngIf="countLike > 0"> {{countLike}}</span>
                                           </span>
                             </div>
                             <div class="dropdown-menu">
-                              <a *ngFor="let f of listFriendPost[i]" class="dropdown-item"
+                              <a *ngFor="let f of listFriendPost" class="dropdown-item"
                                  href="#">{{f.name}}</a>
                             </div>
                           </div>
-                          <div *ngIf="listFriendPost[i].length < 1">
-                            <div *ngIf="p.checkUserLiked" style="color: #5e5d5d">
+                          <div *ngIf="listFriendPost.length < 1">
+                            <div *ngIf="postDetail?.checkUserLiked" style="color: #5e5d5d">
                                            <span class="text-primary">
                                              Like&nbsp; <span class="text-primary"
-                                                              *ngIf="countLike[i] > 0">  {{countLike[i]}}</span>
+                                                              *ngIf="countLike > 0">  {{countLike}}</span>
                                           </span>
                             </div>
-                            <div *ngIf="!p.checkUserLiked" style="color: #5e5d5d">
+                            <div *ngIf="!postDetail?.checkUserLiked" style="color: #5e5d5d">
                                            <span>
-                                             Like&nbsp; <span *ngIf="countLike[i] > 0">  {{countLike[i]}}</span>
+                                             Like&nbsp; <span *ngIf="countLike > 0">  {{countLike}}</span>
                                           </span>
                             </div>
 
@@ -459,7 +458,7 @@
                         <div>
                                  <span style="color: #5e5d5d">
                                    &nbsp; <i class="ri-question-answer-fill"></i> <span
-                                   *ngIf="countComment[i]>0"> {{countComment[i]}}</span>
+                                   *ngIf="countComment > 0"> {{countComment}}</span>
                                  </span>
                         </div>
                       </div>
@@ -467,7 +466,7 @@
                   </div>
                   <hr>
 
-                  <form [formGroup]="commentForm" (ngSubmit)="addComment(p)"
+                  <form [formGroup]="commentForm" (ngSubmit)="addComment(postDetail?.id)"
                         class="comment-text d-flex align-items-center mt-3">
                     <input type="text" class="form-control rounded" formControlName="content"
                            placeholder="Enter Your Comment">
@@ -481,7 +480,7 @@
                 </div>
                 <div style="margin-top: 20px">
                   <ul class="post-comments list-inline p-0 m-0">
-                    <li *ngFor="let comment of listAllComment[i] , index as j" class="mb-2">
+                    <li *ngFor="let comment of listAllComment , index as j" class="mb-2">
                       <div>
                         <div class="d-flex">
                           <div class="user-img">
@@ -551,17 +550,17 @@
                       <div style="margin-left: 70px">
                         <div style="display: grid; grid-template-columns: 6% 20% 20%">
                           <div style="padding: 0">
-                            <span style="cursor: pointer" class="text-primary" *ngIf="listCheckLikeComment[i][j]" (click)="likeComment(comment.id)"
-                            ><i class="fa fa-thumbs-up"></i> &nbsp;<span *ngIf="listCommentLike[i][j] > 0">{{listCommentLike[i][j]}}</span> </span>
-                            <span style="cursor: pointer" *ngIf="!listCheckLikeComment[i][j]"
+                            <span style="cursor: pointer" class="text-primary" *ngIf="listCheckLikeComment[j]" (click)="likeComment(comment.id)"
+                            ><i class="fa fa-thumbs-up"></i> &nbsp;<span *ngIf="listCommentLike[j] > 0">{{listCommentLike[j]}}</span> </span>
+                            <span style="cursor: pointer" *ngIf="!listCheckLikeComment[j]"
                                   (click)="likeComment(comment.id)">
                               <i class="fa fa-thumbs-up"></i>
-                             &nbsp; <span *ngIf="listCommentLike[i][j] > 0">{{listCommentLike[i][j]}}
+                             &nbsp; <span *ngIf="listCommentLike[j] > 0">{{listCommentLike[j]}}
                               </span>
                             </span>
                           </div>
                           <div>
-                            <span style="font-size: 12px"> {{timeMomentComment[i][j].replace('an year', '1y')
+                            <span style="font-size: 12px"> {{timeMomentComment[j].replace('an year', '1y')
                               .replace('a year', '1y')
                               .replace('years', 'y')
                               .replace('an month', '1M')
@@ -626,12 +625,12 @@
 
 
                   </ul>
-                  <div *ngIf="listAllComment[i].length > 0">
+                  <div *ngIf="listAllComment.length > 0">
                     <span style="color: #0495ff;cursor: pointer" *ngIf="!showMore" (click)="showMoreItems()">Show more...</span>
                     <span style="color: #0495ff;cursor: pointer" *ngIf="showMore"
                           (click)="showLessItems()">Show less</span>
                   </div>
-                  <div style="text-align: center" *ngIf="listAllComment[i].length === 0">
+                  <div style="text-align: center" *ngIf="listAllComment.length === 0">
                     <span>No Comment</span>
                   </div>
                 </div>

@@ -165,8 +165,8 @@ export class NewFeedComponent implements OnInit {
     return this.listNotification;
   }
 
-  seenNotification(id: number | undefined){
-    this.notificationService.seenNotification(id).subscribe();
+  seenNotification(notification: Notifications){
+    this.notificationService.seenNotification(notification.id).subscribe();
   }
 
   findAllFriend() {

@@ -6,6 +6,7 @@ import {NewFeedComponent} from "./NewFeed/new-feed.component";
 import {ProfileComponent} from "./Profile/profile.component";
 import {EditProfileComponent} from "./edit-profile/edit-profile.component";
 import {FriendProfileComponent} from "./Friend-Profile/friend-profile.component";
+import {PostDetailComponent} from "./post-detail/post-detail.component";
 
 const routes: Routes = [
   {
@@ -25,6 +26,9 @@ const routes: Routes = [
   },
   {
     path: 'friendProfile/:id', component: FriendProfileComponent
+  },
+  {
+    path: 'postDetail/:id', component: PostDetailComponent
   },
 
 ];

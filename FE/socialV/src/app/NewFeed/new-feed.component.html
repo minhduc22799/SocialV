@@ -112,7 +112,7 @@
                   </div>
                   <div class="card-body p-0">
                     <div *ngFor="let n of listNotification, index as q">
-                      <a *ngIf="countOther[q] > 0 && !n.status" (click)="seenNotification(n.id)" class="iq-sub-card" style="background-color: #b2bcc5">
+                      <a *ngIf="countOther[q] > 0 && !n.status" (click)="seenNotification(n)" class="iq-sub-card" style="background-color: #b2bcc5">
                         <div class="d-flex align-items-center">
                           <div class="">
                             <img class="avatar-40 rounded" src="{{n?.users?.avatar}}" alt="">
