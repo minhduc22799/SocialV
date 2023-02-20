@@ -56,7 +56,7 @@ public class UserService implements IUserService {
 
     @Override
     public List<Users> findUsersActiveByName(String name) {
-        return userRepository.findUsersByNameContainingAndStatusIsFalse(name);
+        return userRepository.findUsersByNameContainingAndStatusIsTrue(name);
     }
 
 

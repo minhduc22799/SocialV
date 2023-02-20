@@ -349,21 +349,19 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-10 row m-0 p-0">
-            <h4 style="margin-bottom: 20px">Search for : " {{search}} "</h4>
+            <h4 style="margin-bottom: 20px">Result for : " {{search}} "</h4>
             <div class="card p-0"  >
               <div class="card-body p-0">
                 <ul class="todo-task-lists m-0 p-0">
                   <li  class="d-flex align-items-center p-3"  *ngFor="let s of listSearchFriend" >
-                    <div class="user-img img-fluid"><img src="{{s.avatar}}" alt="story-img" class="rounded-circle avatar-40"></div>
+                    <div class="user-img img-fluid"><img src="{{s.avatar}}" alt="story-img" class="rounded-circle avatar-60"></div>
                     <div class="d-flex align-items-center justify-content-between w-100">
                       <div class="ms-3" >
-                        <h6 class="d-inline-block">{{s.name}}</h6>
+                        <h5 style="cursor: pointer" routerLink="/friendProfile/{{s.id}}" class="d-inline-block">{{s.name}}</h5>
                         <p class="mb-0">{{s.address}}</p>
                       </div>
-
                     </div>
                   </li>
-
 
 
                 </ul>
