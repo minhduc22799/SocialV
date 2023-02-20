@@ -36,7 +36,7 @@
     <div class="iq-navbar-custom">
       <nav class="navbar navbar-expand-lg navbar-light p-0">
         <div class="iq-navbar-logo d-flex justify-content-between">
-          <a style="cursor: pointer" routerLink="/NewFeed}">
+          <a style="cursor: pointer" routerLink="/NewFeed">
             <img src="assets/images/logo.png" class="img-fluid" alt="">
             <span>SocialV</span>
           </a>
@@ -79,7 +79,7 @@
                           <img class="avatar-40 rounded" src="{{friendRequest.avatar}}"
                                alt="">
                           <div class="ms-3">
-                            <h6 class="mb-0 ">{{friendRequest.name}}</h6>
+                            <h6  routerLink="/friendProfile/{{friendRequest.id}}" class="mb-0 ">{{friendRequest.name}}</h6>
                             <p class="mb-0">40 friends</p>
                           </div>
                         </div>
@@ -353,7 +353,7 @@
             <div class="card p-0"  >
               <div class="card-body p-0">
                 <ul class="todo-task-lists m-0 p-0">
-                  <li  class="d-flex align-items-center p-3"  *ngFor="let s of listSearchFriend"  >
+                  <li  class="d-flex align-items-center p-3"  *ngFor="let s of listSearchFriend" >
                     <div class="user-img img-fluid"><img src="{{s.avatar}}" alt="story-img" class="rounded-circle avatar-40"></div>
                     <div class="d-flex align-items-center justify-content-between w-100">
                       <div class="ms-3" >

@@ -54,8 +54,8 @@ export class PostDetailComponent {
   postId?: any = this.routerActive.snapshot.paramMap.get("id")
   postDetail!: PostDisplay
   commentP?: PostComment
-  showMore: boolean = false;
   private stompClient: any;
+  numToShow = 3;
 
   commentForm: FormGroup = new FormGroup({
     content: new FormControl()
@@ -70,12 +70,12 @@ export class PostDetailComponent {
     })
   })
 
-  showMoreItems() {
-    this.showMore = true;
+  showMore() {
+    this.numToShow += 5;
   }
 
-  showLessItems() {
-    this.showMore = false;
+  showLess() {
+    this.numToShow -= 5;
   }
 
   postForm: FormGroup = new FormGroup({

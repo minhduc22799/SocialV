@@ -55,8 +55,7 @@ export class NewFeedComponent implements OnInit {
   postCm?: Post
   commentP?: PostComment
   numToShow = 3;
-  showMoreButton = true;
-  showLessButton = false;
+
   private stompClient: any;
   listSearchFriend:Users[]=[]
 
