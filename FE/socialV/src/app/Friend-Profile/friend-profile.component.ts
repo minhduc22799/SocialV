@@ -41,6 +41,7 @@ export class FriendProfileComponent implements OnInit {
   listNotification: Notifications[] = [];
   timeNotificationMoment: any[] = [];
   countOther: any[] = [];
+  countNotSeen:number = 0
   private stompClient: any;
   // @ts-ignore
   //nick wall
@@ -131,6 +132,14 @@ export class FriendProfileComponent implements OnInit {
       this.listNotification = data
       for (let j = 0; j < this.checkValidNotification().length; j++){
         this.timeNotificationMoment.push(moment(this.listNotification[j].notificationAt).fromNow())
+      }
+      this.countNotSeen = 0
+      for (let i = 0; i <this.checkValidNotification().length ; i++) {
+        // @ts-ignore
+        if (!this.checkValidNotification()[i].status){
+          this.countNotSeen++
+        }
+
       }
       this.countOtherNotification(this.listNotification);
     })
