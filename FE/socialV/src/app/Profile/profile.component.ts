@@ -16,6 +16,7 @@ import * as moment from "moment/moment";
 import {NotificationService} from "../notificationService/notification.service";
 import {Notifications} from "../Model/notifications";
 import {Stomp} from "@stomp/stompjs";
+import {PostComment} from "../Model/post-comment";
 
 @Component({
   selector: 'app-profile',
@@ -23,6 +24,7 @@ import {Stomp} from "@stomp/stompjs";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit{
+  showMore: boolean = false;
   data = localStorage.getItem("user")
   // @ts-ignore
   user:Users = JSON.parse(this.data)
@@ -37,6 +39,7 @@ export class ProfileComponent implements OnInit{
   listNotification: Notifications[] = [];
   checkUploadMultiple = false;
   timeMoment: any[] = [];
+  timeMomentComment: any[][] = []
   countLike:any[] = [];
   imageFiles: any[] = [];
   imgSrc: string[] = [];
@@ -47,6 +50,12 @@ export class ProfileComponent implements OnInit{
   countOther: any[] = [];
   post!: Post
   private stompClient: any;
+  commentP?:PostComment
+  listComment: PostComment[] = [];
+  listAllComment: PostComment[][] = [];
+  listCommentLike: number[][] = [];
+  listCheckLikeComment: boolean[][] = [];
+
   postUpdateForm: FormGroup = new FormGroup({
     id: new FormControl(),
     users: new FormGroup({
@@ -58,20 +67,33 @@ export class ProfileComponent implements OnInit{
       id: new FormControl()
     })
   })
+
+
+  commentForm:FormGroup = new FormGroup({
+    content: new FormControl()
+  })
+
+  commentFormEdit:FormGroup = new FormGroup({
+    id:new FormControl(),
+    content: new FormControl(),
+    cmtAt: new FormControl(),
+    post: new FormGroup({
+      id:new FormControl()
+    })
+  })
   ngOnInit(): void {
     this.findAllFriend()
     this.findPostAllProfile()
     this.getAllPostStatus()
-    this.onMoveTop()
     this.connect()
   }
-  onMoveTop(){
-    this.router.events.subscribe((event)=>{
-      if (event instanceof NavigationEnd) {
-        window.scrollTo(0, 0);
-      }
-    })
+  showMoreItems() {
+    this.showMore = true;
   }
+  showLessItems() {
+    this.showMore = false;
+  }
+
 
   constructor( private userService: UserService,
                private postService: PostService,
@@ -158,6 +180,7 @@ export class ProfileComponent implements OnInit{
       this.findFriendLike(data)
       this.findCountLike(data)
       this.findCountComment(data)
+      this.getAllListComment(data)
     })
   }
 
@@ -340,4 +363,96 @@ export class ProfileComponent implements OnInit{
     this.router.navigate(['']);
 
   }
+
+
+  likePost(idPost?: number) {
+    this.postService.likePost(this.user.id, idPost).subscribe(() => {
+      this.findPostAllProfile()
+    })
+  }
+
+  addComment(post:Post){
+
+    const postComment = this.commentForm.value
+    postComment.users = this.user
+    postComment.post = post
+
+    this.postService.addComment(postComment).subscribe(() =>{
+      this.findPostAllProfile()
+      this.commentForm.reset()
+    })
+  }
+
+
+  getCommentById(id:number){
+    this.postService.getCommentById(id).subscribe((data)=>{
+      this.commentP = data
+      this.commentFormEdit.patchValue(data)
+      console.log(data)
+    })
+  }
+  editComment(){
+    const postComment = this.commentFormEdit.value
+    postComment.users = this.user
+    postComment.cmtAt = this.commentP?.cmtAt
+    // @ts-ignore
+    this.postService.editComment(this.commentP.id,postComment).subscribe(() =>{
+      this.findPostAllProfile()
+      document.getElementById("edit-comment")?.click()
+    })
+  }
+
+  deleteComment(id:number){
+    this.postService.deleteComment(id).subscribe(()=>{
+      this.findPostAllProfile()
+    })
+  }
+
+
+  getAllListComment(posts: Post[]) {
+    this.postService.getAllListComment(posts).subscribe(data => {
+      this.listAllComment = data
+      // console.log(moment(data[2][1].cmtAt).fromNow())
+      for (let e = 0; e < data.length; e++){
+        if (data[e].length > 0) {
+          this.timeMomentComment[e] = []
+          for (let f = 0; f < data[e].length; f++) {
+            // @ts-ignore
+            this.timeMomentComment[e][f] = moment(data[e][f].cmtAt).fromNow()
+          }
+        }else {
+          this.timeMomentComment[e] = []
+        }
+      }
+      this.getListCommentLike()
+      this.getListCheckLikeComment()
+    })
+  }
+
+  likeComment(id:number){
+    // @ts-ignore
+    this.postService.likeComment(this.user.id, id).subscribe(()=>{
+      this.findPostAllProfile()
+    })
+  }
+  getCommentByIdPost(id: number) {
+    this.postService.getListComment(id).subscribe(data => {
+      this.listComment = data
+    })
+  }
+
+  getListCommentLike(){
+    this.postService.getCountComment(this.listAllComment).subscribe(data=>{
+      this.listCommentLike = data
+    })
+  }
+
+  getListCheckLikeComment(){
+    this.postService.getCheckLikeComment(this.listAllComment, this.user.id).subscribe(data=>{
+      this.listCheckLikeComment = data
+    })
+  }
+
+
+
 }

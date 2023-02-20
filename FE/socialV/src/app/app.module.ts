@@ -24,6 +24,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { AdminManagementComponent } from './admin-management/admin-management.component';
+import { PostDetailComponent } from './post-detail/post-detail.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { AdminManagementComponent } from './admin-management/admin-management.co
     FriendProfileComponent,
     EditProfileComponent,
     AdminLoginComponent,
-    AdminManagementComponent
+    AdminManagementComponent,
+    PostDetailComponent
   ],
   imports: [
     BrowserModule,

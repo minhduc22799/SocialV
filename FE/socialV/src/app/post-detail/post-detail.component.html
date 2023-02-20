@@ -108,44 +108,65 @@
                     <div class="header-title bg-primary">
                       <h5 class="mb-0 text-white">All Notifications</h5>
                     </div>
-                    <small class="badge  bg-light text-dark">{{listNotification.length}}</small>
+                    <small class="badge  bg-light text-dark">4</small>
                   </div>
                   <div class="card-body p-0">
-                    <div *ngFor="let n of listNotification, index as q">
-                      <a *ngIf="countOther[q] > 0 && !n.status" (click)="seenNotification(n.id)" class="iq-sub-card" style="background-color: #b2bcc5">
-                        <div class="d-flex align-items-center">
-                          <div class="">
-                            <img class="avatar-40 rounded" src="{{n?.users?.avatar}}" alt="">
-                          </div>
-                          <div class="ms-3 w-100">
-                            <h6 *ngIf="countOther[q] > 1" class="mb-0 ">{{n?.users?.name}} and {{countOther[q] - 1}}
-                              others {{n?.notificationType?.type}}</h6>
-                            <h6 *ngIf="countOther[q] == 1"
-                                class="mb-0 ">{{n?.users?.name}} {{n?.notificationType?.type}}</h6>
-                            <div class="d-flex justify-content-between align-items-center">
-                              <p class="mb-0">{{timeNotificationMoment[q]}}</p>
-                            </div>
+                    <a href="#" class="iq-sub-card">
+                      <div class="d-flex align-items-center">
+                        <div class="">
+                          <img class="avatar-40 rounded" src="assets/images/user/01.jpg" alt="">
+                        </div>
+                        <div class="ms-3 w-100">
+                          <h6 class="mb-0 ">Emma Watson Bni</h6>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <p class="mb-0">95 MB</p>
+                            <small class="float-right font-size-12">Just Now</small>
                           </div>
                         </div>
-                      </a>
-                      <a *ngIf="countOther[q] > 0 && n.status" class="iq-sub-card">
-                        <div class="d-flex align-items-center">
-                          <div class="">
-                            <img class="avatar-40 rounded" src="{{n?.users?.avatar}}" alt="">
-                          </div>
-                          <div class="ms-3 w-100">
-                            <h6 *ngIf="countOther[q] > 1" class="mb-0 ">{{n?.users?.name}} and {{countOther[q] - 1}}
-                              others {{n?.notificationType?.type}}</h6>
-                            <h6 *ngIf="countOther[q] == 1"
-                                class="mb-0 ">{{n?.users?.name}} {{n?.notificationType?.type}}</h6>
-                            <div class="d-flex justify-content-between align-items-center">
-                              <p class="mb-0">{{timeNotificationMoment[q]}}</p>
-                            </div>
+                      </div>
+                    </a>
+                    <a href="#" class="iq-sub-card">
+                      <div class="d-flex align-items-center">
+                        <div class="">
+                          <img class="avatar-40 rounded" src="assets/images/user/02.jpg" alt="">
+                        </div>
+                        <div class="ms-3 w-100">
+                          <h6 class="mb-0 ">New customer is join</h6>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <p class="mb-0">Cyst Bni</p>
+                            <small class="float-right font-size-12">5 days ago</small>
                           </div>
                         </div>
-                      </a>
-                    </div>
-
+                      </div>
+                    </a>
+                    <a href="#" class="iq-sub-card">
+                      <div class="d-flex align-items-center">
+                        <div class="">
+                          <img class="avatar-40 rounded" src="assets/images/user/03.jpg" alt="">
+                        </div>
+                        <div class="ms-3 w-100">
+                          <h6 class="mb-0 ">Two customer is left</h6>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <p class="mb-0">Cyst Bni</p>
+                            <small class="float-right font-size-12">2 days ago</small>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                    <a href="#" class="iq-sub-card">
+                      <div class="d-flex align-items-center">
+                        <div class="">
+                          <img class="avatar-40 rounded" src="assets/images/user/04.jpg" alt="">
+                        </div>
+                        <div class="w-100 ms-3">
+                          <h6 class="mb-0 ">New Mail from Fenny</h6>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <p class="mb-0">Cyst Bni</p>
+                            <small class="float-right font-size-12">3 days ago</small>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -326,93 +347,6 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-10 row m-0 p-0">
-          <div style="width: 90%;margin-left: 42px" class="col-sm-12">
-            <div id="post-modal-data" class="card card-block card-stretch card-height">
-              <div class="card-header d-flex justify-content-between">
-                <div class="header-title">
-                  <h4 class="card-title">Create Post</h4>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="d-flex align-items-center">
-                  <div class="user-img">
-                    <img src="{{user.avatar}}" alt="userimg" class="avatar-60 rounded-circle">
-                  </div>
-                  <form class="post-text ms-3 w-100 " data-bs-toggle="modal" data-bs-target="#post-modal" action="">
-                    <input type="text" class="form-control rounded" placeholder="Write something here..."
-                           style="border:none;">
-                  </form>
-                </div>
-                <hr>
-              </div>
-              <div class="modal fade" id="post-modal" tabindex="-1" aria-labelledby="post-modalLabel"
-                   aria-hidden="true">
-                <div class="modal-dialog  modal-fullscreen-sm-down">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="post-modalLabel">Create Post</h5>
-                      <button type="button" id="btn-close" class="btn btn-secondary" data-bs-dismiss="modal"><i
-                        class="ri-close-fill"></i></button>
-                    </div>
-                    <div class="modal-body">
-                      <form class="post-text ms-3 w-100" [formGroup]="postForm" (ngSubmit)="createPost()">
-                        <div class="d-flex align-items-center">
-                          <div class="user-img">
-                            <img src="{{user.avatar}}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
-                          </div>
-                          <input formControlName="content" type="text" class="form-control rounded"
-                                 placeholder="Write something here..."
-                                 style="border:none;">
-                        </div>
-                        <hr style="width: 95%">
-                        <ul style="height: 50px" class="d-flex flex-wrap list-inline m-0 p-0">
-                          <li style="margin-right: 50px; margin-top: 5px" class="col-md-1 mb-3">
-                            <div style="width: 100px" class="btn btn-soft-primary">
-                              <label for="image-post"><img alt="" src="assets/images/small/07.png">
-                                Photo</label>
-                              <input class="file-upload" id="image-post" type="file" (change)="submitAvatar($event)"
-                                     multiple/>
-                            </div>
-                          </li>
-                          <li>
-                            <div class="form-group" formGroupName="postStatus" style="margin-top: 5px; width: 140px">
-                              <select class="form-select mb-3" formControlName="id">
-                                <option *ngFor="let lps of listPostStatus" value="{{lps.id}}">{{lps.name}}</option>
-                              </select>
-                            </div>
-                          </li>
-                        </ul>
-                        <div *ngIf="imgSrc.length!== 0" style=";
-                                height: 140px;
-                                overflow: auto;">
-                          <div *ngFor="let imageUrl of imgSrc, index as j"
-                               style="width:100px ;float: left; margin: 12px">
-                            <i (click)="deleteImgCreate(j)"
-                               style="margin-left: 87px;background-color: white;color: #0a0a0a  "
-                               class="ri-delete-back-fill"></i>
-                            <img [src]="imageUrl" alt="img"
-                                 style="height: 100px; width: 100px;z-index:-1;margin-top: -10px">
-
-                          </div>
-                        </div>
-
-                        <hr style="width: 95%">
-                        <div class="col-lg-11">
-                          <mat-progress-bar style="color: blue;margin-left: 2%" mode="indeterminate"
-                                            *ngIf="checkUploadMultiple"></mat-progress-bar>
-                          <button style="margin-left: 2%" type="submit" class="btn btn-primary d-block w-100 mt-3">
-                            Post
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-
-
-              </div>
-            </div>
-          </div>
           <div style="padding-left: 50px; padding-right: 50px;margin-bottom: 20px; margin-top: 10px"
                *ngFor="let p of postsDisplay, index as i" class="col-sm-12">
             <div class="card card-block card-stretch card-height">
@@ -420,17 +354,17 @@
                 <div class="user-post-data">
                   <div class="d-flex justify-content-between">
                     <div class="me-3">
-                      <img *ngIf="p?.users?.id == user.id" routerLink="/Profile" style="border-radius: 50%;cursor: pointer" width="50px"
+                      <img *ngIf="p?.users?.id == user.id" routerLink="/Profile" style="border-radius: 50%" width="50px"
                            height="50px" src="{{p?.users?.avatar}}" alt="">
                       <img *ngIf="p?.users?.id != user.id" routerLink="/friendProfile/{{p?.users?.id}}"
-                           style="border-radius: 50%;cursor: pointer" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
+                           style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
                     </div>
                     <div class="w-100">
                       <div class="d-flex  justify-content-between">
                         <div class="">
-                          <h5 *ngIf="p?.users?.id === user.id" style="cursor: pointer" routerLink="/Profile"
+                          <h5 *ngIf="p?.users?.id === user.id" routerLink="/Profile"
                               class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
-                          <h5 *ngIf="p?.users?.id !== user.id"  style="cursor: pointer" routerLink="/friendProfile/{{p?.users?.id}}"
+                          <h5 *ngIf="p?.users?.id !== user.id" routerLink="/friendProfile/{{p?.users?.id}}"
                               class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
 
                           <span class="mb-0 d-inline-block"> &nbsp; Added New a Post </span>
@@ -618,7 +552,7 @@
                         <div style="display: grid; grid-template-columns: 6% 20% 20%">
                           <div style="padding: 0">
                             <span style="cursor: pointer" class="text-primary" *ngIf="listCheckLikeComment[i][j]" (click)="likeComment(comment.id)"
-                                  ><i class="fa fa-thumbs-up"></i> &nbsp;<span *ngIf="listCommentLike[i][j] > 0">{{listCommentLike[i][j]}}</span> </span>
+                            ><i class="fa fa-thumbs-up"></i> &nbsp;<span *ngIf="listCommentLike[i][j] > 0">{{listCommentLike[i][j]}}</span> </span>
                             <span style="cursor: pointer" *ngIf="!listCheckLikeComment[i][j]"
                                   (click)="likeComment(comment.id)">
                               <i class="fa fa-thumbs-up"></i>

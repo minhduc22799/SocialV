@@ -12,7 +12,7 @@
             </a>
           </li>
           <li class="active">
-            <a class=" ">
+            <a routerLink="/Profile" href="" class=" ">
               <i class="las la-user"></i><span>Profile</span>
             </a>
           </li>
@@ -488,7 +488,7 @@
                             <p class="mb-0">{{user.hobby}}</p>
                           </li>
                           <li class="mb-2 d-flex align-items-center">
-                            <i class="ri-calendar-2-fill pe-3 font-size-20"></i>
+                            <i class="fa fa-birthday-cake pe-3 font-size-20"></i>
                             <p class="mb-0">{{user.birthday}}</p>
                           </li>
 
@@ -737,13 +737,29 @@
                                     <span *ngIf="p?.postStatus?.id === 3"
                                           style="color: #0d6efd"> &nbsp; Friend Only </span>
 
-                                    <p class="mb-0 text-primary">{{timeMoment[i]}}</p>
+                                    <p class="mb-0 text-primary">{{timeMoment[i].replace('an year', '1y')
+                                      .replace('a year', '1y')
+                                      .replace('years', 'y')
+                                      .replace('an month', '1M')
+                                      .replace('a month', '1M')
+                                      .replace('months', 'M')
+                                      .replace('a week', '1w')
+                                      .replace('weeks', 'w')
+                                      .replace('a day', '1d')
+                                      .replace('days', 'd')
+                                      .replace('an hour', '1h')
+                                      .replace('a hour', '1h')
+                                      .replace('hours', 'h')
+                                      .replace('a minute', '1m')
+                                      .replace('minutes', 'm')
+                                      .replace('a second', '1s')
+                                      .replace(' ago', '')}}</p>
                                   </div>
                                   <div class="card-post-toolbar">
                                     <div style="width: 50px" class="dropdown">
-                                    <span class="dropdown-toggle" id="postdata-5" data-bs-toggle="dropdown"
-                                          aria-haspopup="true" aria-expanded="false" role="button">
-                                    <i class="ri-more-fill"></i>
+                                       <span class="dropdown-toggle" id="postdata-5" data-bs-toggle="dropdown"
+                                             aria-haspopup="true" aria-expanded="false" role="button">
+                                        <i class="ri-more-fill"></i>
                                     </span>
                                       <div class="dropdown-menu m-0 p-0" aria-labelledby="postdata-5">
                                         <a (click)="getPost(p.id)" class="dropdown-item p-1" data-bs-toggle="modal"
@@ -789,78 +805,228 @@
                             <div class="d-flex justify-content-between align-items-center flex-wrap">
                               <div class="like-block position-relative d-flex align-items-center">
                                 <div class="d-flex align-items-center">
-                                  <div class="like-data">
-                                    <div class="dropdown">
-                                    <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true"
-                                          aria-expanded="false" role="button">
-                                    <img src="assets/images/icon/01.png" class="img-fluid" alt="">
-                                    </span>
-                                      <div class="dropdown-menu py-2">
-                                        <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                           title="Like"><img src="assets/images/icon/01.png" class="img-fluid"
-                                                             alt=""></a>
-                                        <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                           title="Love"><img src="assets/images/icon/02.png" class="img-fluid"
-                                                             alt=""></a>
-                                        <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                           title="Happy"><img src="assets/images/icon/03.png" class="img-fluid" alt=""></a>
-                                        <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                           title="HaHa"><img src="assets/images/icon/04.png" class="img-fluid"
-                                                             alt=""></a>
-                                        <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                           title="Think"><img src="assets/images/icon/05.png" class="img-fluid" alt=""></a>
-                                        <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                           title="Sade"><img src="assets/images/icon/06.png" class="img-fluid"
-                                                             alt=""></a>
-                                        <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top"
-                                           title="Lovely"><img src="assets/images/icon/07.png" class="img-fluid" alt=""></a>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="total-like-block ms-2 me-3">
-                                    <div class="dropdown">
-                                      <div *ngIf="p.checkUserLiked">
-                                    <span style="color: #408cfc" class="dropdown-toggle" data-bs-toggle="dropdown"
-                                          aria-haspopup="true" aria-expanded="false" role="button">
-                                     Liked &nbsp; {{countLike[i]}}
-                                    </span>
-                                      </div>
+                                  <div  (click)="likePost(p?.id)" class="like-data">
 
-                                      <div *ngIf="!p.checkUserLiked">
-                                    <span class="dropdown-toggle" data-bs-toggle="dropdown"
-                                          aria-haspopup="true" aria-expanded="false" role="button">
-                                     Like &nbsp; {{countLike[i]}}
+                                    <span  *ngIf="!p.checkUserLiked"aria-haspopup="true"
+                                           role="button">
+                                       <i style="font-size: 16px" class="fa-shape fa-solid fa-thumbs-up"></i>
                                     </span>
+                                    <span class="text-primary"  *ngIf="p.checkUserLiked"aria-haspopup="true"
+                                          role="button">
+                                       <i style="font-size: 16px" class="fa-shape fa-solid fa-thumbs-up"></i>
+                                    </span>
+                                  </div>
+                                  <div  class="total-like-block ms-2 me-3">
+                                    <div *ngIf="listFriendPost[i].length >0" class="dropdown">
+                                      <div *ngIf="p.checkUserLiked" style="color: #5e5d5d">
+                                           <span class="text-primary">
+                                             Like&nbsp; <span  class="text-primary"  *ngIf="countLike[i] > 0">  {{countLike[i]}}</span>
+                                          </span>
+                                      </div>
+                                      <div *ngIf="!p.checkUserLiked" style="color: #5e5d5d">
+                                           <span>
+                                             Like&nbsp; <span *ngIf="countLike[i] > 0"> {{countLike[i]}}</span>
+                                          </span>
                                       </div>
                                       <div class="dropdown-menu">
                                         <a *ngFor="let f of listFriendPost[i]" class="dropdown-item"
                                            href="#">{{f.name}}</a>
-
                                       </div>
+                                    </div>
+                                    <div *ngIf="listFriendPost[i].length < 1">
+                                      <div *ngIf="p.checkUserLiked" style="color: #5e5d5d">
+                                           <span  class="text-primary">
+                                             Like&nbsp; <span class="text-primary" *ngIf="countLike[i] > 0">  {{countLike[i]}}</span>
+                                          </span>
+                                      </div>
+                                      <div *ngIf="!p.checkUserLiked" style="color: #5e5d5d">
+                                           <span>
+                                             Like&nbsp; <span *ngIf="countLike[i] > 0">  {{countLike[i]}}</span>
+                                          </span>
+                                      </div>
+
                                     </div>
                                   </div>
                                 </div>
                                 <div class="total-comment-block">
-                                  <div class="dropdown">
-                                 <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false" role="button">
-                                 {{countComment[i]}} &nbsp; Comment
+                                  <div>
+                                 <span style="color: #5e5d5d">
+                                   &nbsp; <i class="ri-question-answer-fill"></i> <span *ngIf="countComment[i]>0"> {{countComment[i]}}</span>
                                  </span>
                                   </div>
                                 </div>
                               </div>
-
                             </div>
                             <hr>
 
-                            <form class="comment-text d-flex align-items-center mt-3" action="">
-                              <input type="text" class="form-control rounded" placeholder="Enter Your Comment">
+                            <form [formGroup]="commentForm" (ngSubmit)="addComment(p)"
+                                  class="comment-text d-flex align-items-center mt-3">
+                              <input type="text" class="form-control rounded" formControlName="content"
+                                     placeholder="Enter Your Comment">
                               <div class="comment-attagement d-flex">
-                                <a href=""><i class="ri-link me-3"></i></a>
-                                <a href=""><i class="ri-user-smile-line me-3"></i></a>
-                                <a href=""><i class="ri-camera-line me-3"></i></a>
+                                <button style="border:none #8f8b8b;background:none;font-size: 20px;margin-right: 10px"
+                                        type="submit"><i style="color: #0495ff;background: none"
+                                                         class="ri-send-plane-2-line"></i>
+                                </button>
                               </div>
                             </form>
+                          </div>
+
+
+                          <div style="margin-top: 20px">
+                            <ul class="post-comments list-inline p-0 m-0">
+                              <li *ngFor="let comment of listAllComment[i] , index as j" class="mb-2">
+                                <div>
+                                  <div class="d-flex">
+                                    <div class="user-img">
+                                      <img src="{{comment.users.avatar}}"
+                                           class="avatar-35 rounded-circle ">
+                                    </div>
+                                    <div *ngIf="user.id === comment.users.id"
+                                         style="display: grid; grid-template-columns: 96% 4%">
+                                      <div class="comment-data-block ms-3">
+                                        <div class="container"
+                                             style="background-color: #e9eef8 ;padding:0px 0px 0px 18px; border-radius: 20px">
+                                          <span style="color: #0a0a0a;padding: 0px">{{comment.users.name}}</span>
+                                          <div>
+                                            <p
+                                              style="margin-top: -5px;max-width: 590px;word-break: break-all;padding: 0px 10px 3px 10px;"
+                                              class="row mb-0">{{comment.content}}</p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="card-post-toolbar" style="margin-left: 5px;display: flex; align-items: center;" >
+                                        <div class="dropdown">
+                                           <span class="dropdown-toggle" id="postdata-5" data-bs-toggle="dropdown"
+                                              aria-haspopup="true" aria-expanded="false" role="button">
+                                           <i  style="font-size: 12px" class="ri-more-fill"></i>
+                                            </span>
+                                          <div class="dropdown-menu m-0 p-0" aria-labelledby="postdata-6">
+                                            <div style="display: grid; grid-template-columns: 50% 50%">
+                                              <a (click)="getCommentById(comment.id)" class="dropdown-item p-1"
+                                                 data-bs-toggle="modal"
+                                                 data-bs-target="#edit-modal">
+                                                <div class="d-flex align-items-">
+                                                  <i class="ri-edit-2-line h6"></i>
+                                                </div>
+                                              </a>
+                                              <a (click)="deleteComment(comment.id)" class="dropdown-item p-1">
+                                                <div class="d-flex align-items-top ">
+                                                  <i class="ri-chat-delete-line h6"></i>
+                                                </div>
+                                              </a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div *ngIf="user.id !== comment.users.id">
+                                      <div class="comment-data-block ms-3">
+                                        <div class="container"
+                                             style="background-color: #e9eef8 ;padding:0px 0px 0px 18px; border-radius: 20px">
+                                          <span style="color: #0a0a0a;padding: 0px">{{comment.users.name}}</span>
+                                          <div>
+                                            <p
+                                              style="margin-top: -5px;max-width: 590px;word-break: break-all;padding: 0px 30px 3px 10px;"
+                                              class="row mb-0">{{comment.content}}</p>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                    </div>
+
+
+                                  </div>
+                                </div>
+                                <div style="margin-left: 70px">
+                                  <div style="display: grid; grid-template-columns: 6% 20% 20%">
+                                    <div style="padding: 0">
+                                     <span style="cursor: pointer" class="text-primary" *ngIf="listCheckLikeComment[i][j]" (click)="likeComment(comment.id)"
+                                          ><i class="fa fa-thumbs-up"></i> &nbsp;<span *ngIf="listCommentLike[i][j] > 0">{{listCommentLike[i][j]}}</span>
+                                     </span>
+                                      <span style="cursor: pointer" *ngIf="!listCheckLikeComment[i][j]"
+                                            (click)="likeComment(comment.id)">
+                                         <i class="fa fa-thumbs-up"></i>
+                                         &nbsp; <span *ngIf="listCommentLike[i][j] > 0">{{listCommentLike[i][j]}}</span>
+                                      </span>
+                                    </div>
+                                    <div>
+                                      <span> {{timeMomentComment[i][j].replace('an year', '1y')
+                                        .replace('a year', '1y')
+                                        .replace('years', 'y')
+                                        .replace('an month', '1M')
+                                        .replace('a month', '1M')
+                                        .replace('months', 'M')
+                                        .replace('a week', '1w')
+                                        .replace('weeks', 'w')
+                                        .replace('a day', '1d')
+                                        .replace('days', 'd')
+                                        .replace('an hour', '1h')
+                                        .replace('a hour', '1h')
+                                        .replace('hours', 'h')
+                                        .replace('a minute', '1m')
+                                        .replace('minutes', 'm')
+                                        .replace('a second', '1s')
+                                        .replace(' ago', '')}} </span>
+                                    </div>
+
+                                    <div></div>
+                                  </div>
+                                </div>
+
+                                <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalCenterTitle"><img
+                                          src="{{comment.users.avatar}}"
+                                          class="avatar-35 rounded-circle ">
+                                          <span
+                                            style="color: #0a0a0a;padding: 0px;margin-left: 5px">{{comment.users.name}}</span>
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close">
+                                        </button>
+                                      </div>
+                                      <div class="iq-search-bar device-search">
+
+                                        <form [formGroup]="commentFormEdit" (ngSubmit)="editComment()" action="#"
+                                              class="searchbox">
+
+                                          <div hidden class="form-group" formGroupName="post">
+                                            <input hidden formControlName="id" type="text" class="text search-input">
+                                          </div>
+                                          <input hidden="" style="border-radius: 20px" formControlName="id" type="text"
+                                                 class="text search-input">
+                                          <input style="border-radius: 20px" formControlName="content" type="text"
+                                                 class="text search-input">
+                                          <input hidden style="border-radius: 20px" formControlName="cmtAt" type="date">
+                                        </form>
+
+                                        <div class="modal-footer">
+                                          <button type="button" id="edit-comment" class="btn btn-secondary"
+                                                  data-bs-dismiss="modal">Close
+                                          </button>
+                                          <button (click)="editComment()" type="submit" class="btn btn-primary">Edit
+                                          </button>
+                                        </div>
+                                      </div>
+
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                            <div *ngIf="listAllComment[i].length > 0">
+                              <span style="color: #0495ff;cursor: pointer" *ngIf="!showMore" (click)="showMoreItems()">Show more...</span>
+                              <span style="color: #0495ff;cursor: pointer" *ngIf="showMore"
+                                    (click)="showLessItems()">Show less</span>
+                            </div>
+                            <div style="text-align: center" *ngIf="listAllComment[i].length === 0">
+                              <span>No Comment</span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -869,38 +1035,7 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane fade" id="about" role="tabpanel">
-              <div class="card">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-3">
-                      <ul class="nav nav-pills basic-info-items list-inline d-block p-0 m-0">
-                        <li>
-                          <a class="nav-link active" href="" data-bs-toggle="pill"
-                             data-bs-target="#v-pills-basicinfo-tab" role="button">Contact and Basic Info</a>
-                        </li>
-                        <li>
-                          <a class="nav-link" href="" data-bs-toggle="pill" data-bs-target="#v-pills-family"
-                             role="button">Family and Relationship</a>
-                        </li>
-                        <li>
-                          <a class="nav-link" href="" data-bs-toggle="pill" data-bs-target="#v-pills-work-tab"
-                             role="button">Work and Education</a>
-                        </li>
-                        <li>
-                          <a class="nav-link" href="" data-bs-toggle="pill" data-bs-target="#v-pills-lived-tab"
-                             role="button">Places You've Lived</a>
-                        </li>
-                        <li>
-                          <a class="nav-link" href="" data-bs-toggle="pill" data-bs-target="#v-pills-details-tab"
-                             role="button">Details About You</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+
             <div class="tab-pane fade" id="friends" role="tabpanel">
               <div class="card">
                 <div class="card-body">
