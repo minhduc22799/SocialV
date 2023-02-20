@@ -1,0 +1,704 @@
+<!-- loader END -->
+<!-- Wrapper Start -->
+<div class="wrapper">
+  <div class="iq-sidebar  sidebar-default ">
+    <div id="sidebar-scrollbar">
+      <nav class="iq-sidebar-menu">
+        <ul id="iq-sidebar-toggle" class="iq-menu">
+          <li class="active">
+            <a href="" class=" ">
+              <i class="las la-newspaper"></i><span>Newsfeed</span>
+            </a>
+          </li>
+          <li class="">
+            <a routerLink="/Profile" class=" ">
+              <i class="las la-user"></i><span>Profile</span>
+            </a>
+          </li>
+          <li class="">
+            <a href="" class=" ">
+              <i class="las la-users"></i><span>Group</span>
+            </a>
+          </li>
+          <li class=" ">
+            <a href="" class=" ">
+              <i class="las la-check-circle"></i><span>Todo</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="p-5"></div>
+    </div>
+  </div>
+
+  <div class="iq-top-navbar">
+    <div class="iq-navbar-custom">
+      <nav class="navbar navbar-expand-lg navbar-light p-0">
+        <div class="iq-navbar-logo d-flex justify-content-between">
+          <a style="cursor: pointer" routerLink="/NewFeed}">
+            <img src="assets/images/logo.png" class="img-fluid" alt="">
+            <span>SocialV</span>
+          </a>
+
+        </div>
+        <div class="iq-search-bar device-search">
+          <form action="#" class="searchbox">
+            <a class="search-link" href="#"><i class="ri-search-line"></i></a>
+            <input type="text" class="text search-input" placeholder="Search here...">
+          </form>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-label="Toggle navigation">
+          <i class="ri-menu-3-line"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav  ms-auto navbar-list">
+            <li style="cursor: pointer" routerLink="/NewFeed">
+              <a class=" d-flex align-items-center">
+                <i class="ri-home-line"></i>
+              </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a href="#" class="dropdown-toggle" id="group-drop" data-bs-toggle="dropdown"
+                 aria-haspopup="true" aria-expanded="false"><i class="ri-group-line"></i></a>
+              <div class="sub-drop sub-drop-large dropdown-menu" aria-labelledby="group-drop">
+                <div class="card shadow-none m-0">
+                  <div class="card-header d-flex justify-content-between bg-primary">
+                    <div class="header-title">
+                      <h5 class="mb-0 text-white">Friend Request</h5>
+                    </div>
+                    <small class="badge  bg-light text-dark ">{{listRequest.length}}</small>
+                  </div>
+                  <div class="card-body p-0">
+                    <div *ngFor="let friendRequest of listRequest " class="iq-friend-request">
+                      <div
+                        class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                          <img class="avatar-40 rounded" src="{{friendRequest.avatar}}"
+                               alt="">
+                          <div class="ms-3">
+                            <h6 class="mb-0 ">{{friendRequest.name}}</h6>
+                            <p class="mb-0">40 friends</p>
+                          </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <a (click)="confirmRequest(friendRequest.id)"
+                             class="me-3 btn btn-primary rounded">Confirm</a>
+                          <a (click)="deleteRequest(friendRequest.id)"
+                             class="me-3 btn btn-secondary rounded">Delete Request</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <a href="#" class=" btn text-primary">View More Request</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a href="#" class="search-toggle   dropdown-toggle" id="notification-drop" data-bs-toggle="dropdown">
+                <i class="ri-notification-4-line"></i>
+              </a>
+              <div class="sub-drop dropdown-menu" aria-labelledby="notification-drop">
+                <div class="card shadow-none m-0">
+                  <div class="card-header d-flex justify-content-between bg-primary">
+                    <div class="header-title bg-primary">
+                      <h5 class="mb-0 text-white">All Notifications</h5>
+                    </div>
+                    <small class="badge  bg-light text-dark">4</small>
+                  </div>
+                  <div class="card-body p-0">
+                    <a href="#" class="iq-sub-card">
+                      <div class="d-flex align-items-center">
+                        <div class="">
+                          <img class="avatar-40 rounded" src="assets/images/user/01.jpg" alt="">
+                        </div>
+                        <div class="ms-3 w-100">
+                          <h6 class="mb-0 ">Emma Watson Bni</h6>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <p class="mb-0">95 MB</p>
+                            <small class="float-right font-size-12">Just Now</small>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                    <a href="#" class="iq-sub-card">
+                      <div class="d-flex align-items-center">
+                        <div class="">
+                          <img class="avatar-40 rounded" src="assets/images/user/02.jpg" alt="">
+                        </div>
+                        <div class="ms-3 w-100">
+                          <h6 class="mb-0 ">New customer is join</h6>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <p class="mb-0">Cyst Bni</p>
+                            <small class="float-right font-size-12">5 days ago</small>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                    <a href="#" class="iq-sub-card">
+                      <div class="d-flex align-items-center">
+                        <div class="">
+                          <img class="avatar-40 rounded" src="assets/images/user/03.jpg" alt="">
+                        </div>
+                        <div class="ms-3 w-100">
+                          <h6 class="mb-0 ">Two customer is left</h6>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <p class="mb-0">Cyst Bni</p>
+                            <small class="float-right font-size-12">2 days ago</small>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                    <a href="#" class="iq-sub-card">
+                      <div class="d-flex align-items-center">
+                        <div class="">
+                          <img class="avatar-40 rounded" src="assets/images/user/04.jpg" alt="">
+                        </div>
+                        <div class="w-100 ms-3">
+                          <h6 class="mb-0 ">New Mail from Fenny</h6>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <p class="mb-0">Cyst Bni</p>
+                            <small class="float-right font-size-12">3 days ago</small>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a href="#" class="dropdown-toggle" id="mail-drop" data-bs-toggle="dropdown" aria-haspopup="true"
+                 aria-expanded="false">
+                <i class="ri-mail-line"></i>
+              </a>
+              <div class="sub-drop dropdown-menu" aria-labelledby="mail-drop">
+                <div class="card shadow-none m-0">
+                  <div class="card-header d-flex justify-content-between bg-primary">
+                    <div class="header-title bg-primary">
+                      <h5 class="mb-0 text-white">All Message</h5>
+                    </div>
+                    <small class="badge bg-light text-dark">4</small>
+                  </div>
+                  <div class="card-body p-0 ">
+                    <a href="#" class="iq-sub-card">
+                      <div class="d-flex  align-items-center">
+                        <div class="">
+                          <img class="avatar-40 rounded" src="assets/images/user/01.jpg" alt="">
+                        </div>
+                        <div class=" w-100 ms-3">
+                          <h6 class="mb-0 ">Bni Emma Watson</h6>
+                          <small class="float-left font-size-12">13 Jun</small>
+                        </div>
+                      </div>
+                    </a>
+                    <a href="#" class="iq-sub-card">
+                      <div class="d-flex align-items-center">
+                        <div class="">
+                          <img class="avatar-40 rounded" src="assets/images/user/02.jpg" alt="">
+                        </div>
+                        <div class="ms-3">
+                          <h6 class="mb-0 ">Lorem Ipsum Watson</h6>
+                          <small class="float-left font-size-12">20 Apr</small>
+                        </div>
+                      </div>
+                    </a>
+                    <a href="#" class="iq-sub-card">
+                      <div class="d-flex align-items-center">
+                        <div class="">
+                          <img class="avatar-40 rounded" src="assets/images/user/03.jpg" alt="">
+                        </div>
+                        <div class="ms-3">
+                          <h6 class="mb-0 ">Why do we use it?</h6>
+                          <small class="float-left font-size-12">30 Jun</small>
+                        </div>
+                      </div>
+                    </a>
+                    <a href="#" class="iq-sub-card">
+                      <div class="d-flex align-items-center">
+                        <div class="">
+                          <img class="avatar-40 rounded" src="assets/images/user/04.jpg" alt="">
+                        </div>
+                        <div class="ms-3">
+                          <h6 class="mb-0 ">Variations Passages</h6>
+                          <small class="float-left font-size-12">12 Sep</small>
+                        </div>
+                      </div>
+                    </a>
+                    <a href="#" class="iq-sub-card">
+                      <div class="d-flex align-items-center">
+                        <div class="">
+                          <img class="avatar-40 rounded" src="assets/images/user/05.jpg" alt="">
+                        </div>
+                        <div class="ms-3">
+                          <h6 class="mb-0 ">Lorem Ipsum generators</h6>
+                          <small class="float-left font-size-12">5 Dec</small>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a href="#" class="   d-flex align-items-center dropdown-toggle" id="drop-down-arrow"
+                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="{{user.avatar}}" class="img-fluid rounded-circle me-3" alt="user">
+                <div class="caption">
+                  <h6 class="mb-0 line-height">{{user.name}}</h6>
+                </div>
+              </a>
+              <div class="sub-drop dropdown-menu caption-menu" aria-labelledby="drop-down-arrow">
+                <div class="card shadow-none m-0">
+                  <div class="card-header  bg-primary">
+                    <div class="header-title">
+                      <h5 class="mb-0 text-white">Hello {{user.name}}</h5>
+                      <span class="text-white font-size-12">Available</span>
+                    </div>
+                  </div>
+                  <div class="card-body p-0 ">
+                    <a class="iq-sub-card iq-bg-primary-hover">
+                      <div class="d-flex align-items-center">
+                        <div class="rounded card-icon bg-soft-primary">
+                          <i class="ri-file-user-line"></i>
+                        </div>
+                        <div class="ms-3" routerLink="/Profile">
+                          <h6 class="mb-0 ">My Profile</h6>
+                          <p class="mb-0 font-size-12">View personal profile details.</p>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="iq-sub-card iq-bg-warning-hover">
+                      <div class="d-flex align-items-center">
+                        <div class="rounded card-icon bg-soft-warning">
+                          <i class="ri-profile-line"></i>
+                        </div>
+                        <div routerLink="/EditProfile" class="ms-3">
+                          <h6 class="mb-0 ">Edit Profile</h6>
+                          <p class="mb-0 font-size-12">Modify your personal details.</p>
+                        </div>
+                      </div>
+                    </a>
+                    <a href="" class="iq-sub-card iq-bg-info-hover">
+                      <div class="d-flex align-items-center">
+                        <div class="rounded card-icon bg-soft-info">
+                          <i class="ri-account-box-line"></i>
+                        </div>
+                        <div class="ms-3">
+                          <h6 class="mb-0 ">Account settings</h6>
+                          <p class="mb-0 font-size-12">Manage your account parameters.</p>
+                        </div>
+                      </div>
+                    </a>
+                    <a href="." class="iq-sub-card iq-bg-danger-hover">
+                      <div class="d-flex align-items-center">
+                        <div class="rounded card-icon bg-soft-danger">
+                          <i class="ri-lock-line"></i>
+                        </div>
+                        <div class="ms-3">
+                          <h6 class="mb-0 ">Privacy Settings</h6>
+                          <p class="mb-0 font-size-12">Control your privacy parameters.
+                          </p>
+                        </div>
+                      </div>
+                    </a>
+                    <div (click)="logOut()" class="d-inline-block w-100 text-center p-3">
+                      <a class="btn btn-primary iq-sign-btn" role="button">Sign
+                        out<i class="ri-login-box-line ms-2"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+  <div class="right-sidebar-mini active-menu ">
+    <div class="right-sidebar-panel p-0">
+      <div class="card shadow-none">
+        <div class="card-body p-0">
+          <div class="media-height p-3" data-scrollbar="init">
+            <div *ngFor="let f of listFriend" class="d-flex align-items-center mb-4">
+              <div *ngIf="f.checkOn" class="iq-profile-avatar status-online">
+                <img class="rounded-circle avatar-50" src="{{f?.avatar}}">
+              </div>
+              <div *ngIf="!f.checkOn" class="iq-profile-avatar status-offline">
+                <img class="rounded-circle avatar-50" src="{{f?.avatar}}">
+              </div>
+              <div class="ms-3">
+                <h6 class="mb-0">{{f?.name}}</h6>
+                <p *ngIf="f.checkOn" class="mb-0">Just Now</p>
+                <p *ngIf="!f.checkOn" class="mb-0">Offline</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-left:12.5%" id="content-page" class="content-page">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 row m-0 p-0">
+          <div style="padding-left: 50px; padding-right: 50px;margin-bottom: 20px; margin-top: 10px"
+               *ngFor="let p of postsDisplay, index as i" class="col-sm-12">
+            <div class="card card-block card-stretch card-height">
+              <div class="card-body">
+                <div class="user-post-data">
+                  <div class="d-flex justify-content-between">
+                    <div class="me-3">
+                      <img *ngIf="p?.users?.id == user.id" routerLink="/Profile" style="border-radius: 50%" width="50px"
+                           height="50px" src="{{p?.users?.avatar}}" alt="">
+                      <img *ngIf="p?.users?.id != user.id" routerLink="/friendProfile/{{p?.users?.id}}"
+                           style="border-radius: 50%" width="50px" height="50px" src="{{p?.users?.avatar}}" alt="">
+                    </div>
+                    <div class="w-100">
+                      <div class="d-flex  justify-content-between">
+                        <div class="">
+                          <h5 *ngIf="p?.users?.id === user.id" routerLink="/Profile"
+                              class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
+                          <h5 *ngIf="p?.users?.id !== user.id" routerLink="/friendProfile/{{p?.users?.id}}"
+                              class="mb-0 d-inline-block">{{p?.users?.name}}</h5>
+
+                          <span class="mb-0 d-inline-block"> &nbsp; Added New a Post </span>
+
+                          <p class="mb-0 text-primary">{{timeMoment[i].replace('an year', '1y')
+                            .replace('a year', '1y')
+                            .replace('years', 'y')
+                            .replace('an month', '1M')
+                            .replace('a month', '1M')
+                            .replace('months', 'M')
+                            .replace('a week', '1w')
+                            .replace('weeks', 'w')
+                            .replace('a day', '1d')
+                            .replace('days', 'd')
+                            .replace('an hour', '1h')
+                            .replace('a hour', '1h')
+                            .replace('hours', 'h')
+                            .replace('a minute', '1m')
+                            .replace('minutes', 'm')
+                            .replace('a second', '1s')
+                            .replace(' ago', '')}}</p>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="margin-left: 3px" class="mt-3">
+                  <p>{{p?.content}}</p>
+                </div>
+                <div *ngIf="listImg[i]?.length > 0">
+                  <ng-image-slider
+                    [images]="listImg[i]"
+                    [infinite]="false"
+                    [autoSlide]="1"
+                    [imageSize]="{width: '100%', height: '470px'}"
+                    slideImage="1">
+                  </ng-image-slider>
+                </div>
+
+
+                <div class="comment-area mt-3">
+                  <div class="d-flex justify-content-between align-items-center flex-wrap">
+                    <div class="like-block position-relative d-flex align-items-center">
+                      <div class="d-flex align-items-center">
+                        <div (click)="likePost(p?.id)" class="like-data">
+
+                                    <span *ngIf="!p.checkUserLiked" aria-haspopup="true"
+                                          role="button">
+                                       <i style="font-size: 16px" class="fa fa-thumbs-up"></i>
+                                    </span>
+                          <span class="text-primary" *ngIf="p.checkUserLiked" aria-haspopup="true"
+                                role="button">
+                                       <i style="font-size: 16px" class="fa fa-thumbs-up"></i>
+                                    </span>
+                        </div>
+                        <div class="total-like-block ms-2 me-3">
+                          <div *ngIf="listFriendPost[i].length >0" class="dropdown">
+                            <div *ngIf="p.checkUserLiked" style="color: #5e5d5d">
+                                           <span class="text-primary">
+                                             Like&nbsp; <span class="text-primary"
+                                                              *ngIf="countLike[i] > 0">  {{countLike[i]}}</span>
+                                          </span>
+                            </div>
+                            <div *ngIf="!p.checkUserLiked" style="color: #5e5d5d">
+                                           <span>
+                                             Like&nbsp; <span *ngIf="countLike[i] > 0"> {{countLike[i]}}</span>
+                                          </span>
+                            </div>
+                            <div class="dropdown-menu">
+                              <a *ngFor="let f of listFriendPost[i]" class="dropdown-item"
+                                 href="#">{{f.name}}</a>
+                            </div>
+                          </div>
+                          <div *ngIf="listFriendPost[i].length < 1">
+                            <div *ngIf="p.checkUserLiked" style="color: #5e5d5d">
+                                           <span class="text-primary">
+                                             Like&nbsp; <span class="text-primary"
+                                                              *ngIf="countLike[i] > 0">  {{countLike[i]}}</span>
+                                          </span>
+                            </div>
+                            <div *ngIf="!p.checkUserLiked" style="color: #5e5d5d">
+                                           <span>
+                                             Like&nbsp; <span *ngIf="countLike[i] > 0">  {{countLike[i]}}</span>
+                                          </span>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="total-comment-block">
+                        <div>
+                                 <span style="color: #5e5d5d">
+                                   &nbsp; <i class="ri-question-answer-fill"></i> <span
+                                   *ngIf="countComment[i]>0"> {{countComment[i]}}</span>
+                                 </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+
+                  <form [formGroup]="commentForm" (ngSubmit)="addComment(p)"
+                        class="comment-text d-flex align-items-center mt-3">
+                    <input type="text" class="form-control rounded" formControlName="content"
+                           placeholder="Enter Your Comment">
+                    <div class="comment-attagement d-flex">
+                      <button style="border:none #8f8b8b;background:none;font-size: 20px;margin-right: 10px"
+                              type="submit"><i style="color: #0495ff;background: none"
+                                               class="ri-send-plane-2-line"></i>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+                <div style="margin-top: 20px">
+                  <ul class="post-comments list-inline p-0 m-0">
+                    <li *ngFor="let comment of listAllComment[i] , index as j" class="mb-2">
+                      <div>
+                        <div class="d-flex">
+                          <div class="user-img">
+                            <img src="{{comment.users.avatar}}"
+                                 class="avatar-35 rounded-circle ">
+                          </div>
+                          <div *ngIf="user.id === comment.users.id"
+                               style="display: grid; grid-template-columns: 96% 4%">
+                            <div class="comment-data-block ms-3">
+                              <div class="container"
+                                   style="background-color: #e9eef8 ;padding:0px 0px 0px 18px; border-radius: 20px">
+                                <span style="color: #0a0a0a;padding: 0px">{{comment.users.name}}</span>
+                                <div>
+                                  <p
+                                    style="margin-top: -5px;max-width: 590px;word-break: break-all;padding: 0px 10px 3px 10px;"
+                                    class="row mb-0">{{comment.content}}</p>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <div class="card-post-toolbar" style="margin-left: 5px;display: flex; align-items: center;">
+                              <div class="dropdown">
+                                           <span class="dropdown-toggle" id="postdata-5" data-bs-toggle="dropdown"
+                                                 aria-haspopup="true" aria-expanded="false" role="button">
+                                           <i style="font-size: 12px" class="ri-more-fill"></i>
+                                            </span>
+                                <div class="dropdown-menu m-0 p-0" aria-labelledby="postdata-6">
+                                  <div style="display: grid; grid-template-columns: 50% 50%">
+                                    <a (click)="getCommentById(comment.id)" class="dropdown-item p-1"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#edit-modal">
+                                      <div class="d-flex align-items-">
+                                        <i class="ri-edit-2-line h6"></i>
+                                      </div>
+                                    </a>
+                                    <a (click)="deleteComment(comment.id)" class="dropdown-item p-1">
+                                      <div class="d-flex align-items-top ">
+                                        <i class="ri-chat-delete-line h6"></i>
+                                      </div>
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+
+                          <div *ngIf="user.id !== comment.users.id">
+                            <div class="comment-data-block ms-3">
+                              <div class="container"
+                                   style="background-color: #e9eef8 ;padding:0px 0px 0px 18px; border-radius: 20px">
+                                <span style="color: #0a0a0a;padding: 0px">{{comment.users.name}}</span>
+                                <div>
+                                  <p
+                                    style="margin-top: -5px;max-width: 590px;word-break: break-all;padding: 0px 30px 3px 10px;"
+                                    class="row mb-0">{{comment.content}}</p>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+
+
+                        </div>
+                      </div>
+                      <div style="margin-left: 70px">
+                        <div style="display: grid; grid-template-columns: 6% 20% 20%">
+                          <div style="padding: 0">
+                            <span style="cursor: pointer" class="text-primary" *ngIf="listCheckLikeComment[i][j]" (click)="likeComment(comment.id)"
+                            ><i class="fa fa-thumbs-up"></i> &nbsp;<span *ngIf="listCommentLike[i][j] > 0">{{listCommentLike[i][j]}}</span> </span>
+                            <span style="cursor: pointer" *ngIf="!listCheckLikeComment[i][j]"
+                                  (click)="likeComment(comment.id)">
+                              <i class="fa fa-thumbs-up"></i>
+                             &nbsp; <span *ngIf="listCommentLike[i][j] > 0">{{listCommentLike[i][j]}}
+                              </span>
+                            </span>
+                          </div>
+                          <div>
+                            <span style="font-size: 12px"> {{timeMomentComment[i][j].replace('an year', '1y')
+                              .replace('a year', '1y')
+                              .replace('years', 'y')
+                              .replace('an month', '1M')
+                              .replace('a month', '1M')
+                              .replace('months', 'M')
+                              .replace('a week', '1w')
+                              .replace('weeks', 'w')
+                              .replace('a day', '1d')
+                              .replace('days', 'd')
+                              .replace('an hour', '1h')
+                              .replace('a hour', '1h')
+                              .replace('hours', 'h')
+                              .replace('a minute', '1m')
+                              .replace('minutes', 'm')
+                              .replace('a second', '1s')
+                              .replace(' ago', '')}} </span>
+                          </div>
+
+                          <div></div>
+                        </div>
+                      </div>
+
+                      <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog"
+                           aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalCenterTitle"><img src="{{comment.users.avatar}}"
+                                                                                        class="avatar-35 rounded-circle ">
+                                <span style="color: #0a0a0a;padding: 0px;margin-left: 5px">{{comment.users.name}}</span>
+                              </h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                              </button>
+                            </div>
+                            <div class="iq-search-bar device-search">
+
+                              <form [formGroup]="commentFormEdit" (ngSubmit)="editComment()" action="#"
+                                    class="searchbox">
+
+                                <div hidden class="form-group" formGroupName="post">
+                                  <input hidden formControlName="id" type="text" class="text search-input">
+                                </div>
+                                <input hidden="" style="border-radius: 20px" formControlName="id" type="text"
+                                       class="text search-input">
+                                <input style="border-radius: 20px" formControlName="content" type="text"
+                                       class="text search-input">
+                                <input hidden style="border-radius: 20px" formControlName="cmtAt" type="date">
+                              </form>
+
+                              <div class="modal-footer">
+                                <button type="button" id="edit-comment" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close
+                                </button>
+                                <button (click)="editComment()" type="submit" class="btn btn-primary">Edit</button>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+
+
+                  </ul>
+                  <div *ngIf="listAllComment[i].length > 0">
+                    <span style="color: #0495ff;cursor: pointer" *ngIf="!showMore" (click)="showMoreItems()">Show more...</span>
+                    <span style="color: #0495ff;cursor: pointer" *ngIf="showMore"
+                          (click)="showLessItems()">Show less</span>
+                  </div>
+                  <div style="text-align: center" *ngIf="listAllComment[i].length === 0">
+                    <span>No Comment</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Wrapper End-->
+<footer class="iq-footer bg-white">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-6">
+        <ul class="list-inline mb-0">
+          <li class="list-inline-item"><a href="">Privacy Policy</a></li>
+          <li class="list-inline-item"><a href="">Terms of Use</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-6 d-flex justify-content-end">
+        Copyright 2020 <a href="#">SocialV</a> All Rights Reserved.
+      </div>
+    </div>
+  </div>
+</footer>    <!-- Backend Bundle JavaScript -->
+
+
+<!-- offcanvas start -->
+
+<div class="offcanvas offcanvas-bottom share-offcanvas" tabindex="-1" id="share-btn"
+     aria-labelledby="shareBottomLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="shareBottomLabel">Share</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body small">
+    <div class="d-flex flex-wrap align-items-center">
+      <div class="text-center me-3 mb-3">
+        <img src="assets/images/icon/08.png" class="img-fluid rounded mb-2" alt="">
+        <h6>Facebook</h6>
+      </div>
+      <div class="text-center me-3 mb-3">
+        <img src="assets/images/icon/09.png" class="img-fluid rounded mb-2" alt="">
+        <h6>Twitter</h6>
+      </div>
+      <div class="text-center me-3 mb-3">
+        <img src="assets/images/icon/10.png" class="img-fluid rounded mb-2" alt="">
+        <h6>Instagram</h6>
+      </div>
+      <div class="text-center me-3 mb-3">
+        <img src="assets/images/icon/11.png" class="img-fluid rounded mb-2" alt="">
+        <h6>Google Plus</h6>
+      </div>
+      <div class="text-center me-3 mb-3">
+        <img src="assets/images/icon/13.png" class="img-fluid rounded mb-2" alt="">
+        <h6>In</h6>
+      </div>
+      <div class="text-center me-3 mb-3">
+        <img src="assets/images/icon/12.png" class="img-fluid rounded mb-2" alt="">
+        <h6>YouTube</h6>
+      </div>
+    </div>
+  </div>
+</div>
+
+
