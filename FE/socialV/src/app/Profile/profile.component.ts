@@ -56,6 +56,8 @@ export class ProfileComponent implements OnInit{
   listAllComment: PostComment[][] = [];
   listCommentLike: number[][] = [];
   listCheckLikeComment: boolean[][] = [];
+  countNotSeen:number = 0
+
 
   postUpdateForm: FormGroup = new FormGroup({
     id: new FormControl(),
@@ -134,6 +136,14 @@ export class ProfileComponent implements OnInit{
       this.listNotification = data
       for (let j = 0; j < this.checkValidNotification().length; j++){
         this.timeNotificationMoment.push(moment(this.listNotification[j].notificationAt).fromNow())
+      }
+      this.countNotSeen = 0
+      for (let i = 0; i <this.checkValidNotification().length ; i++) {
+        // @ts-ignore
+        if (!this.checkValidNotification()[i].status){
+          this.countNotSeen++
+        }
+
       }
       this.countOtherNotification(this.listNotification);
     })
