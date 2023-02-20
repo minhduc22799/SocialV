@@ -76,6 +76,7 @@ export class FriendProfileComponent implements OnInit {
     this.findFriendOfFriend()
     this.findMutualFriend()
     this.connect()
+    this.findListRequest()
 
 
   }
@@ -119,6 +120,7 @@ export class FriendProfileComponent implements OnInit {
     this.stompClient.connect({}, function (){
       _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
         _this.getAllNotification()
+        _this.findListRequest()
       })
     })
   }
@@ -232,6 +234,7 @@ export class FriendProfileComponent implements OnInit {
       this.userService.requestFriend(friendRequest).subscribe(() => {
         this.checkExistFriend()
         this.checkRequest()
+        this.sendNotification()
       },() =>{
         location.reload()
       })
@@ -265,6 +268,7 @@ export class FriendProfileComponent implements OnInit {
       this.checkExistFriend();
       this.checkRequest();
       this.checkRequest2();
+      this.sendNotification()
     })
   }
   confirmRequest(){
@@ -273,6 +277,7 @@ export class FriendProfileComponent implements OnInit {
       this.checkExistFriend();
       this.checkRequest();
       this.checkRequest2();
+      this.sendNotification()
     })
   }
 

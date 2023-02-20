@@ -20,6 +20,7 @@ public class SignUpService {
             if (users.getPassword().equals(users.getConfirmPassword())) {
                 users.setRole(roleService.findById(1l).get());
                 users.setAvatar("https://i0.wp.com/sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png?ssl=1");
+                users.setStatus(true);
                 userRepository.save(users);
                 return true;
             }

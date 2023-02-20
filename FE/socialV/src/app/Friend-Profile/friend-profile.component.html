@@ -61,7 +61,10 @@
             </li>
             <li class="nav-item dropdown">
               <a href="#" class="dropdown-toggle" id="group-drop" data-bs-toggle="dropdown"
-                 aria-haspopup="true" aria-expanded="false"><i class="ri-group-line"></i></a>
+                 aria-haspopup="true" aria-expanded="false">
+                <i class="ri-group-line"></i>
+                <small *ngIf="listRequest.length > 0" style="font-size: 10px;padding: 2px 4px 2px 4px;margin-left: -8px" class="bg-danger rounded-circle text-white">{{listRequest.length}}</small>
+              </a>
               <div class="sub-drop sub-drop-large dropdown-menu" aria-labelledby="group-drop">
                 <div class="card shadow-none m-0">
                   <div class="card-header d-flex justify-content-between bg-primary">
@@ -886,25 +889,9 @@
                                     <div style="cursor: pointer" routerLink="/friendProfile/{{f.id}}"
                                          class="friend-info ms-3">
                                       <h5>{{f.name}}</h5>
-                                      <p class="mb-0">19 friends</p>
                                     </div>
                                   </div>
-                                  <div class="card-header-toolbar d-flex align-items-center">
-                                    <div class="dropdown">
-                                                    <span
-                                                      span style="background-color: #5d94ef; border: none"
-                                                      class="dropdown-toggle btn btn-secondary me-2"
-                                                      id="dropdownMenuButton72" data-bs-toggle="dropdown"
-                                                      aria-expanded="true" role="button">
-                                                   <i class="ri-check-line me-1 text-white"></i> Friend
-                                                   </span>
-                                      <div class="dropdown-menu dropdown-menu-right"
-                                           aria-labelledby="dropdownMenuButton68">
-                                        <a class="dropdown-item">Unfriend</a>
-                                      </div>
-                                    </div>
 
-                                  </div>
                                 </div>
                               </div>
                             </div>

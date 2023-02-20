@@ -123,6 +123,7 @@ export class PostDetailComponent {
     this.stompClient.connect({}, function () {
       _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
         _this.getAllNotification()
+        _this.findListRequest()
       })
     })
   }
@@ -221,12 +222,14 @@ export class PostDetailComponent {
   deleteRequest(friendRequestId: any) {
     this.userService.deleteRequest(this.user.id, friendRequestId).subscribe(() => {
       this.findListRequest()
+      this.sendNotification()
     })
   }
 
   confirmRequest(friendRequestId: any) {
     this.userService.confirmRequest(this.user.id, friendRequestId).subscribe(() => {
       this.findListRequest()
+      this.sendNotification()
     })
   }
 

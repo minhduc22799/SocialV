@@ -109,6 +109,7 @@ export class EditProfileComponent implements OnInit {
     this.stompClient.connect({}, function () {
       _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
         _this.getAllNotification()
+        _this.findListRequest()
       })
     })
   }

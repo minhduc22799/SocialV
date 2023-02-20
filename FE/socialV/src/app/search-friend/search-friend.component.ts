@@ -66,6 +66,7 @@ export class SearchFriendComponent implements OnInit{
     this.stompClient.connect({}, function (){
       _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
         _this.getAllNotification()
+        _this.findListRequest()
       })
     })
   }
@@ -144,6 +145,7 @@ export class SearchFriendComponent implements OnInit{
   confirmRequest(friendRequestId: any) {
     this.userService.confirmRequest(this.user.id, friendRequestId).subscribe(() => {
       this.findListRequest()
+      this.sendNotification()
     })
   }
 
@@ -165,11 +167,13 @@ export class SearchFriendComponent implements OnInit{
   deleteRequest(friendRequestId: any) {
     this.userService.deleteRequest(this.user.id, friendRequestId).subscribe(() => {
       this.findListRequest()
+      this.sendNotification()
     })
   }
 
   searchUserByNameContaining(name:string){
     this.userService.findUsersByNameContaining(name).subscribe(data=>{
+
         this.listSearchFriend=data
     })
   }
