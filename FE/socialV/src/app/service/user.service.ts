@@ -4,6 +4,7 @@ import {Users} from "../Model/Users";
 import {Observable} from "rxjs";
 import {FormControl, FormGroup} from "@angular/forms";
 import {UserUpdate} from "../model/UserUpdate";
+// @ts-ignore
 import {FriendRequest} from "../Model/friend-request";
 const API_URL='http://localhost:8080'
 @Injectable({
@@ -13,8 +14,8 @@ export class UserService {
 
   constructor(private httpClient:HttpClient) { }
 
-  register(user: any): Observable<any> {
-    return this.httpClient.post<any>(API_URL + '/signUp', user);
+  register(user: Users): Observable<Users> {
+    return this.httpClient.post<Users>(API_URL + '/signUp', user);
   }
   login(user: any): Observable<any> {
     return this.httpClient.post<any>(API_URL + '/login', user);
