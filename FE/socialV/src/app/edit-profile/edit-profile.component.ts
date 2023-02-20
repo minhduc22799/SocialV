@@ -34,6 +34,11 @@ export class EditProfileComponent implements OnInit {
   private stompClient: any;
   imageFile: any;
   pathName!: string;
+  listRequest: Users[] = [];
+  friend?: Users
+  countNotSeen:number = 0
+
+
 
   constructor(private userService: UserService,
               private router: Router,
@@ -62,7 +67,15 @@ export class EditProfileComponent implements OnInit {
       address: new FormControl('', [Validators.required]),
     })
     this.formEditProfile.patchValue(this.user)
+    this.findListRequest()
     this.connect()
+  }
+  findListRequest(){
+    // @ts-ignore
+    this.userService.findListRequestFriend(this.user.id).subscribe((data)=>{
+      this.listRequest = data
+
+    })
   }
 
   getAllNotification() {
@@ -70,6 +83,14 @@ export class EditProfileComponent implements OnInit {
       this.listNotification = data
       for (let j = 0; j < this.checkValidNotification().length; j++) {
         this.timeNotificationMoment.push(moment(this.listNotification[j].notificationAt).fromNow())
+      }
+      this.countNotSeen = 0
+      for (let i = 0; i <this.checkValidNotification().length ; i++) {
+        // @ts-ignore
+        if (!this.checkValidNotification()[i].status){
+          this.countNotSeen++
+        }
+
       }
       this.countOtherNotification(this.listNotification);
     })
@@ -158,6 +179,7 @@ export class EditProfileComponent implements OnInit {
     }
   }
 
+
   onSubmit() {
     let userUpdate: UserUpdate = new UserUpdate()
     userUpdate.oldPassword = this.formChangePass.get('oldPass')?.value
@@ -166,6 +188,17 @@ export class EditProfileComponent implements OnInit {
     userUpdate.id = this.user.id
     this.userService.changePassword(userUpdate).subscribe(() => {
 
+    })
+  }
+  deleteRequest(friendRequestId: any) {
+    this.userService.deleteRequest(this.user.id, friendRequestId).subscribe(() => {
+      this.findListRequest()
+    })
+  }
+
+  confirmRequest(friendRequestId: any) {
+    this.userService.confirmRequest(this.user.id, friendRequestId).subscribe(() => {
+      this.findListRequest()
     })
   }
 

@@ -24,6 +24,7 @@ import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { AdminManagementComponent } from './admin-management/admin-management.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
+import { SearchFriendComponent } from './search-friend/search-friend.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { PostDetailComponent } from './post-detail/post-detail.component';
     EditProfileComponent,
     AdminLoginComponent,
     AdminManagementComponent,
-    PostDetailComponent
+    PostDetailComponent,
+    SearchFriendComponent
   ],
   imports: [
     BrowserModule,

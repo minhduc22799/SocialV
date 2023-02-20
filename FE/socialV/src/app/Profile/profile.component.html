@@ -68,85 +68,29 @@
                     <div class="header-title">
                       <h5 class="mb-0 text-white">Friend Request</h5>
                     </div>
-                    <small class="badge  bg-light text-dark ">4</small>
+                    <small class="badge  bg-light text-dark ">{{listRequest.length}}</small>
                   </div>
                   <div class="card-body p-0">
-                    <div class="iq-friend-request">
+                    <div *ngFor="let friendRequest of listRequest " class="iq-friend-request">
                       <div
                         class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center">
-                          <img class="avatar-40 rounded" src="  assets/images/user/01.jpg"
+                          <img class="avatar-40 rounded" src="{{friendRequest.avatar}}"
                                alt="">
                           <div class="ms-3">
-                            <h6 class="mb-0 ">Jaques Amole</h6>
+                            <h6 class="mb-0 ">{{friendRequest.name}}</h6>
                             <p class="mb-0">40 friends</p>
                           </div>
                         </div>
                         <div class="d-flex align-items-center">
-                          <a href=""
+                          <a (click)="confirmRequest(friendRequest.id)"
                              class="me-3 btn btn-primary rounded">Confirm</a>
-                          <a href=""
+                          <a (click)="deleteRequest(friendRequest.id)"
                              class="me-3 btn btn-secondary rounded">Delete Request</a>
                         </div>
                       </div>
                     </div>
-                    <div class="iq-friend-request">
-                      <div
-                        class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center">
-                          <img class="avatar-40 rounded" src="  assets/images/user/02.jpg"
-                               alt="">
-                          <div class="ms-3">
-                            <h6 class="mb-0 ">Lucy Tania</h6>
-                            <p class="mb-0">12 friends</p>
-                          </div>
-                        </div>
-                        <div class="d-flex align-items-center">
-                          <a href=""
-                             class="me-3 btn btn-primary rounded">Confirm</a>
-                          <a href=""
-                             class="me-3 btn btn-secondary rounded">Delete Request</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="iq-friend-request">
-                      <div
-                        class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center">
-                          <img class="avatar-40 rounded" src="  assets/images/user/03.jpg"
-                               alt="">
-                          <div class=" ms-3">
-                            <h6 class="mb-0 ">Manny Petty</h6>
-                            <p class="mb-0">3 friends</p>
-                          </div>
-                        </div>
-                        <div class="d-flex align-items-center">
-                          <a href=""
-                             class="me-3 btn btn-primary rounded">Confirm</a>
-                          <a href=""
-                             class="me-3 btn btn-secondary rounded">Delete Request</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="iq-friend-request">
-                      <div
-                        class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center">
-                          <img class="avatar-40 rounded" src="  assets/images/user/04.jpg"
-                               alt="">
-                          <div class="ms-3">
-                            <h6 class="mb-0 ">Marsha Mello</h6>
-                            <p class="mb-0">15 friends</p>
-                          </div>
-                        </div>
-                        <div class="d-flex align-items-center">
-                          <a href=""
-                             class="me-3 btn btn-primary rounded">Confirm</a>
-                          <a href=""
-                             class="me-3 btn btn-secondary rounded">Delete Request</a>
-                        </div>
-                      </div>
-                    </div>
+
                     <div class="text-center">
                       <a href="#" class=" btn text-primary">View More Request</a>
                     </div>
@@ -157,6 +101,7 @@
             <li class="nav-item dropdown">
               <a href="#" class="search-toggle   dropdown-toggle" id="notification-drop" data-bs-toggle="dropdown">
                 <i class="ri-notification-4-line"></i>
+                <small  *ngIf="countNotSeen > 0" style="font-size: 10px;padding: 2px 4px 2px 4px;margin-left: -8px" class="bg-danger rounded-circle text-white">{{countNotSeen}}</small>
               </a>
               <div class="sub-drop dropdown-menu" aria-labelledby="notification-drop">
                 <div class="card shadow-none m-0">
@@ -164,11 +109,10 @@
                     <div class="header-title bg-primary">
                       <h5 class="mb-0 text-white">All Notifications</h5>
                     </div>
-                    <small class="badge  bg-light text-dark">{{listNotification.length}}</small>
                   </div>
-                  <div class="card-body p-0">
+                  <div style="height: 350px;overflow: auto"  class="card-body p-0">
                     <div *ngFor="let n of listNotification, index as q">
-                      <a *ngIf="countOther[q] > 0 && !n.status" (click)="seenNotification(n.id)" class="iq-sub-card" style="background-color: #b2bcc5">
+                      <a *ngIf="countOther[q] > 0 && !n.status" (click)="seenNotification(n.id)" class="iq-sub-card" style="background-color: #eef2fc;margin-bottom: 3px">
                         <div class="d-flex align-items-center">
                           <div class="">
                             <img class="avatar-40 rounded" src="{{n?.users?.avatar}}" alt="">

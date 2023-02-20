@@ -101,6 +101,7 @@
             <li class="nav-item dropdown">
               <a href="#" class="search-toggle   dropdown-toggle" id="notification-drop" data-bs-toggle="dropdown">
                 <i class="ri-notification-4-line"></i>
+                <small  *ngIf="countNotSeen > 0" style="font-size: 10px;padding: 2px 4px 2px 4px;margin-left: -8px" class="bg-danger rounded-circle text-white">{{countNotSeen}}</small>
               </a>
               <div class="sub-drop dropdown-menu" aria-labelledby="notification-drop">
                 <div class="card shadow-none m-0">
@@ -108,11 +109,10 @@
                     <div class="header-title bg-primary">
                       <h5 class="mb-0 text-white">All Notifications</h5>
                     </div>
-                    <small class="badge  bg-light text-dark">{{listNotification.length}}</small>
                   </div>
-                  <div class="card-body p-0">
-                    <div *ngFor="let n of listNotification, index as q">
-                      <a *ngIf="countOther[q] > 0 && !n.status" class="iq-sub-card" (click)="seenNotification(n.id)" style="background-color: #b2bcc5">
+                  <div style="height: 350px;overflow: auto;" class="card-body p-0">
+                    <div  *ngFor="let n of listNotification, index as q">
+                      <a *ngIf="countOther[q] > 0 && !n.status" class="iq-sub-card" (click)="seenNotification(n.id)" style="background-color: #eef2fc;margin-bottom: 3px">
                         <div class="d-flex align-items-center">
                           <div class="">
                             <img class="avatar-40 rounded" src="{{n?.users?.avatar}}" alt="">
@@ -144,7 +144,6 @@
                           </div>
                         </div>
                       </a>
-
                     </div>
                   </div>
                 </div>

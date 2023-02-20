@@ -48,6 +48,7 @@ export class ProfileComponent implements OnInit{
   countComment:any[] = [];
   timeNotificationMoment: any[] = [];
   countOther: any[] = [];
+  listRequest: Users[] = [];
   post!: Post
   private stompClient: any;
   commentP?:PostComment
@@ -55,6 +56,8 @@ export class ProfileComponent implements OnInit{
   listAllComment: PostComment[][] = [];
   listCommentLike: number[][] = [];
   listCheckLikeComment: boolean[][] = [];
+  countNotSeen:number = 0
+
 
   postUpdateForm: FormGroup = new FormGroup({
     id: new FormControl(),
@@ -85,6 +88,7 @@ export class ProfileComponent implements OnInit{
     this.findAllFriend()
     this.findPostAllProfile()
     this.getAllPostStatus()
+    this.findListRequest()
     this.connect()
   }
   showMoreItems() {
@@ -132,6 +136,14 @@ export class ProfileComponent implements OnInit{
       this.listNotification = data
       for (let j = 0; j < this.checkValidNotification().length; j++){
         this.timeNotificationMoment.push(moment(this.listNotification[j].notificationAt).fromNow())
+      }
+      this.countNotSeen = 0
+      for (let i = 0; i <this.checkValidNotification().length ; i++) {
+        // @ts-ignore
+        if (!this.checkValidNotification()[i].status){
+          this.countNotSeen++
+        }
+
       }
       this.countOtherNotification(this.listNotification);
     })
@@ -362,6 +374,25 @@ export class ProfileComponent implements OnInit{
     localStorage.removeItem("user");
     this.router.navigate(['']);
 
+  }
+  findListRequest() {
+    // @ts-ignore
+    this.userService.findListRequestFriend(this.user.id).subscribe((data) => {
+      this.listRequest = data
+
+    })
+  }
+
+  deleteRequest(friendRequestId: any) {
+    this.userService.deleteRequest(this.user.id, friendRequestId).subscribe(() => {
+      this.findListRequest()
+    })
+  }
+
+  confirmRequest(friendRequestId: any) {
+    this.userService.confirmRequest(this.user.id, friendRequestId).subscribe(() => {
+      this.findListRequest()
+    })
   }
 
 

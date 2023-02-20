@@ -16,6 +16,7 @@ import {PostComment} from "../Model/post-comment";
 import {Notifications} from "../Model/notifications";
 import {NotificationService} from "../notificationService/notification.service";
 import {Stomp} from "@stomp/stompjs";
+import {iif} from "rxjs";
 
 @Component({
   selector: 'app-newfeed',
@@ -46,6 +47,7 @@ export class NewFeedComponent implements OnInit {
   timeMomentComment: any[][] = []
   listRequest: Users[] = [];
   listNotification: Notifications[] = [];
+  countNotSeen:number = 0
   timeNotificationMoment: any[] = [];
   countOther: any[] = [];
   pathName!: string
@@ -132,6 +134,14 @@ export class NewFeedComponent implements OnInit {
       this.listNotification = data
       for (let j = 0; j < this.checkValidNotification().length; j++){
         this.timeNotificationMoment.push(moment(this.listNotification[j].notificationAt).fromNow())
+      }
+      this.countNotSeen = 0
+      for (let i = 0; i <this.checkValidNotification().length ; i++) {
+              // @ts-ignore
+              if (!this.checkValidNotification()[i].status){
+                this.countNotSeen++
+            }
+
       }
       this.countOtherNotification(this.listNotification);
     })
