@@ -124,6 +124,7 @@ export class NewFeedComponent implements OnInit {
     const _this = this;
     this.stompClient.connect({}, function (){
       _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
+
         _this.getAllNotification()
         _this.findListRequest()
       })
@@ -133,6 +134,7 @@ export class NewFeedComponent implements OnInit {
   sendNotification(){
     // @ts-ignore
     this.stompClient.send('/app/hello',{}, this.user.id.toString());
+
   }
   getAllNotification(){
     this.notificationService.getNotification(this.user.id).subscribe(data =>{
@@ -159,7 +161,9 @@ export class NewFeedComponent implements OnInit {
   }
 
   checkValidNotification(){
+
     for (let t = 0; t < this.listNotification.length; t++){
+
       if (this.listNotification[t]?.users?.id == this.user.id){
         this.listNotification.splice(t,1)
         t--;
@@ -197,9 +201,10 @@ export class NewFeedComponent implements OnInit {
   findAll() {
     this.postService.findAllPostNewFeed(this.user).subscribe((post) => {
       this.postsDisplay = post
-      for (let j = 0; j < this.postsDisplay.length; j++) {
-        this.timeMoment.push(moment(this.postsDisplay[j].createAt).fromNow())
+      for (let j = 0; j < post.length; j++) {
+        this.timeMoment.push(moment(post[j].createAt).fromNow())
       }
+      console.log(this.timeMoment)
       this.findAllImgPost(post)
       this.findFriendLike(post)
       this.findCountLike(post)
@@ -347,6 +352,7 @@ export class NewFeedComponent implements OnInit {
     const post = this.postForm.value
     post.users = this.user
     this.postService.createPost(post).subscribe(data => {
+      this.timeMoment = []
       // @ts-ignore
       if (this.imageFiles.length === 0) {
       this.sendNotification()
