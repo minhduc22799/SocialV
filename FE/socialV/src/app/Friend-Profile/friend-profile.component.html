@@ -86,9 +86,9 @@
                           </div>
                         </div>
                         <div class="d-flex align-items-center">
-                          <a href=""
+                          <a (click)="confirmRequest(friendRequest.id)"
                              class="me-3 btn btn-primary rounded">Confirm</a>
-                          <a href=""
+                          <a
                              class="me-3 btn btn-secondary rounded">Delete Request</a>
                         </div>
                       </div>
@@ -237,7 +237,7 @@
                 <div class="card shadow-none m-0">
                   <div class="card-header  bg-primary">
                     <div class="header-title">
-                      <h5 class="mb-0 text-white">Hello Bni Cyst</h5>
+                      <h5 class="mb-0 text-white">Hello {{user.name}}</h5>
                       <span class="text-white font-size-12">Available</span>
                     </div>
                   </div>
@@ -399,7 +399,7 @@
                       <i class="ri-subtract-line me-1 text-white"></i> Cancel friend request
                     </span>
 
-                    <span *ngIf="checkRequestFr2 && (!checkRequestFr) && (!existF)" (click)="confirmRequest()"
+                    <span *ngIf="checkRequestFr2 && (!checkRequestFr) && (!existF)" (click)="confirmRequest(idFiend)"
                           id="accept"
                           style="background-color: #5d94ef; border: none"
                           class="btn btn-secondary me-2"

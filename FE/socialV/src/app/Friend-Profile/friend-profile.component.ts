@@ -272,8 +272,8 @@ export class FriendProfileComponent implements OnInit {
       this.sendNotification()
     })
   }
-  confirmRequest(){
-    this.userService.confirmRequest(this.user.id, this.friend.id).subscribe(()=>{
+  confirmRequest(friendRequestId: any){
+    this.userService.confirmRequest(this.user.id, friendRequestId).subscribe(()=>{
       this.findFriendOfFriend()
       this.checkExistFriend();
       this.checkRequest();
