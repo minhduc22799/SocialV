@@ -151,7 +151,34 @@
                   </div>
                   <div class="col-12">
                     <div class="amp-pxl" style="height: 360px;">
-                      <div class="chartist-tooltip"></div>
+                      <div class="chartist-tooltip">
+                        <table class="table table-striped">
+                          <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>User Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th colspan="2">Action</th>
+                          </tr>
+                          </thead>
+                          <tbody *ngFor="let st of userList ">
+                          <tr>
+                            <td>{{st.name}}</td>
+                            <td>{{st.username}}</td>
+                            <td>{{st.email}}</td>
+                            <td>{{st.phone}}</td>
+                            <td> <p *ngIf="st.status">Block</p>
+                              <p  *ngIf="!st.status">Active</p></td>
+                            <td>
+                              <button class="btn btn-warning" (click)="blockAndActiveUser()" *ngIf="!st.status">Block.</button>
+                              <button class="btn btn-danger" (click)="blockAndActiveUser()" *ngIf="st.status">Active</button>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -67,4 +67,13 @@ export class UserService {
   findUsersByNameContaining(name:string):Observable<Users[]>{
     return this.httpClient.get<Users[]>(API_URL +"/user/search?search="+name)
   }
+  loginAdmin(user: Users): Observable<Users> {
+    return this.httpClient.post<Users>(API_URL + '/admin/login', user);
+  }
+  showAllUser():Observable<Users[]>{
+    return this.httpClient.get<Users[]>(API_URL+"/admin")
+  }
+  blockAndActive(user:Users):Observable<any>{
+    return this.httpClient.post<any>(API_URL+"/admin",user)
+  }
 }
