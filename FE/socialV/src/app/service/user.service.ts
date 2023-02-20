@@ -32,7 +32,7 @@ export class UserService {
     return this.httpClient.get<any>(`${API_URL}/post/wall/${id}/search?search=${content}`)
   }
 
-  changePassword(userUpdate: any):Observable<any>{
+  changePassword(userUpdate: UserUpdate):Observable<any>{
     return this.httpClient.put<any>(API_URL+'/changePw',userUpdate)
   }
 
@@ -63,5 +63,18 @@ export class UserService {
 
   confirmRequest(id1:number|undefined, id2:number|undefined):Observable<any> {
     return this.httpClient.get<any>(`${API_URL}/friend/accept/${id1}/${id2}`);
+  }
+  findUsersByNameContaining(name:string):Observable<Users[]>{
+    return this.httpClient.get<Users[]>(API_URL +"/user/search?search="+name)
+  }
+  loginAdmin(user: Users): Observable<Users> {
+    return this.httpClient.post<Users>(API_URL + '/admin/login', user);
+  }
+  showAllUser():Observable<Users[]>{
+    return this.httpClient.get<Users[]>(API_URL+"/admin")
+  }
+
+  blockAndActive(user: Users):Observable<any>{
+    return this.httpClient.post<any>(API_URL+"/admin",user)
   }
 }

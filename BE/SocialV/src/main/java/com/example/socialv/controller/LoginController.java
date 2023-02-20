@@ -25,9 +25,9 @@ public class LoginController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     @PutMapping("/changePw")
-    public ResponseEntity<String> changePassword(@RequestBody UserUpdate userUpdate) {
+    public ResponseEntity<?> changePassword(@RequestBody UserUpdate userUpdate) {
         if (loginSevice.changePassword(userUpdate)) {
-            return new ResponseEntity<>("Change password successfully!", HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

@@ -4,6 +4,7 @@ import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {NavigationEnd, Router} from "@angular/router";
 import {PostService} from "../PostService/post.service";
 import {UserService} from "../service/user.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-search-friend',
@@ -16,7 +17,10 @@ export class SearchFriendComponent implements OnInit{
   user: Users = JSON.parse(this.data)
   listFriend: Users[] = [];
   listRequest: Users[] = [];
-
+  // @ts-ignore
+  listSearchFriend:Users[]= JSON.parse(localStorage.getItem("listUser"))
+  // @ts-ignore
+  search:string= JSON.parse(localStorage.getItem("nameUser"))
 
 
   ngOnInit(): void {
@@ -77,6 +81,11 @@ export class SearchFriendComponent implements OnInit{
     })
   }
 
+  searchUserByNameContaining(name:string){
+    this.userService.findUsersByNameContaining(name).subscribe(data=>{
+        this.listSearchFriend=data
+    })
+  }
 
 
 }

@@ -56,6 +56,7 @@ export class NewFeedComponent implements OnInit {
   commentP?: PostComment
   showMore: boolean = false;
   private stompClient: any;
+  listSearchFriend:Users[]=[]
 
   commentForm: FormGroup = new FormGroup({
     content: new FormControl()
@@ -449,6 +450,13 @@ export class NewFeedComponent implements OnInit {
   getListCheckLikeComment() {
     this.postService.getCheckLikeComment(this.listAllComment, this.user.id).subscribe(data => {
       this.listCheckLikeComment = data
+    })
+  }
+  searchUserByNameContaining(name:string){
+    this.userService.findUsersByNameContaining(name).subscribe(data=>{
+      this.router.navigate(['/SearchFriend']);
+      window.localStorage.setItem("listUser", JSON.stringify(data));
+      window.localStorage.setItem("nameUser", JSON.stringify(name));
     })
   }
 }

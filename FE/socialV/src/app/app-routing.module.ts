@@ -7,6 +7,9 @@ import {ProfileComponent} from "./Profile/profile.component";
 import {EditProfileComponent} from "./edit-profile/edit-profile.component";
 import {FriendProfileComponent} from "./Friend-Profile/friend-profile.component";
 import {PostDetailComponent} from "./post-detail/post-detail.component";
+import {AdminLoginComponent} from "./admin-login/admin-login.component";
+import {AdminManagementComponent} from "./admin-management/admin-management.component";
+import {SearchFriendComponent} from "./search-friend/search-friend.component";
 
 const routes: Routes = [
   {
@@ -26,6 +29,15 @@ const routes: Routes = [
   },
   {
     path: 'friendProfile/:id', component: FriendProfileComponent
+  },
+  {
+    path: 'Admin', component: AdminLoginComponent
+  },
+  {
+    path: 'AdminManagement', component: AdminManagementComponent
+  },
+  {
+    path: 'SearchFriend', component: SearchFriendComponent
   },
   {
     path: 'postDetail/:id', component: PostDetailComponent
