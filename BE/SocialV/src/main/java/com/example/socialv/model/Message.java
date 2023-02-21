@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -21,5 +22,6 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Users users;
+    private LocalDateTime textAt;
     private String content;
 }
