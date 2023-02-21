@@ -378,9 +378,10 @@ export class PostDetailComponent {
   }
 
   logOut() {
-    localStorage.removeItem("user");
-    this.router.navigate(['']);
-
+    this.userService.logOut(this.user).subscribe(()=>{
+      localStorage.removeItem("user");
+      this.router.navigate(['']);
+    })
   }
 
   getListCommentLike() {

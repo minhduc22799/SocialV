@@ -349,9 +349,10 @@ export class FriendProfileComponent implements OnInit {
   }
 
   logOut() {
-    localStorage.removeItem("user");
-    this.router.navigate(['']);
-
+    this.userService.logOut(this.user).subscribe(()=>{
+      localStorage.removeItem("user");
+      this.router.navigate(['']);
+    })
   }
 
   likePost(idPost?: number) {

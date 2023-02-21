@@ -264,18 +264,8 @@
                         </div>
                       </div>
                     </a>
-                    <a href="" class="iq-sub-card iq-bg-info-hover">
-                      <div class="d-flex align-items-center">
-                        <div class="rounded card-icon bg-soft-info">
-                          <i class="ri-account-box-line"></i>
-                        </div>
-                        <div class="ms-3">
-                          <h6 class="mb-0 ">Account settings</h6>
-                          <p class="mb-0 font-size-12">Manage your account parameters.</p>
-                        </div>
-                      </div>
-                    </a>
-                    <a href="" class="iq-sub-card iq-bg-danger-hover">
+
+                    <a routerLink="/privacy" class="iq-sub-card iq-bg-danger-hover">
                       <div class="d-flex align-items-center">
                         <div class="rounded card-icon bg-soft-danger">
                           <i class="ri-lock-line"></i>
@@ -426,11 +416,11 @@
                             <i class="ri-phone-fill pe-3 font-size-20"></i>
                             <p class="mb-0">{{user.phone}}</p>
                           </li>
-                          <li *ngIf="user.address !== '' " class="mb-2 d-flex align-items-center">
+                          <li *ngIf="user.address" class="mb-2 d-flex align-items-center">
                             <i class="ri-map-pin-line pe-3 font-size-20"></i>
                             <p class="mb-0">{{user.address}}</p>
                           </li>
-                          <li *ngIf="user.hobby !== '' " class="mb-2 d-flex align-items-center">
+                          <li *ngIf="user.hobby" class="mb-2 d-flex align-items-center">
                             <i class="ri-file-list-line pe-3 font-size-20"></i>
                             <p class="mb-0">{{user.hobby}}</p>
                           </li>
@@ -477,7 +467,7 @@
                         <ul class="profile-img-gallary p-0 m-0 list-unstyled">
                           <li routerLink="/friendProfile/{{f.id}}" class="" *ngFor="let f of listFriend">
                             <img style="cursor: pointer" src="{{f.avatar}}" alt="gallary-image" width="84.66px" height="84.66px"/>
-                            <h6 style="width: 84.66px" class="mt-2 text-center">{{f.name}}</h6>
+                            <h6 style="width: 84.66px;cursor: pointer" class="mt-2 text-center">{{f.name}}</h6>
                           </li>
                         </ul>
                       </div>

@@ -225,11 +225,11 @@ export class EditProfileComponent implements OnInit {
       this.pathName = this.imageFile.name
     }
   }
-
   logOut() {
-    localStorage.removeItem("user");
-    this.router.navigate(['']);
-
+    this.userService.logOut(this.user).subscribe(()=>{
+      localStorage.removeItem("user");
+      this.router.navigate(['']);
+    })
   }
 
   onMoveTop() {

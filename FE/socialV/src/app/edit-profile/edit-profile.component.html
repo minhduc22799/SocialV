@@ -272,18 +272,8 @@
                         </div>
                       </div>
                     </a>
-                    <a href=" app/account-setting.html" class="iq-sub-card iq-bg-info-hover">
-                      <div class="d-flex align-items-center">
-                        <div class="rounded card-icon bg-soft-info">
-                          <i class="ri-account-box-line"></i>
-                        </div>
-                        <div class="ms-3">
-                          <h6 class="mb-0 ">Account settings</h6>
-                          <p class="mb-0 font-size-12">Manage your account parameters.</p>
-                        </div>
-                      </div>
-                    </a>
-                    <a href=" app/privacy-setting.html" class="iq-sub-card iq-bg-danger-hover">
+
+                    <a routerLink="/privacy" class="iq-sub-card iq-bg-danger-hover">
                       <div class="d-flex align-items-center">
                         <div class="rounded card-icon bg-soft-danger">
                           <i class="ri-lock-line"></i>
@@ -371,7 +361,7 @@
                       <div class="form-group row align-items-center">
                         <div class="col-md-12">
                           <div class="profile-img-edit">
-                            <img class="profile-pic" src="{{user.avatar}}"
+                            <img width="150px" height="150px" class="profile-pic" src="{{user.avatar}}"
                                  alt="profile-pic">
                             <div  class="p-image">
                               <label style="cursor: pointer" for="image-edit"><i class="ri-pencil-line text-white"></i></label>

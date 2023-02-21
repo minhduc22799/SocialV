@@ -20,6 +20,12 @@ export class UserService {
   login(user: any): Observable<any> {
     return this.httpClient.post<any>(API_URL + '/login', user);
   }
+  logOut(user:any):Observable<any>{
+    return this.httpClient.post<any>(API_URL + '/logout', user);
+  }
+  permissionComment(user:any):Observable<any>{
+    return this.httpClient.post<any>(API_URL + '/permissionComment/' , user);
+  }
 
   findUserById(id: number): Observable<Users> {
     return this.httpClient.get<Users>(`${API_URL}/user/${id}`)

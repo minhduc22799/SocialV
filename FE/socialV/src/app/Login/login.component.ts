@@ -26,7 +26,10 @@ export class LoginComponent implements OnInit{
   }
   login(){
       this.user=this.loginForm.value
+    // @ts-ignore
+    this.user.checkOn = true
       this.userService.login(this.user).subscribe(user=>{
+        // @ts-ignore
         window.localStorage.setItem("user", JSON.stringify(user));
         console.log("Đăng nhập thành công");
         this.router.navigate(['/NewFeed']);
