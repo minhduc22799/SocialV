@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -30,5 +29,26 @@ public class ChatController {
         Conversation conversation = conversationService.findById(id).get();
         List<Message> messages = messageService.findAllByConversation(conversation);
         return new ResponseEntity<>(messages, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> createMessage(@RequestBody Message message){
+        messageService.save(message);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/group")
+    public ResponseEntity<?> createGroupChat(@RequestBody List<Long> userId){
+        conversationService.createGroupConversation(userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/room/{id}")
+    public ResponseEntity<List<Conversation>> getAllPersonalConversation(@PathVariable Long id){
+        return new ResponseEntity<>(conversationService.getAllPersonalConversation(id), HttpStatus.OK);
+    }
+    @GetMapping("/room/group/{id}")
+    public ResponseEntity<List<Conversation>> getAllGroupConversation(@PathVariable Long id){
+        return new ResponseEntity<>(conversationService.getAllGroupConversation(id), HttpStatus.OK);
     }
 }

@@ -18,4 +18,5 @@ public class Conversation {
     // type = 1 là cuộc hội thoại cá nhân, type = 2 là cuộc hội thoại nhóm
     private Integer type;
     private String name;
+    private boolean status;
 }

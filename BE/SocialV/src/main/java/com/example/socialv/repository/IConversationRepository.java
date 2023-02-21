@@ -6,12 +6,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface IConversationRepository extends JpaRepository<Conversation, Long> {
     @Modifying
-    @Query(value = "insert into conversation(type) values(1)", nativeQuery = true)
+    @Query(value = "insert into conversation(type, status) values(1, false)", nativeQuery = true)
     void createPersonalConversation();
     @Query(value = "insert into conversation(type) values(2)", nativeQuery = true)
     void createGroupConversation();
@@ -21,4 +22,8 @@ public interface IConversationRepository extends JpaRepository<Conversation, Lon
 
     @Query(value = "SELECT * FROM conversation ORDER BY id DESC LIMIT 1", nativeQuery = true)
     Conversation getNewConversation();
+    @Query(value = "select * from conversation c join conversation_member cm on c.id = cm.conversation_id where cm.user_id = ?1 and c.type = 1", nativeQuery = true)
+    List<Conversation> getAllPersonalConversation(Long id);
+    @Query(value = "select * from conversation c join conversation_member cm on c.id = cm.conversation_id where cm.user_id = ?1 and c.type = 2", nativeQuery = true)
+    List<Conversation> getAllGroupConversation(Long id);
 }
