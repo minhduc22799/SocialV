@@ -1,21 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {Users} from "../Model/Users";
-import {AngularFireStorage} from "@angular/fire/compat/storage";
-import {NavigationEnd, Router} from "@angular/router";
+import {Notifications} from "../Model/notifications";
 import {PostService} from "../PostService/post.service";
 import {UserService} from "../service/user.service";
-import {Observable} from "rxjs";
-import {Stomp} from "@stomp/stompjs";
-import * as moment from "moment/moment";
-import {Notifications} from "../Model/notifications";
+import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {NotificationService} from "../notificationService/notification.service";
+import {Router} from "@angular/router";
+import {Stomp} from "@stomp/stompjs";
+import * as moment from "moment";
 
 @Component({
-  selector: 'app-search-friend',
-  templateUrl: './search-friend.component.html',
-  styleUrls: ['./search-friend.component.css']
+  selector: 'app-message',
+  templateUrl: './message.component.html',
+  styleUrls: ['./message.component.css']
 })
-export class SearchFriendComponent implements OnInit{
+export class MessageComponent implements OnInit{
+
   data = localStorage.getItem("user")
   // @ts-ignore
   user: Users = JSON.parse(this.data)
@@ -31,16 +31,12 @@ export class SearchFriendComponent implements OnInit{
   listSearchFriend:Users[]= JSON.parse(localStorage.getItem("listUser"))
   // @ts-ignore
   search:string= JSON.parse(localStorage.getItem("nameUser"))
-
-
   ngOnInit(): void {
-    // @ts-ignore
     this.findAllFriend()
     // this.onMoveTop()
     this.findListRequest()
     this.connect()
     this.getAllNotification()
-    this.findMutualFriend()
   }
 
   constructor(private postService: PostService,
@@ -48,7 +44,6 @@ export class SearchFriendComponent implements OnInit{
               private storage: AngularFireStorage,
               private notificationService: NotificationService,
               private router: Router) {
-
   }
 
   connect(){
@@ -63,12 +58,6 @@ export class SearchFriendComponent implements OnInit{
     })
   }
 
-  findMutualFriend() {
-    // @ts-ignore
-    this.userService.getListCountMutualFriend(this.user.id,this.listSearchFriend).subscribe((data) => {
-      this.listMutualFriend = data
-    })
-  }
 
   sendNotification(){
     // @ts-ignore
@@ -165,12 +154,6 @@ export class SearchFriendComponent implements OnInit{
     })
   }
 
-  searchUserByNameContaining(name:string){
-    this.userService.findUsersByNameContaining(name).subscribe(data=>{
-
-        this.listSearchFriend=data
-    })
-  }
 
 
 }

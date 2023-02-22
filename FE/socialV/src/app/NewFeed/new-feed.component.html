@@ -6,7 +6,7 @@
       <nav class="iq-sidebar-menu">
         <ul id="iq-sidebar-toggle" class="iq-menu">
           <li class="active">
-            <a href="" class=" ">
+            <a routerLink="/NewFeed" class=" ">
               <i class="las la-newspaper"></i><span>Newsfeed</span>
             </a>
           </li>
@@ -16,8 +16,8 @@
             </a>
           </li>
           <li class="">
-            <a href="" class=" ">
-              <i class="las la-users"></i><span>Group</span>
+            <a routerLink="/message" class=" ">
+              <i style="font-size: 18px" class="ri-mail-line"></i><span>Message</span>
             </a>
           </li>
           <li class=" ">
@@ -87,9 +87,9 @@
                         </div>
                         <div class="d-flex align-items-center">
                           <a (click)="confirmRequest(friendRequest.id)"
-                             class="me-3 btn btn-primary rounded">Confirm</a>
+                             class="me-3 btn btn-danger rounded">Confirm</a>
                           <a (click)="deleteRequest(friendRequest.id)"
-                             class="me-3 btn btn-secondary rounded">Delete Request</a>
+                             class="me-3 btn btn-success rounded">Delete Request</a>
                         </div>
                       </div>
                     </div>
@@ -265,18 +265,8 @@
                         </div>
                       </div>
                     </a>
-                    <a href="" class="iq-sub-card iq-bg-info-hover">
-                      <div class="d-flex align-items-center">
-                        <div class="rounded card-icon bg-soft-info">
-                          <i class="ri-account-box-line"></i>
-                        </div>
-                        <div class="ms-3">
-                          <h6 class="mb-0 ">Account settings</h6>
-                          <p class="mb-0 font-size-12">Manage your account parameters.</p>
-                        </div>
-                      </div>
-                    </a>
-                    <a href="." class="iq-sub-card iq-bg-danger-hover">
+
+                    <a routerLink="/privacy" class="iq-sub-card iq-bg-danger-hover">
                       <div class="d-flex align-items-center">
                         <div class="rounded card-icon bg-soft-danger">
                           <i class="ri-lock-line"></i>

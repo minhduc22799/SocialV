@@ -15,8 +15,8 @@
             </a>
           </li>
           <li class="">
-            <a href="" class=" ">
-              <i class="las la-users"></i><span>Group</span>
+            <a routerLink="/message" class=" ">
+              <i style="font-size: 18px" class="ri-mail-line"></i><span>Message</span>
             </a>
           </li>
           <li class=" ">
@@ -89,9 +89,9 @@
                         </div>
                         <div class="d-flex align-items-center">
                           <a (click)="confirmRequest(friendRequest.name)"
-                             class="me-3 btn btn-primary rounded">Confirm</a>
+                             class="me-3 btn btn-danger rounded">Confirm</a>
                           <a (click)="deleteRequest(friendRequest.id)"
-                             class="me-3 btn btn-secondary rounded">Delete Request</a>
+                             class="me-3 btn btn-success rounded">Delete Request</a>
                         </div>
                       </div>
                     </div>
@@ -272,18 +272,8 @@
                         </div>
                       </div>
                     </a>
-                    <a href=" app/account-setting.html" class="iq-sub-card iq-bg-info-hover">
-                      <div class="d-flex align-items-center">
-                        <div class="rounded card-icon bg-soft-info">
-                          <i class="ri-account-box-line"></i>
-                        </div>
-                        <div class="ms-3">
-                          <h6 class="mb-0 ">Account settings</h6>
-                          <p class="mb-0 font-size-12">Manage your account parameters.</p>
-                        </div>
-                      </div>
-                    </a>
-                    <a href=" app/privacy-setting.html" class="iq-sub-card iq-bg-danger-hover">
+
+                    <a routerLink="/privacy" class="iq-sub-card iq-bg-danger-hover">
                       <div class="d-flex align-items-center">
                         <div class="rounded card-icon bg-soft-danger">
                           <i class="ri-lock-line"></i>
@@ -371,7 +361,7 @@
                       <div class="form-group row align-items-center">
                         <div class="col-md-12">
                           <div class="profile-img-edit">
-                            <img class="profile-pic" src="{{user.avatar}}"
+                            <img width="150px" height="150px" class="profile-pic" src="{{user.avatar}}"
                                  alt="profile-pic">
                             <div  class="p-image">
                               <label style="cursor: pointer" for="image-edit"><i class="ri-pencil-line text-white"></i></label>

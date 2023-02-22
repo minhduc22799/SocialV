@@ -19,8 +19,10 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<Users> login(@RequestBody Users users) {
         if (loginSevice.login(users)) {
-            users.setCheckOn(true);
-            return new ResponseEntity<>(userService.findUserByUsername(users.getUsername()), HttpStatus.OK);
+            Users usersLogin = userService.findUserByUsername(users.getUsername());
+            usersLogin.setCheckOn(true);
+            userService.save(usersLogin);
+            return new ResponseEntity<>(usersLogin, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -31,4 +33,30 @@ public class LoginController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Users> logOut(@RequestBody Users users) {
+            Users usersLogOut = userService.findUserByUsername(users.getUsername());
+            usersLogOut.setCheckOn(false);
+            userService.save(usersLogOut);
+            return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/permissionComment")
+    public ResponseEntity<Users> setSeeComment( @RequestBody Users users) {
+        Users usersSetSeeComment = userService.findUserByUsername(users.getUsername());
+        usersSetSeeComment.setCommentPermission(users.isCommentPermission());
+        userService.save(usersSetSeeComment);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/seeFriend")
+    public ResponseEntity<Users> setSeeFriend(@RequestBody Users users) {
+        Users usersSeeFriend = userService.findUserByUsername(users.getUsername());
+        usersSeeFriend.setSeeFriendPermission(users.isSeeFriendPermission());
+        userService.save(usersSeeFriend);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 }

@@ -375,10 +375,11 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-  logOut(){
-    localStorage.removeItem("user");
-    this.router.navigate(['']);
-
+  logOut() {
+    this.userService.logOut(this.user).subscribe(()=>{
+      localStorage.removeItem("user");
+      this.router.navigate(['']);
+    })
   }
   findListRequest() {
     // @ts-ignore

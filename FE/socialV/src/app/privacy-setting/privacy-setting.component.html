@@ -1,4 +1,3 @@
-
 <!-- loader END -->
 <!-- Wrapper Start -->
 <div class="wrapper">
@@ -154,6 +153,7 @@
                 </div>
               </div>
             </li>
+
             <li class="nav-item dropdown">
               <a href="#" class="dropdown-toggle" id="mail-drop" data-bs-toggle="dropdown" aria-haspopup="true"
                  aria-expanded="false">
@@ -227,6 +227,7 @@
                 </div>
               </div>
             </li>
+
             <li class="nav-item dropdown">
               <a href="#" class="   d-flex align-items-center dropdown-toggle" id="drop-down-arrow"
                  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -267,7 +268,7 @@
                       </div>
                     </a>
 
-                    <a routerLink="/privacy" class="iq-sub-card iq-bg-danger-hover">
+                    <a routerLink="privacy" class="iq-sub-card iq-bg-danger-hover">
                       <div class="d-flex align-items-center">
                         <div class="rounded card-icon bg-soft-danger">
                           <i class="ri-lock-line"></i>
@@ -316,32 +317,45 @@
       </div>
     </div>
   </div>
-  <div style="margin-left:12.5%" id="content-page" class="content-page">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-10 row m-0 p-0">
-            <h4 style="margin-bottom: 20px">Result for : " {{search}} "</h4>
-            <div class="card p-0"  >
-              <div class="card-body p-0">
-                <ul class="todo-task-lists m-0 p-0">
-                  <div *ngFor="let s of listSearchFriend, index as i">
-                  <li  class="d-flex align-items-center p-3" *ngIf="s.id !== user.id"    >
-                    <div style="cursor: pointer" routerLink="/friendProfile/{{s.id}}" class="user-img img-fluid"><img src="{{s.avatar}}" alt="story-img" class="rounded-circle avatar-60"></div>
-                    <div class="d-flex align-items-center justify-content-between w-100">
-                      <div class="ms-3" >
-                        <h5 style="cursor: pointer" routerLink="/friendProfile/{{s.id}}" class="d-inline-block">{{s.name}}</h5>
-                        <p *ngIf="listMutualFriend[i] > 0" class="mb-0">{{listMutualFriend[i]}} Mutual Friends</p>
-                      </div>
-                    </div>
-                  </li>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between">
+            <div class="header-title">
+              <h4 class="card-title">Privacy Setting</h4>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="acc-privacy">
+              <div class="data-privacy">
+                <h4 class="mb-2">Account Privacy</h4>
+                <div class="form-check form-check-inline">
+                  <input type="checkbox" id="acc-private"  [ngModel]="user.commentPermission" >
+                  <label class="form-check-label privacy-status mb-2" for="acc-private">Private Account</label>
+                </div>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</p>
               </div>
-
-                </ul>
+              <hr>
+              <div class="data-privacy">
+                <h4 class="mb-2">Activity Status</h4>
+                <div class="form-check form-check-inline">
+                  <input type="checkbox"  id="activety" >
+                  <label class="form-check-label privacy-status mb-2" >Show Activity Status</label>
+                </div>
+                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+              </div>
+              <hr>
+                <button (click)="setPermissionComment()" class="btn btn-primary">Save changes</button>
+              <hr>
+              <div class="data-privacy">
+                <h4 class="mb-2">Privacy Help</h4>
+                <a href="#"><i class="ri-customer-service-2-line me-2"></i>Support</a>
               </div>
             </div>
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>

@@ -7,7 +7,7 @@
       <nav class="iq-sidebar-menu">
         <ul id="iq-sidebar-toggle" class="iq-menu">
           <li style="cursor: pointer;" routerLink="/NewFeed" class="">
-            <a class=" ">
+            <a routerLink="/NewFeed" class=" ">
               <i class="las la-newspaper"></i><span>Newsfeed</span>
             </a>
           </li>
@@ -17,8 +17,8 @@
             </a>
           </li>
           <li class="">
-            <a href="" class=" ">
-              <i class="las la-users"></i><span>Group</span>
+            <a routerLink="/message" class=" ">
+              <i style="font-size: 18px" class="ri-mail-line"></i><span>Message</span>
             </a>
           </li>
           <li class=" ">
@@ -71,7 +71,7 @@
                     <div class="header-title">
                       <h5 class="mb-0 text-white">Friend Request</h5>
                     </div>
-                    <small class="badge  bg-light text-dark ">4</small>
+                    <small class="badge  bg-light text-dark ">{{listRequest.length}}</small>
                   </div>
                   <div class="card-body p-0">
                     <div *ngFor="let friendRequest of listRequest " class="iq-friend-request">
@@ -82,14 +82,12 @@
                                alt="">
                           <div class="ms-3">
                             <h6  routerLink="/friendProfile/{{friendRequest.id}}" class="mb-0 ">{{friendRequest.name}}</h6>
-                            <p class="mb-0">40 friends</p>
                           </div>
                         </div>
                         <div class="d-flex align-items-center">
                           <a (click)="confirmRequest(friendRequest.id)"
-                             class="me-3 btn btn-primary rounded">Confirm</a>
-                          <a
-                             class="me-3 btn btn-secondary rounded">Delete Request</a>
+                             class="me-3 btn btn-success rounded">Confirm</a>
+                          <a (click)="deleteRequestById(friendRequest.id)" class="me-3 btn btn-danger rounded">Delete Request</a>
                         </div>
                       </div>
                     </div>
@@ -264,18 +262,7 @@
                         </div>
                       </div>
                     </a>
-                    <a href="  app/account-setting.html" class="iq-sub-card iq-bg-info-hover">
-                      <div class="d-flex align-items-center">
-                        <div class="rounded card-icon bg-soft-info">
-                          <i class="ri-account-box-line"></i>
-                        </div>
-                        <div class="ms-3">
-                          <h6 class="mb-0 ">Account settings</h6>
-                          <p class="mb-0 font-size-12">Manage your account parameters.</p>
-                        </div>
-                      </div>
-                    </a>
-                    <a href="  app/privacy-setting.html" class="iq-sub-card iq-bg-danger-hover">
+                    <a routerLink="/privacy" class="iq-sub-card iq-bg-danger-hover">
                       <div class="d-flex align-items-center">
                         <div class="rounded card-icon bg-soft-danger">
                           <i class="ri-lock-line"></i>
@@ -393,7 +380,7 @@
 
                     <span *ngIf="!existF && checkRequestFr && !checkRequestFr2" (click)="deleteRequest()"
                           id="cancel-request"
-                          style="background-color: #5d94ef; border: none"
+                          style="background-color: #ff9b8a; border: none"
                           class="btn btn-secondary me-2"
                           aria-expanded="true" role="button">
                       <i class="ri-subtract-line me-1 text-white"></i> Cancel friend request
@@ -401,14 +388,14 @@
 
                     <span *ngIf="checkRequestFr2 && (!checkRequestFr) && (!existF)" (click)="confirmRequest(idFiend)"
                           id="accept"
-                          style="background-color: #5d94ef; border: none"
+                          style="background-color: #2dcdb2; border: none"
                           class="btn btn-secondary me-2"
                           aria-expanded="true" role="button">
                       <i class=" me-1 text-white"></i> Confirm Request
                     </span>
                     <span *ngIf="checkRequestFr2 && (!checkRequestFr) && (!existF)" (click)="deleteRequest()"
                           id="cancel-f"
-                          style="background-color: #5d94ef; border: none"
+                          style="background-color: #ff9b8a; border: none"
                           class="btn btn-secondary me-2"
                           aria-expanded="true" role="button">
                       <i class=" me-1 text-white"></i> Delete Request
@@ -463,11 +450,11 @@
                             <i class="ri-phone-fill pe-3 font-size-20"></i>
                             <p class="mb-0">{{friend.phone}}</p>
                           </li>
-                          <li *ngIf="friend.address !== '' " class="mb-2 d-flex align-items-center">
+                          <li *ngIf="friend.address" class="mb-2 d-flex align-items-center">
                             <i class="ri-map-pin-line pe-3 font-size-20"></i>
                             <p class="mb-0">{{friend.address}}</p>
                           </li>
-                          <li *ngIf="friend.hobby !== '' " class="mb-2 d-flex align-items-center">
+                          <li *ngIf="friend.hobby" class="mb-2 d-flex align-items-center">
                             <i class="ri-file-list-line pe-3 font-size-20"></i>
                             <p class="mb-0">{{friend.hobby}}</p>
                           </li>
@@ -522,11 +509,11 @@
                       </div>
                       <div class="card-body">
                         <ul class="profile-img-gallary p-0 m-0 list-unstyled">
-                          <li class="" *ngFor="let f of listFriendOfFriend">
+                          <li style="width: 86px" class="p-0" *ngFor="let f of listFriendOfFriend, index as k " [hidden]="k >= 9">
 
                             <img style="cursor: pointer" *ngIf="user.id != f.id" routerLink="/friendProfile/{{f.id}}" src="{{f?.avatar}}" alt="gallary-image" width="84.66px" height="84.66px"/>
                             <img style="cursor: pointer" *ngIf="user.id == f.id" routerLink="/Profile" src="{{f?.avatar}}" alt="gallary-image" width="84.66px" height="84.66px"/>
-                            <h6 style="width: 84.66px" class="mt-2 text-center">{{f.name}}</h6>
+                            <h6 style="width: 84.66px; cursor: pointer" class="mt-2 text-center">{{f.name}}</h6>
                           </li>
                         </ul>
                       </div>

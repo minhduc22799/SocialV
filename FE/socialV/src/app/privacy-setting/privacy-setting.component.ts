@@ -1,21 +1,20 @@
 import {Component, OnInit} from '@angular/core';
 import {Users} from "../Model/Users";
-import {AngularFireStorage} from "@angular/fire/compat/storage";
-import {NavigationEnd, Router} from "@angular/router";
+import {Notifications} from "../Model/notifications";
 import {PostService} from "../PostService/post.service";
 import {UserService} from "../service/user.service";
-import {Observable} from "rxjs";
-import {Stomp} from "@stomp/stompjs";
-import * as moment from "moment/moment";
-import {Notifications} from "../Model/notifications";
+import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {NotificationService} from "../notificationService/notification.service";
+import {Router} from "@angular/router";
+import {Stomp} from "@stomp/stompjs";
+import * as moment from "moment";
 
 @Component({
-  selector: 'app-search-friend',
-  templateUrl: './search-friend.component.html',
-  styleUrls: ['./search-friend.component.css']
+  selector: 'app-privacy-setting',
+  templateUrl: './privacy-setting.component.html',
+  styleUrls: ['./privacy-setting.component.css']
 })
-export class SearchFriendComponent implements OnInit{
+export class PrivacySettingComponent implements OnInit{
   data = localStorage.getItem("user")
   // @ts-ignore
   user: Users = JSON.parse(this.data)
@@ -27,12 +26,19 @@ export class SearchFriendComponent implements OnInit{
   countOther: any[] = [];
   listMutualFriend: number[] = [];
   private stompClient: any;
+  checkPermission?:boolean
   // @ts-ignore
   listSearchFriend:Users[]= JSON.parse(localStorage.getItem("listUser"))
   // @ts-ignore
   search:string= JSON.parse(localStorage.getItem("nameUser"))
 
+  constructor(private postService: PostService,
+              private userService: UserService,
+              private storage: AngularFireStorage,
+              private notificationService: NotificationService,
+              private router: Router) {
 
+  }
   ngOnInit(): void {
     // @ts-ignore
     this.findAllFriend()
@@ -41,13 +47,6 @@ export class SearchFriendComponent implements OnInit{
     this.connect()
     this.getAllNotification()
     this.findMutualFriend()
-  }
-
-  constructor(private postService: PostService,
-              private userService: UserService,
-              private storage: AngularFireStorage,
-              private notificationService: NotificationService,
-              private router: Router) {
 
   }
 
@@ -168,7 +167,12 @@ export class SearchFriendComponent implements OnInit{
   searchUserByNameContaining(name:string){
     this.userService.findUsersByNameContaining(name).subscribe(data=>{
 
-        this.listSearchFriend=data
+      this.listSearchFriend=data
+    })
+  }
+  setPermissionComment(){
+
+    this.userService.permissionComment(this.user).subscribe(()=>{
     })
   }
 
