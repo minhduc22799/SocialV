@@ -58,6 +58,7 @@ export class PrivacySettingComponent implements OnInit{
       _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
         _this.getAllNotification()
         _this.findListRequest()
+        _this.findAllFriend()
       })
     })
   }

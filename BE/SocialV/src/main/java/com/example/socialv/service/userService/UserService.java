@@ -6,6 +6,7 @@ import com.example.socialv.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,5 +60,20 @@ public class UserService implements IUserService {
         return userRepository.findUsersByNameContainingAndStatusIsTrue(name);
     }
 
+    @Override
+    public List<Users> findInListFriend(Long id, String q) {
+        List<Users> users = findFriendRequestsByIdAndStatusTrue(id);
+        List<Users> listSearch = new ArrayList<>();
+        for (Users users1: users){
+            if (users1.getName().contains(q)){
+                listSearch.add(users1);
+            }
+        }
+        return listSearch;
+    }
 
+    @Override
+    public List<Users> findMemberByConversation(Long id) {
+        return userRepository.findMemberByConversation(id);
+    }
 }

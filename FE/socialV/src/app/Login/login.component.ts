@@ -13,7 +13,7 @@ import Swal from "sweetalert2";
 export class LoginComponent implements OnInit{
   loginForm!:FormGroup
   user!:Users
-
+  private stompClient: any;
 
   constructor(private userService:UserService,
               private router:Router) {
@@ -39,5 +39,10 @@ export class LoginComponent implements OnInit{
           text: 'Login failed'
         })
       });
+  }
+
+  sendNotification(){
+    // @ts-ignore
+    this.stompClient.send('/app/hello',{}, this.user.id.toString());
   }
 }

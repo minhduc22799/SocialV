@@ -23,5 +23,6 @@ public interface IUserRepository extends JpaRepository<Users, Long> {
     List<Users>findUsersByNameContainingAndStatusIsTrue(String name);
     @Query(value = "select * from users where users.role_id = 1 ",nativeQuery = true)
     List<Users>showAllUser();
-
+    @Query(value = "select * from users join conversation_member cm on users.id = cm.user_id where cm.conversation_id = ?1", nativeQuery = true)
+    List<Users> findMemberByConversation(Long id);
 }
