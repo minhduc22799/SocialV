@@ -1,6 +1,5 @@
 package com.example.socialv.service.conversationService;
 
-import com.example.socialv.dto.PostDisplay;
 import com.example.socialv.model.Conversation;
 import com.example.socialv.model.Message;
 import com.example.socialv.repository.IConversationMemberRepository;
@@ -73,7 +72,6 @@ public class ConversationService implements IConversationService {
     @Override
     public List<Conversation> getAllPersonalConversation(Long id) {
         List<Conversation> conversations = conversationRepository.getAllPersonalConversation(id);
-//        List<Conversation> blankConversation = new ArrayList<>();
         List<Message> messages = new ArrayList<>();
         List<Conversation> listSorted = new ArrayList<>();
         for (Conversation conversation : conversations) {

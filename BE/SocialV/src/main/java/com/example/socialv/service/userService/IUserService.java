@@ -10,4 +10,5 @@ public interface IUserService extends IGeneralService<Users> {
     List<Users> findAllLikePost(Long id);
     List<Users> listFriendRequest(Long id);
     List<Users> findUsersActiveByName(String name);
+    List<Users> findInListFriend(Long id, String q);
 }

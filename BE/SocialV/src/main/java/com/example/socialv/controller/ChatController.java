@@ -2,8 +2,10 @@ package com.example.socialv.controller;
 
 import com.example.socialv.model.Conversation;
 import com.example.socialv.model.Message;
+import com.example.socialv.model.Users;
 import com.example.socialv.service.conversationService.IConversationService;
 import com.example.socialv.service.messageService.IMessageService;
+import com.example.socialv.service.userService.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ public class ChatController {
     private IConversationService conversationService;
     @Autowired
     private IMessageService messageService;
+    @Autowired
+    private IUserService userService;
 
     @GetMapping("/room/{id1}/{id2}")
     public ResponseEntity<Conversation> getPersonalConversation(@PathVariable("id1") Long id1, @PathVariable("id2") Long id2){
@@ -50,5 +54,10 @@ public class ChatController {
     @GetMapping("/room/group/{id}")
     public ResponseEntity<List<Conversation>> getAllGroupConversation(@PathVariable Long id){
         return new ResponseEntity<>(conversationService.getAllGroupConversation(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/search/{id}")
+    public ResponseEntity<List<Users>> searchFriend(@PathVariable Long id, @RequestParam("q") String search){
+        return new ResponseEntity<>(userService.findInListFriend(id, search), HttpStatus.OK);
     }
 }
