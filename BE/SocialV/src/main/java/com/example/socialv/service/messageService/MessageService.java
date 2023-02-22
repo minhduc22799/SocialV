@@ -1,12 +1,13 @@
 package com.example.socialv.service.messageService;
 
 import com.example.socialv.model.Conversation;
-import com.example.socialv.model.Message;
+import com.example.socialv.model.Messages;
 import com.example.socialv.repository.IConversationRepository;
 import com.example.socialv.repository.IMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,20 +20,21 @@ public class MessageService implements IMessageService {
     private IConversationRepository conversationRepository;
 
     @Override
-    public Iterable<Message> findAll() {
+    public Iterable<Messages> findAll() {
         return messageRepository.findAll();
     }
 
     @Override
-    public Optional<Message> findById(Long id) {
+    public Optional<Messages> findById(Long id) {
         return messageRepository.findById(id);
     }
 
     @Override
-    public void save(Message message) {
+    public void save(Messages message) {
         Conversation conversation = message.getConversation();
         conversation.setStatus(false);
         conversationRepository.save(conversation);
+        message.setTextAt(LocalDateTime.now());
         messageRepository.save(message);
     }
 
@@ -42,7 +44,7 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    public List<Message> findAllByConversation(Conversation conversation) {
+    public List<Messages> findAllByConversation(Conversation conversation) {
         return messageRepository.findAllByConversation(conversation);
     }
 }

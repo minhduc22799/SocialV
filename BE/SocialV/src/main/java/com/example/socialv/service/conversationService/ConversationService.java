@@ -1,7 +1,7 @@
 package com.example.socialv.service.conversationService;
 
 import com.example.socialv.model.Conversation;
-import com.example.socialv.model.Message;
+import com.example.socialv.model.Messages;
 import com.example.socialv.repository.IConversationMemberRepository;
 import com.example.socialv.repository.IConversationRepository;
 import com.example.socialv.repository.IMessageRepository;
@@ -72,15 +72,15 @@ public class ConversationService implements IConversationService {
     @Override
     public List<Conversation> getAllPersonalConversation(Long id) {
         List<Conversation> conversations = conversationRepository.getAllPersonalConversation(id);
-        List<Message> messages = new ArrayList<>();
+        List<Messages> messages = new ArrayList<>();
         List<Conversation> listSorted = new ArrayList<>();
         for (Conversation conversation : conversations) {
             if (messageRepository.getLatestMessage(conversation.getId()).isPresent()) {
                 messages.add(messageRepository.getLatestMessage(conversation.getId()).get());
             }
         }
-        Collections.sort(messages, Comparator.comparing(Message::getTextAt).reversed());
-        for (Message message : messages) {
+        Collections.sort(messages, Comparator.comparing(Messages::getTextAt).reversed());
+        for (Messages message : messages) {
             listSorted.add(message.getConversation());
         }
         return listSorted;
@@ -90,7 +90,7 @@ public class ConversationService implements IConversationService {
     public List<Conversation> getAllGroupConversation(Long id) {
         List<Conversation> conversations = conversationRepository.getAllGroupConversation(id);
         List<Conversation> blankConversation = new ArrayList<>();
-        List<Message> messages = new ArrayList<>();
+        List<Messages> messages = new ArrayList<>();
         List<Conversation> listSorted = new ArrayList<>();
         for (Conversation conversation : conversations) {
             if (messageRepository.getLatestMessage(conversation.getId()).isPresent()) {
@@ -99,9 +99,9 @@ public class ConversationService implements IConversationService {
                 blankConversation.add(conversation);
             }
         }
-        Collections.sort(messages, Comparator.comparing(Message::getTextAt).reversed());
+        Collections.sort(messages, Comparator.comparing(Messages::getTextAt).reversed());
         Collections.reverse(blankConversation);
-        for (Message message : messages) {
+        for (Messages message : messages) {
             listSorted.add(message.getConversation());
         }
         listSorted.addAll(blankConversation);

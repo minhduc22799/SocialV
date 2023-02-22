@@ -124,9 +124,9 @@ export class NewFeedComponent implements OnInit {
     const _this = this;
     this.stompClient.connect({}, function (){
       _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
-
         _this.getAllNotification()
         _this.findListRequest()
+        _this.findAllFriend()
       })
     })
   }
@@ -205,7 +205,6 @@ export class NewFeedComponent implements OnInit {
       for (let j = 0; j < post.length; j++) {
         this.timeMoment.push(moment(post[j].createAt).fromNow())
       }
-      console.log(this.timeMoment)
       this.findAllImgPost(post)
       this.findFriendLike(post)
       this.findCountLike(post)
@@ -451,6 +450,7 @@ export class NewFeedComponent implements OnInit {
   logOut() {
     this.userService.logOut(this.user).subscribe(()=>{
       localStorage.removeItem("user");
+      this.sendNotification()
       this.router.navigate(['']);
     })
   }

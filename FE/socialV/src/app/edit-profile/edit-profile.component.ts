@@ -112,6 +112,7 @@ export class EditProfileComponent implements OnInit {
       _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
         _this.getAllNotification()
         _this.findListRequest()
+        _this.findAllFriend()
       })
     })
   }
@@ -228,6 +229,7 @@ export class EditProfileComponent implements OnInit {
   logOut() {
     this.userService.logOut(this.user).subscribe(()=>{
       localStorage.removeItem("user");
+      this.sendNotification()
       this.router.navigate(['']);
     })
   }

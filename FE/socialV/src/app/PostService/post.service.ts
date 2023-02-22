@@ -18,7 +18,6 @@ export class PostService {
   constructor(private http:HttpClient) {}
 
   findAllPostNewFeed(users: any):Observable<any>{
-    console.log(apiUrl+`/post`)
     return this.http.get<PostDisplay[]>(apiUrl+`/post/${users.id}`);
   }
 

@@ -121,6 +121,7 @@ export class FriendProfileComponent implements OnInit {
       _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
         _this.getAllNotification()
         _this.findListRequest()
+        _this.findAllFriend()
       })
     })
   }
@@ -209,6 +210,10 @@ export class FriendProfileComponent implements OnInit {
       if (this.user.id === this.listFriendOfFriend[i].id) {
         this.existF = true
       }
+    }
+    if (!this.friend.seeFriendPermission && !this.existF){
+      this.listFriendOfFriend = []
+      this.listMutualFriend = []
     }
   }
 
@@ -358,6 +363,7 @@ export class FriendProfileComponent implements OnInit {
   logOut() {
     this.userService.logOut(this.user).subscribe(()=>{
       localStorage.removeItem("user");
+      this.sendNotification()
       this.router.navigate(['']);
     })
   }
@@ -368,17 +374,20 @@ export class FriendProfileComponent implements OnInit {
     })
   }
 
-  addComment(post:Post){
+  addComment(post:Post) {
+    if (!post.users?.commentPermission && !this.existF) {
+      alert("you can't comment on this post")
+    }else {
+      const postComment = this.commentForm.value
+      postComment.users = this.user
+      postComment.post = post
 
-    const postComment = this.commentForm.value
-    postComment.users = this.user
-    postComment.post = post
-
-    this.postService.addComment(postComment).subscribe(() =>{
-      this.findAllPostFriend()
-      this.commentForm.reset()
-    })
-  }
+      this.postService.addComment(postComment).subscribe(() => {
+        this.findAllPostFriend()
+        this.commentForm.reset()
+      })
+    }
+    }
 
 
   getCommentById(id:number){

@@ -1,7 +1,7 @@
 package com.example.socialv.controller;
 
 import com.example.socialv.model.Conversation;
-import com.example.socialv.model.Message;
+import com.example.socialv.model.Messages;
 import com.example.socialv.model.Users;
 import com.example.socialv.service.conversationService.IConversationService;
 import com.example.socialv.service.messageService.IMessageService;
@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,14 +31,14 @@ public class ChatController {
     }
 
     @GetMapping("/message/{id}")
-    public ResponseEntity<List<Message>> getMessage(@PathVariable Long id){
+    public ResponseEntity<List<Messages>> getMessage(@PathVariable Long id){
         Conversation conversation = conversationService.findById(id).get();
-        List<Message> messages = messageService.findAllByConversation(conversation);
+        List<Messages> messages = messageService.findAllByConversation(conversation);
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> createMessage(@RequestBody Message message){
+    public ResponseEntity<?> createMessage(@RequestBody Messages message){
         messageService.save(message);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -59,5 +61,14 @@ public class ChatController {
     @GetMapping("/search/{id}")
     public ResponseEntity<List<Users>> searchFriend(@PathVariable Long id, @RequestParam("q") String search){
         return new ResponseEntity<>(userService.findInListFriend(id, search), HttpStatus.OK);
+    }
+
+    @PostMapping("/member")
+    public ResponseEntity<List<Object>> findAllMemberInConversation(@RequestBody List<Conversation> conversations){
+        List<Object> users = new ArrayList<>();
+        for (Conversation conversation: conversations){
+            users.add(userService.findMemberByConversation(conversation.getId()));
+        }
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }

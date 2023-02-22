@@ -71,4 +71,9 @@ public class UserService implements IUserService {
         }
         return listSearch;
     }
+
+    @Override
+    public List<Users> findMemberByConversation(Long id) {
+        return userRepository.findMemberByConversation(id);
+    }
 }
