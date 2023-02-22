@@ -27,6 +27,7 @@ import { AdminManagementComponent } from './admin-management/admin-management.co
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { SearchFriendComponent } from './search-friend/search-friend.component';
 import { PrivacySettingComponent } from './privacy-setting/privacy-setting.component';
+import { MessageComponent } from './message/message.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { PrivacySettingComponent } from './privacy-setting/privacy-setting.compo
     AdminManagementComponent,
     PostDetailComponent,
     SearchFriendComponent,
-    PrivacySettingComponent
+    PrivacySettingComponent,
+    MessageComponent
   ],
     imports: [
         BrowserModule,
