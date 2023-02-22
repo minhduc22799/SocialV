@@ -71,4 +71,15 @@ public class ChatController {
         }
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
+    @GetMapping ("/member/{id}")
+    public ResponseEntity<List<Users>> findAllMemberInConversation(@PathVariable Long id){
+        return new ResponseEntity<>(userService.findMemberByConversation(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/changeName")
+    public ResponseEntity<?> changeNameGroup(@RequestBody Conversation conversation){
+        conversationService.save(conversation);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

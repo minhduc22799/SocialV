@@ -13,6 +13,7 @@ import {NotificationService} from "../notificationService/notification.service";
 import {Stomp} from "@stomp/stompjs";
 import {FormControl, FormGroup} from "@angular/forms";
 import {PostComment} from "../Model/post-comment";
+import {ChatService} from "../chatService/chat.service";
 
 @Component({
   selector: 'app-friend-profile',
@@ -91,6 +92,7 @@ export class FriendProfileComponent implements OnInit {
               private userService: UserService,
               private routerActive: ActivatedRoute,
               private notificationService: NotificationService,
+              private chatService: ChatService,
               private router: Router
   ) {
   }
@@ -122,6 +124,13 @@ export class FriendProfileComponent implements OnInit {
         _this.findListRequest()
         _this.findAllFriend()
       })
+    })
+  }
+
+  goToRoomChat(){
+    this.chatService.getPersonalConversation(this.user.id, this.idFiend).subscribe(data =>{
+      window.localStorage.setItem("roomChat", JSON.stringify(data));
+      this.router.navigate(['/message']);
     })
   }
 

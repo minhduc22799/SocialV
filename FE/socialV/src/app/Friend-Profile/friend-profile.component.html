@@ -368,7 +368,7 @@
                        <span style="background-color: #5d94ef; border: none"
                              class="btn btn-secondary me-2"
                              aria-expanded="true" role="button">
-                      <i class="ri-messenger-fill  text-white"></i>
+                      <i (click)="goToRoomChat()" class="ri-messenger-fill  text-white"></i>
                     </span>
                     <span *ngIf="existF && !checkRequestFr && !checkRequestFr2"
                           style="background-color: #5d94ef; border: none"

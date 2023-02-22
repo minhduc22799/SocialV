@@ -366,6 +366,7 @@
                       <h5 class="">Public Channels</h5>
                       <ul class="iq-chat-ui nav flex-column nav-pills">
                         <li>
+                            <a  data-bs-toggle="pill" id="showChat" href="#chatbox1" hidden="hidden">a</a>
                           <div *ngFor="let pc of listPersonalConversation, index as i">
                             <a data-bs-toggle="pill" href="#chatbox1" (click)="transferChatDetail(i, pc, 1)">
                               <div class="d-flex align-items-center">
@@ -396,6 +397,37 @@
                         </i>
                         </h5>
 
+                        <div class="modal fade" id="change-name-modal" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle1">
+                                  <span style="color: #0a0a0a;padding: 0px;margin-left: 5px">Group name</span>
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                              </div>
+                              <div class="iq-search-bar device-search">
+
+                                <form
+                                       class="searchbox">
+                                  <input id="inputChangeName" style="border-radius: 20px" type="text" #groupName
+                                         class="text search-input">
+                                </form>
+
+                                <div class="modal-footer">
+                                  <button type="button" id="change-name" class="btn btn-secondary"
+                                          data-bs-dismiss="modal">Close
+                                  </button>
+                                  <button type="submit" (click)="changeNameGroup(conversationNow, groupName.value)" class="btn btn-primary">Submit</button>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
 
                         <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog"
                              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -424,7 +456,7 @@
                                 </form>
 
                                 <div class="modal-footer">
-                                  <button type="button" id="edit-comment" class="btn btn-secondary"
+                                  <button type="button" id="edit" class="btn btn-secondary"
                                           data-bs-dismiss="modal">Close
                                   </button>
                                   <button type="submit" class="btn btn-primary">Submit</button>
@@ -442,14 +474,15 @@
                             <a data-bs-toggle="pill" href="#chatbox1" (click)="transferChatDetail(i, pc, 2)">
                               <div class="d-flex align-items-center">
                                 <div class="avatar me-2">
-                                  <img src="../assets/images/user/06.jpg"
+                                  <img src="https://phunugioi.com/wp-content/uploads/2021/11/Hinh-anh-nhom-ban-than-tao-dang-vui-ve-ben-bo-bien-395x600.jpg"
                                        alt="chatuserimage" class="avatar-50 ">
                                   <span class="avatar-status"><i
                                     class="ri-checkbox-blank-circle-fill text-success"></i></span>
                                 </div>
                                 <div class="chat-sidebar-name">
                                   <h6 class="mb-0">{{listNameGroup[i]}}</h6>
-                                  <span><i class="ri-edit-2-fill"></i> Change name </span>
+                                  <span data-bs-toggle="modal"
+                                        data-bs-target="#change-name-modal"><i class="ri-edit-2-fill"></i> Change name </span>
                                 </div>
                                 <div class="chat-meta float-right text-center mt-2 me-1">
                                   <div class="chat-msg-counter bg-primary text-white">10
