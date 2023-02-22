@@ -78,7 +78,6 @@ export class FriendProfileComponent implements OnInit {
     this.connect()
     this.findListRequest()
 
-
   }
   showMore() {
     this.numToShow += 5;
@@ -343,7 +342,12 @@ export class FriendProfileComponent implements OnInit {
   findMutualFriend() {
     // @ts-ignore
     this.userService.findMutualFriends(this.idFiend, this.user.id).subscribe((data) => {
-      this.listMutualFriend = data
+      if (!this.friend.seeFriendPermission && !this.existF){
+        this.listFriendOfFriend = []
+        this.listMutualFriend = []
+      }else {
+        this.listMutualFriend = data
+      }
     })
   }
 

@@ -1,4 +1,3 @@
-
 <!-- loader END -->
 <!-- Wrapper Start -->
 <div class="wrapper">
@@ -43,8 +42,8 @@
 
         </div>
         <div class="iq-search-bar device-search">
-          <form  class="searchbox">
-            <a class="search-link" ><i class="ri-search-line"></i></a>
+          <form class="searchbox">
+            <a class="search-link"><i class="ri-search-line"></i></a>
             <input type="text" class="text search-input" #name placeholder="Search here...">
           </form>
         </div>
@@ -64,7 +63,8 @@
               <a href="#" class="dropdown-toggle" id="group-drop" data-bs-toggle="dropdown"
                  aria-haspopup="true" aria-expanded="false">
                 <i class="ri-group-line"></i>
-                <small *ngIf="listRequest.length > 0" style="font-size: 10px;padding: 2px 4px 2px 4px;margin-left: -8px" class="bg-danger rounded-circle text-white">{{listRequest.length}}</small>
+                <small *ngIf="listRequest.length > 0" style="font-size: 10px;padding: 2px 4px 2px 4px;margin-left: -8px"
+                       class="bg-danger rounded-circle text-white">{{listRequest.length}}</small>
               </a>
 
               <div class="sub-drop sub-drop-large dropdown-menu" aria-labelledby="group-drop">
@@ -76,7 +76,8 @@
                     <small class="badge  bg-light text-dark ">{{listRequest.length}}</small>
                   </div>
                   <div class="card-body p-0">
-                    <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listRequest.length < 1" > <h5 style="color: #c7c2c2">You don't have any request</h5> </div>
+                    <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listRequest.length < 1">
+                      <h5 style="color: #c7c2c2">You don't have any request</h5></div>
 
                     <div *ngFor="let friendRequest of listRequest " class="iq-friend-request">
                       <div
@@ -85,7 +86,8 @@
                           <img class="avatar-40 rounded" src="{{friendRequest.avatar}}"
                                alt="">
                           <div class="ms-3">
-                            <h6  routerLink="/friendProfile/{{friendRequest.id}}" class="mb-0 ">{{friendRequest.name}}</h6>
+                            <h6 routerLink="/friendProfile/{{friendRequest.id}}"
+                                class="mb-0 ">{{friendRequest.name}}</h6>
                           </div>
                         </div>
                         <div class="d-flex align-items-center">
@@ -107,7 +109,8 @@
             <li class="nav-item dropdown">
               <a href="#" class="search-toggle   dropdown-toggle" id="notification-drop" data-bs-toggle="dropdown">
                 <i class="ri-notification-4-line"></i>
-                <small  *ngIf="countNotSeen > 0" style="font-size: 10px;padding: 2px 4px 2px 4px;margin-left: -8px" class="bg-danger rounded-circle text-white">{{countNotSeen}}</small>
+                <small *ngIf="countNotSeen > 0" style="font-size: 10px;padding: 2px 4px 2px 4px;margin-left: -8px"
+                       class="bg-danger rounded-circle text-white">{{countNotSeen}}</small>
               </a>
               <div class="sub-drop dropdown-menu" aria-labelledby="notification-drop">
                 <div class="card shadow-none m-0">
@@ -116,10 +119,13 @@
                       <h5 class="mb-0 text-white">All Notifications</h5>
                     </div>
                   </div>
-                  <div  style="min-height: 70px;max-height: 300px;height:auto;overflow: auto" class="card-body p-0">
-                    <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listRequest.length < 1" > <h6 style="color: #c7c2c2">you don't have any notifications</h6> </div>
+                  <div style="min-height: 70px;max-height: 300px;height:auto;overflow: auto" class="card-body p-0">
+                    <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listRequest.length < 1">
+                      <h6 style="color: #c7c2c2">you don't have any notifications</h6></div>
                     <div *ngFor="let n of listNotification, index as q">
-                      <a *ngIf="countOther[q] > 0 && !n.status" routerLink="/postDetail/{{n?.post?.id}}"  (click)="seenNotification(n)" class="iq-sub-card" style="background-color: #eef2fc;margin-bottom: 3px">
+                      <a *ngIf="countOther[q] > 0 && !n.status" routerLink="/postDetail/{{n?.post?.id}}"
+                         (click)="seenNotification(n)" class="iq-sub-card"
+                         style="background-color: #eef2fc;margin-bottom: 3px">
                         <div class="d-flex align-items-center">
                           <div class="">
                             <img class="avatar-40 rounded" src="{{n?.users?.avatar}}" alt="">
@@ -135,7 +141,8 @@
                           </div>
                         </div>
                       </a>
-                      <a *ngIf="countOther[q] > 0 && n.status" routerLink="/postDetail/{{n?.post?.id}}" class="iq-sub-card">
+                      <a *ngIf="countOther[q] > 0 && n.status" routerLink="/postDetail/{{n?.post?.id}}"
+                         class="iq-sub-card">
                         <div class="d-flex align-items-center">
                           <div class="">
                             <img class="avatar-40 rounded" src="{{n?.users?.avatar}}" alt="">
@@ -360,50 +367,97 @@
                       <ul class="iq-chat-ui nav flex-column nav-pills">
                         <li>
                           <div *ngFor="let pc of listPersonalConversation, index as i">
-                          <a data-bs-toggle="pill" href="#chatbox1" (click)="transferChatDetail(i, pc, 1)">
-                            <div class="d-flex align-items-center">
-                              <div class="avatar me-2">
-                                <img src="{{listStringUserImgConversation[i]}}"
-                                     alt="chatuserimage" class="avatar-50 ">
-                                <span class="avatar-status"><i
-                                  class="ri-checkbox-blank-circle-fill text-success"></i></span>
-                              </div>
-                              <div class="chat-sidebar-name">
-                                <h6 class="mb-0">{{listStringUserConversation[i]}}</h6>
-                                <span>This Sunday we</span>
-                              </div>
-                              <div class="chat-meta float-right text-center mt-2 me-1">
-                                <div class="chat-msg-counter bg-primary text-white">10
+                            <a data-bs-toggle="pill" href="#chatbox1" (click)="transferChatDetail(i, pc, 1)">
+                              <div class="d-flex align-items-center">
+                                <div class="avatar me-2">
+                                  <img src="{{listStringUserImgConversation[i]}}"
+                                       alt="chatuserimage" class="avatar-50 ">
+                                  <span class="avatar-status"><i
+                                    class="ri-checkbox-blank-circle-fill text-success"></i></span>
                                 </div>
-                                <span class="text-nowrap">10 min</span>
+                                <div class="chat-sidebar-name">
+                                  <h6 class="mb-0">{{listStringUserConversation[i]}}</h6>
+                                  <span>This Sunday we</span>
+                                </div>
+                                <div class="chat-meta float-right text-center mt-2 me-1">
+                                  <div class="chat-msg-counter bg-primary text-white">10
+                                  </div>
+                                  <span class="text-nowrap">10 min</span>
+                                </div>
                               </div>
-                            </div>
-                          </a>
+                            </a>
                           </div>
                         </li>
 
-                        <h5 style="margin-top: 30px;">Group Channels</h5>
+                        <h5 style="margin-top: 30px;">Group
+                          <i data-bs-toggle="modal"
+                          data-bs-target="#edit-modal"
+                          style="color: #5d94ef;padding-left: 120px;font-size: 20px" class="ri-add-box-fill">
+                        </i>
+                        </h5>
+
+
+                        <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle">
+                                  <span style="color: #0a0a0a;padding: 0px;margin-left: 5px">Add people</span>
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                              </div>
+                              <div class="iq-search-bar device-search">
+
+                                <form  action="#"
+                                      class="searchbox">
+
+                                  <div hidden class="form-group" formGroupName="post">
+                                    <input hidden formControlName="id" type="text" class="text search-input">
+                                  </div>
+                                  <input hidden="" style="border-radius: 20px" formControlName="id" type="text"
+                                         class="text search-input">
+                                  <input style="border-radius: 20px" formControlName="content" type="text"
+                                         class="text search-input">
+                                  <input hidden style="border-radius: 20px" formControlName="cmtAt" type="date">
+                                </form>
+
+                                <div class="modal-footer">
+                                  <button type="button" id="edit-comment" class="btn btn-secondary"
+                                          data-bs-dismiss="modal">Close
+                                  </button>
+                                  <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+
                         <li>
                           <div *ngFor="let pc of listGroupConversation, index as i">
-                          <a data-bs-toggle="pill" href="#chatbox1" (click)="transferChatDetail(i, pc, 2)">
-                            <div class="d-flex align-items-center">
-                              <div class="avatar me-2">
-                                <img src="../assets/images/user/06.jpg"
-                                     alt="chatuserimage" class="avatar-50 ">
-                                <span class="avatar-status"><i
-                                  class="ri-checkbox-blank-circle-fill text-success"></i></span>
-                              </div>
-                              <div class="chat-sidebar-name">
-                                <h6 class="mb-0">{{listNameGroup[i]}}</h6>
-                                <span>This Sunday we</span>
-                              </div>
-                              <div class="chat-meta float-right text-center mt-2 me-1">
-                                <div class="chat-msg-counter bg-primary text-white">10
+                            <a data-bs-toggle="pill" href="#chatbox1" (click)="transferChatDetail(i, pc, 2)">
+                              <div class="d-flex align-items-center">
+                                <div class="avatar me-2">
+                                  <img src="../assets/images/user/06.jpg"
+                                       alt="chatuserimage" class="avatar-50 ">
+                                  <span class="avatar-status"><i
+                                    class="ri-checkbox-blank-circle-fill text-success"></i></span>
                                 </div>
-                                <span class="text-nowrap">10 min</span>
+                                <div class="chat-sidebar-name">
+                                  <h6 class="mb-0">{{listNameGroup[i]}}</h6>
+                                  <span>This Sunday we</span>
+                                </div>
+                                <div class="chat-meta float-right text-center mt-2 me-1">
+                                  <div class="chat-msg-counter bg-primary text-white">10
+                                  </div>
+                                  <span class="text-nowrap">10 min</span>
+                                </div>
                               </div>
-                            </div>
-                          </a>
+                            </a>
                           </div>
                         </li>
                       </ul>
@@ -426,7 +480,8 @@
 
                       <div class="tab-pane fade" id="chatbox1" role="tabpanel">
                         <div class="chat-head">
-                          <header class="d-flex justify-content-between align-items-center bg-white pt-3 ps-3 pe-3 pb-3">
+                          <header
+                            class="d-flex justify-content-between align-items-center bg-white pt-3 ps-3 pe-3 pb-3">
                             <div class="d-flex align-items-center">
                               <div class="sidebar-toggle">
                                 <i class="ri-menu-3-line"></i>
@@ -506,15 +561,19 @@
                                 <i class="ri-delete-bin-line"></i>
                               </a>
                               <span class="dropdown bg-soft-primary">
-                                                     <i class="ri-more-2-line cursor-pointer dropdown-toggle nav-hide-arrow cursor-pointer"
-                                                        id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false" role="menu"></i>
+                                                     <i
+                                                       class="ri-more-2-line cursor-pointer dropdown-toggle nav-hide-arrow cursor-pointer"
+                                                       id="dropdownMenuButton2" data-bs-toggle="dropdown"
+                                                       aria-haspopup="true"
+                                                       aria-expanded="false" role="menu"></i>
                                                     <span class="dropdown-menu dropdown-menu-right"
                                                           aria-labelledby="dropdownMenuButton2">
-                                                          <a class="dropdown-item" href="#"><i class="ri-pushpin-2-line me-1 h5"></i>Pin to top</a>
+                                                          <a class="dropdown-item" href="#"><i
+                                                            class="ri-pushpin-2-line me-1 h5"></i>Pin to top</a>
                                                          <a class="dropdown-item" href="#"><i
                                                            class="ri-delete-bin-6-line me-1 h5"></i>Delete chat</a>
-                                                         <a class="dropdown-item" href="#"><i class="ri-time-line me-1 h5"></i>Block</a>
+                                                         <a class="dropdown-item" href="#"><i
+                                                           class="ri-time-line me-1 h5"></i>Block</a>
                                                     </span>
                                                      </span>
                             </div>
@@ -522,45 +581,46 @@
                         </div>
                         <div class="chat-content scroller">
                           <div *ngFor="let m of listMessage, index as j">
-                          <div *ngIf="m?.users?.id == user?.id" class="chat d-flex other-user">
-                            <div class="chat-user">
-                              <a class="avatar m-0">
-                                <img src="{{m?.users?.avatar}}" alt="avatar"
-                                     class="avatar-35 ">
-                              </a>
-                              <span class="chat-time mt-1">6:45</span>
-                            </div>
-                            <div class="chat-detail">
-                              <div class="chat-message">
-                                <p style="text-align: left; max-width: 550px">{{m?.content}}</p>
+                            <div *ngIf="m?.users?.id == user?.id" class="chat d-flex other-user">
+                              <div class="chat-user">
+                                <a class="avatar m-0">
+                                  <img src="{{m?.users?.avatar}}" alt="avatar"
+                                       class="avatar-35 ">
+                                </a>
+                                <span class="chat-time mt-1">{{m?.textAt | date: 'HH:mm'}}</span>
+                              </div>
+                              <div class="chat-detail">
+                                <div class="chat-message">
+                                  <p style="text-align: left; max-width: 550px">{{m?.content}}</p>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div *ngIf="m?.users?.id !== user?.id" class="chat chat-left">
-                            <div class="chat-user">
-                              <a class="avatar m-0">
-                                <img src="{{m?.users?.avatar}}" alt="avatar"
-                                     class="avatar-35 ">
-                              </a>
-                              <span class="chat-time mt-1">6:48</span>
-                            </div>
-                            <div class="chat-detail">
-                              <div class="chat-message">
-                                <p style="max-width: 550px">{{m?.content}}</p>
+                            <div *ngIf="m?.users?.id !== user?.id" class="chat chat-left">
+                              <div class="chat-user">
+                                <a class="avatar m-0">
+                                  <img src="{{m?.users?.avatar}}" alt="avatar"
+                                       class="avatar-35 ">
+                                </a>
+                                <span class="chat-time mt-1">{{m?.textAt| date: 'HH:mm'}}</span>
+                              </div>
+                              <div class="chat-detail">
+                                <div class="chat-message">
+                                  <p style="max-width: 550px">{{m?.content}}</p>
+                                </div>
                               </div>
                             </div>
-                          </div>
                           </div>
 
 
                         </div>
                         <div class="chat-footer p-3 bg-white">
-                          <form class="d-flex align-items-center" [formGroup] = "messageForm" (ngSubmit)="sendMessage(conversationNow)">
+                          <form class="d-flex align-items-center" [formGroup]="messageForm"
+                                (ngSubmit)="sendMessage(conversationNow)">
                             <div class="chat-attagement d-flex">
                               <a><i class="far fa-smile pe-3"
-                                             aria-hidden="true"></i></a>
+                                    aria-hidden="true"></i></a>
                               <a><i class="fa fa-paperclip pe-3"
-                                             aria-hidden="true"></i></a>
+                                    aria-hidden="true"></i></a>
                             </div>
                             <input type="text" class="form-control me-3" formControlName="content"
                                    placeholder="Type your message">
@@ -575,7 +635,6 @@
                   </div>
 
 
-
                 </div>
               </div>
             </div>
@@ -585,9 +644,6 @@
     </div>
   </div>
 </div>
-
-
-
 
 
 <!-- Wrapper End-->

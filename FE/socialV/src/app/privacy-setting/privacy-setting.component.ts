@@ -8,6 +8,7 @@ import {NotificationService} from "../notificationService/notification.service";
 import {Router} from "@angular/router";
 import {Stomp} from "@stomp/stompjs";
 import * as moment from "moment";
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-privacy-setting',
@@ -32,6 +33,12 @@ export class PrivacySettingComponent implements OnInit{
   // @ts-ignore
   search:string= JSON.parse(localStorage.getItem("nameUser"))
 
+
+  formSetting:FormGroup = new FormGroup({
+    seeFriendPermission :  new FormControl(),
+    commentPermission :  new FormControl()
+  })
+
   constructor(private postService: PostService,
               private userService: UserService,
               private storage: AngularFireStorage,
@@ -40,6 +47,7 @@ export class PrivacySettingComponent implements OnInit{
 
   }
   ngOnInit(): void {
+
     // @ts-ignore
     this.findAllFriend()
     // this.onMoveTop()
@@ -47,7 +55,7 @@ export class PrivacySettingComponent implements OnInit{
     this.connect()
     this.getAllNotification()
     this.findMutualFriend()
-
+    this.setPermissionComment()
   }
 
   connect(){
@@ -172,9 +180,12 @@ export class PrivacySettingComponent implements OnInit{
     })
   }
   setPermissionComment(){
-
-    this.userService.permissionComment(this.user).subscribe(()=>{
+    const users = this.formSetting.value
+    users.username = this.user.username
+    this.userService.permissionComment(users).subscribe(()=>{
+      window.localStorage.setItem("user", JSON.stringify(this.user));
     })
+
   }
 
 

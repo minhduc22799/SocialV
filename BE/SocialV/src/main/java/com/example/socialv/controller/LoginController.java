@@ -42,21 +42,16 @@ public class LoginController {
             return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/permissionComment")
+    @PostMapping("/permission")
     public ResponseEntity<Users> setSeeComment( @RequestBody Users users) {
         Users usersSetSeeComment = userService.findUserByUsername(users.getUsername());
         usersSetSeeComment.setCommentPermission(users.isCommentPermission());
+        usersSetSeeComment.setSeeFriendPermission(users.isSeeFriendPermission());
         userService.save(usersSetSeeComment);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/seeFriend")
-    public ResponseEntity<Users> setSeeFriend(@RequestBody Users users) {
-        Users usersSeeFriend = userService.findUserByUsername(users.getUsername());
-        usersSeeFriend.setSeeFriendPermission(users.isSeeFriendPermission());
-        userService.save(usersSeeFriend);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+
 
 
 }

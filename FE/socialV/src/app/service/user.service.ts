@@ -24,7 +24,7 @@ export class UserService {
     return this.httpClient.post<any>(API_URL + '/logout', user);
   }
   permissionComment(user:any):Observable<any>{
-    return this.httpClient.post<any>(API_URL + '/permissionComment/' , user);
+    return this.httpClient.post<any>(API_URL + '/permission' , user);
   }
 
   findUserById(id: number): Observable<Users> {

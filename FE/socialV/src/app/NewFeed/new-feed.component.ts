@@ -362,6 +362,8 @@ export class NewFeedComponent implements OnInit {
       if (this.imageFiles.length === 0) {
       this.sendNotification()
         this.postForm.reset();
+        // @ts-ignore
+        this.postForm.get("postStatus")?.get("id").setValue(1)
         this.findAll();
         document.getElementById("btn-close")?.click()
         Swal.fire(
