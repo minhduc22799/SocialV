@@ -6,7 +6,7 @@
       <nav class="iq-sidebar-menu">
         <ul id="iq-sidebar-toggle" class="iq-menu">
           <li class="active">
-            <a href="" class=" ">
+            <a routerLink="/NewFeed" class=" ">
               <i class="las la-newspaper"></i><span>Newsfeed</span>
             </a>
           </li>
@@ -88,9 +88,9 @@
                         </div>
                         <div class="d-flex align-items-center">
                           <a (click)="confirmRequest(friendRequest.id)"
-                             class="me-3 btn btn-primary rounded">Confirm</a>
+                             class="me-3 btn btn-danger rounded">Confirm</a>
                           <a (click)="deleteRequest(friendRequest.id)"
-                             class="me-3 btn btn-secondary rounded">Delete Request</a>
+                             class="me-3 btn btn-success rounded">Delete Request</a>
                         </div>
                       </div>
                     </div>

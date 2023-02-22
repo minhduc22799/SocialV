@@ -272,6 +272,13 @@ export class FriendProfileComponent implements OnInit {
       this.sendNotification()
     })
   }
+
+  deleteRequestById(friendRequestId: any) {
+    this.userService.deleteRequest(this.user.id, friendRequestId).subscribe(() => {
+      this.findListRequest()
+      this.sendNotification()
+    })
+  }
   confirmRequest(friendRequestId: any){
     this.userService.confirmRequest(this.user.id, friendRequestId).subscribe(()=>{
       this.findFriendOfFriend()
