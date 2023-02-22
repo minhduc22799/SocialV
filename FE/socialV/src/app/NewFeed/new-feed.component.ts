@@ -55,6 +55,8 @@ export class NewFeedComponent implements OnInit {
   postCm?: Post
   commentP?: PostComment
   numToShow = 3;
+  showFullContent: boolean = false;
+  maxHeight: number = 30;
 
   private stompClient: any;
   listSearchFriend:Users[]=[]
@@ -100,6 +102,9 @@ export class NewFeedComponent implements OnInit {
 
   showLess() {
     this.numToShow -= 5;
+  }
+  toggleShowFullContent() {
+    this.showFullContent = !this.showFullContent;
   }
 
   onMoveTop() {

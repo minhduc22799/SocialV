@@ -74,6 +74,8 @@
                     <small class="badge  bg-light text-dark ">{{listRequest.length}}</small>
                   </div>
                   <div class="card-body p-0">
+                    <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listRequest.length < 1" > <h5 style="color: #c7c2c2">You don't have any request</h5> </div>
+
                     <div *ngFor="let friendRequest of listRequest " class="iq-friend-request">
                       <div
                         class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
@@ -82,7 +84,6 @@
                                alt="">
                           <div class="ms-3">
                             <h6  routerLink="/friendProfile/{{friendRequest.id}}" class="mb-0 ">{{friendRequest.name}}</h6>
-                            <p class="mb-0">40 friends</p>
                           </div>
                         </div>
                         <div class="d-flex align-items-center">
@@ -113,7 +114,8 @@
                       <h5 class="mb-0 text-white">All Notifications</h5>
                     </div>
                   </div>
-                  <div style="height: 300px;overflow: auto"  class="card-body p-0">
+                  <div  style="min-height: 70px;max-height: 300px;height:auto;overflow: auto" class="card-body p-0">
+                    <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listRequest.length < 1" > <h6 style="color: #c7c2c2">you don't have any notifications</h6> </div>
                     <div *ngFor="let n of listNotification, index as q">
                       <a *ngIf="countOther[q] > 0 && !n.status" routerLink="/postDetail/{{n?.post?.id}}"  (click)="seenNotification(n)" class="iq-sub-card" style="background-color: #eef2fc;margin-bottom: 3px">
                         <div class="d-flex align-items-center">
@@ -401,13 +403,10 @@
                     </div>
                   </div>
                 </div>
-
-
               </div>
             </div>
           </div>
-          <div style="padding-left: 50px; padding-right: 50px;margin-bottom: 20px; margin-top: 10px"
-               *ngFor="let p of postsDisplay, index as i" class="col-sm-12">
+          <div style="padding-left: 50px; padding-right: 50px;margin-bottom: 20px; margin-top: 10px" *ngFor="let p of postsDisplay, index as i" class="col-sm-12">
             <div class="card card-block card-stretch card-height">
               <div class="card-body">
                 <div class="user-post-data">
@@ -554,9 +553,17 @@
                                    style="background-color: #e9eef8 ;padding:0px 0px 0px 18px; border-radius: 20px">
                                 <span style="color: #0a0a0a;padding: 0px">{{comment.users.name}}</span>
                                 <div>
-                                  <p
-                                    style="margin-top: -5px;max-width: 590px;word-break: break-all;padding: 0px 10px 3px 10px;"
-                                    class="row mb-0">{{comment.content}}</p>
+
+
+                                  <p  style="margin-top: -5px;max-width: 590px;word-break: break-all;padding: 0px 10px 3px 10px;"
+                                     class="row mb-0">{{comment.content}}
+                                  </p>
+<!--                                  <p [ngClass]="{'collapsed': !showFullContent}" [style.min-height.px]="maxHeight"  style="margin-top: -5px;max-width: 590px;word-break: break-all;padding: 0px 10px 3px 10px;"-->
+<!--                                     class="row mb-0">{{comment.content}}-->
+<!--                                  </p>-->
+<!--                                  <button (click)="toggleShowFullContent()">-->
+<!--                                    {{ showFullContent ? 'Read Less' : 'Read More' }}-->
+<!--                                  </button>-->
                                 </div>
                               </div>
                             </div>
@@ -696,6 +703,38 @@
               </div>
             </div>
           </div>
+
+          <div  style="padding-left: 50px; padding-right: 50px;margin-bottom: 20px; margin-top: 10px" class="col-sm-12">
+            <div class="card card-block card-stretch card-height">
+              <div class="card-body">
+                <div class="user-post-data">
+                  <div class="d-flex justify-content-between">
+                    <div class="me-3">
+                      <img class="rounded-circle img-fluid avatar-50" src="assets/images/logo1.png" alt="">
+                    </div>
+                    <div class="w-100">
+                      <div class="d-flex  justify-content-between">
+                        <div class="">
+                          <h5 class="mb-0 d-inline-block">SocialV</h5>
+                          <p class="mb-0 text-primary">02-02-2022</p>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <p>Welcome to SocialV !!!</p>
+                </div>
+                <div class="user-post">
+                  <a><img src="https://t3.ftcdn.net/jpg/02/23/37/26/360_F_223372689_SejJFPd45aaIrYpuJm2z6bSKmMwy4GfN.jpg" alt="post-image" class="img-fluid rounded w-100"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
         </div>
       </div>
 

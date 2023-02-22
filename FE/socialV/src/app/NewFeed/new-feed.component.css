@@ -35,3 +35,11 @@
 .next {
   right: 4.5rem;
 }
+
+p {
+  overflow: hidden;
+}
+
+p.collapsed {
+  height: auto;
+}
