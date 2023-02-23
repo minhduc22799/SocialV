@@ -5,7 +5,7 @@ import {PostService} from "../PostService/post.service";
 import {UserService} from "../service/user.service";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {NotificationService} from "../notificationService/notification.service";
-import {Router, NavigationEnd} from "@angular/router";
+import {Router} from "@angular/router";
 import {Stomp} from "@stomp/stompjs";
 import * as moment from "moment";
 import {ChatService} from "../chatService/chat.service";
@@ -38,6 +38,8 @@ export class MessageComponent implements OnInit, AfterViewChecked {
   countNotSeen: number = 0
   timeNotificationMoment: any[] = [];
   countOther: any[] = [];
+  userSearch: Users[] = [];
+  userAddGroup: Users[] = [];
   listMutualFriend: number[] = [];
   private stompClient: any;
   conversationNow!: Conversation
@@ -86,15 +88,39 @@ export class MessageComponent implements OnInit, AfterViewChecked {
     })
   }
 
-  fromFriendProfile() {
+  searchMember(name: string) {
+    this.userSearch = []
+    this.userSearch = this.listFriend.filter(user => {
+      return user.name?.toLowerCase().includes(name.toLowerCase())
+    })
+  }
 
+  addToGroup(user: Users) {
+    this.userAddGroup.push(user)
+  }
+
+  submitGroup() {
+    if (this.userAddGroup.length > 0) {
+      this.userAddGroup.push(this.user)
+      this.chatService.createGroupConversation(this.userAddGroup).subscribe(() => {
+        this.getAllGroupConversation()
+        document.getElementById("edit")!.click()
+        this.userAddGroup = []
+      })
+    }
+  }
+
+  deleteMemberFromGroup(index: number) {
+    this.userAddGroup.splice(index, 1)
+  }
+
+  fromFriendProfile() {
     // @ts-ignore
     this.conversationNow = JSON.parse(localStorage.getItem("roomChat"))
     if (this.conversationNow !== null) {
       this.chatService.getMessage(this.conversationNow?.id).subscribe(data => {
         this.listMessage = data
         this.chatService.findMember(this.conversationNow?.id).subscribe(data => {
-          console.log(this.conversationNow)
           for (let i = 0; i < data.length; i++) {
             if (data[i].id !== this.user.id) {
               this.userNameChat = data[i].name
@@ -108,15 +134,14 @@ export class MessageComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  changeNameGroup(conversation: Conversation, name: string){
+  changeNameGroup(conversation: Conversation, name: string) {
     conversation.name = name
-    this.chatService.changeNameGroup(conversation).subscribe(()=>{
+    this.chatService.changeNameGroup(conversation).subscribe(() => {
       document.getElementById("change-name")!.click()
       this.getAllGroupConversation()
       this.userNameChat = name
     })
   }
-
 
   getAllPersonalConversation() {
     this.chatService.getAllPersonalConversation(this.user).subscribe(data => {
@@ -194,7 +219,6 @@ export class MessageComponent implements OnInit, AfterViewChecked {
     })
   }
 
-
   sendNotification() {
     // @ts-ignore
     this.stompClient.send('/app/hello', {}, this.user.id.toString());
@@ -260,7 +284,6 @@ export class MessageComponent implements OnInit, AfterViewChecked {
     })
   }
 
-
   confirmRequest(friendRequestId: any) {
     this.userService.confirmRequest(this.user.id, friendRequestId).subscribe(() => {
       this.findListRequest()
@@ -275,7 +298,6 @@ export class MessageComponent implements OnInit, AfterViewChecked {
 
     })
   }
-
 
   logOut() {
     this.userService.logOut(this.user).subscribe(() => {

@@ -14,7 +14,8 @@ public interface IConversationRepository extends JpaRepository<Conversation, Lon
     @Modifying
     @Query(value = "insert into conversation(type, status) values(1, false)", nativeQuery = true)
     void createPersonalConversation();
-    @Query(value = "insert into conversation(type) values(2)", nativeQuery = true)
+    @Modifying
+    @Query(value = "insert into conversation(type, status) values(2, false)", nativeQuery = true)
     void createGroupConversation();
     @Query(value = "SELECT * FROM conversation c JOIN conversation_member cm ON c.id = cm.conversation_id " +
             "WHERE c.type = 1 AND (cm.user_id IN (?1, ?2)) GROUP BY cm.conversation_id HAVING COUNT(DISTINCT cm.user_id) = 2", nativeQuery = true)

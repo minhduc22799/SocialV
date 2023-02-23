@@ -2,6 +2,7 @@ package com.example.socialv.service.conversationService;
 
 import com.example.socialv.model.Conversation;
 import com.example.socialv.model.Messages;
+import com.example.socialv.model.Users;
 import com.example.socialv.repository.IConversationMemberRepository;
 import com.example.socialv.repository.IConversationRepository;
 import com.example.socialv.repository.IMessageRepository;
@@ -61,11 +62,14 @@ public class ConversationService implements IConversationService {
     }
 
     @Override
-    public void createGroupConversation(List<Long> list) {
+    @Transactional
+    public void createGroupConversation(List<Users> list) {
         conversationRepository.createGroupConversation();
         Conversation conversation1 = conversationRepository.getNewConversation();
-        for (Long userId : list) {
-            conversationMemberRepository.addMember(conversation1.getId(), userId);
+        for (Users user : list) {
+            if (!conversationMemberRepository.checkUserInGroup(user.getId(), conversation1.getId()).isPresent()) {
+                conversationMemberRepository.addMember(conversation1.getId(), user.getId());
+            }
         }
     }
 
