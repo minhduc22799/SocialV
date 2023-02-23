@@ -23,4 +23,7 @@ public interface IFriendRequestRepository extends JpaRepository<FriendRequest, L
 
     @Query(value = "select * from friend_request where user_request_id = ?1 and user_receive_id = ?2 and status = false" , nativeQuery = true)
     Optional<FriendRequest> findRequest(Long id1, Long id2);
+
+    @Query(value = "select COUNT(friend_request.status=true) from friend_request where friend_request.user_receive_id=?1",nativeQuery = true)
+    int countFriend(Long id);
 }

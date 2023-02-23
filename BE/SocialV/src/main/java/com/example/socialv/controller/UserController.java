@@ -44,6 +44,7 @@ public class UserController {
             users.setAvatar(users1.get().getAvatar());
         }
         users.setPassword(users1.get().getPassword());
+        users.setStatus(users1.get().isStatus());
         users.setConfirmPassword(users1.get().getConfirmPassword());
         users.setRole(users1.get().getRole());
         userService.save(users);

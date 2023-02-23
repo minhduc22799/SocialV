@@ -59,4 +59,9 @@ public class FriendRequestService implements IFriendRequestService {
         friendRequestRepository.acceptFriendRequest(id1, id2);
         friendRequestRepository.acceptFriendRequest(id2, id1);
     }
+
+    @Override
+    public int countFriend(Long id) {
+        return friendRequestRepository.countFriend(id);
+    }
 }

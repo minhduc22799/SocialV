@@ -12,4 +12,5 @@ public interface IFriendRequestService extends IGeneralService<FriendRequest> {
     Optional<FriendRequest> findRequest(Long id1, Long id2);
     void deleteFriendRequest(Long id1, Long id2);
     void acceptFriendRequest(Long id1, Long id2);
+    int countFriend(Long id);
 }
