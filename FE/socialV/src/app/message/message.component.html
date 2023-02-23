@@ -120,8 +120,9 @@
                     </div>
                   </div>
                   <div style="min-height: 70px;max-height: 300px;height:auto;overflow: auto" class="card-body p-0">
-                    <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listNotification.length < 1">
-                      <h6 style="color: #c7c2c2">you don't have any notifications</h6></div>
+                    <div style="text-align: center;margin-top: 20px" class="col-sm-12"
+                         *ngIf="listNotification.length < 1">
+                      <h6 style="color: #c7c2c2">You don't have any notifications</h6></div>
                     <div *ngFor="let n of listNotification, index as q">
                       <a *ngIf="countOther[q] > 0 && !n.status" routerLink="/postDetail/{{n?.post?.id}}"
                          (click)="seenNotification(n)" class="iq-sub-card"
@@ -174,61 +175,19 @@
                     <div class="header-title bg-primary">
                       <h5 class="mb-0 text-white">All Message</h5>
                     </div>
-                    <small class="badge bg-light text-dark">4</small>
+                    <small class="badge bg-light text-dark">{{listAllConversation.length}}</small>
                   </div>
-                  <div class="card-body p-0 ">
-                    <a href="#" class="iq-sub-card">
+                  <div style="min-height: 70px;max-height: 300px;height:auto;overflow: auto" class="card-body p-0">
+                    <div style="text-align: center;margin-top: 20px" class="col-sm-12"
+                         *ngIf="listAllConversation.length < 1">
+                      <h6 style="color: #c7c2c2">You don't have any message</h6></div>
+                    <a *ngFor="let conversation of listAllConversation, index as i" class="iq-sub-card">
                       <div class="d-flex  align-items-center">
                         <div class="">
-                          <img class="avatar-40 rounded" src="assets/images/user/01.jpg" alt="">
+                          <img class="avatar-40 rounded" src="{{listAvatarMember[i]}}" alt="">
                         </div>
                         <div class=" w-100 ms-3">
-                          <h6 class="mb-0 ">Bni Emma Watson</h6>
-                          <small class="float-left font-size-12">13 Jun</small>
-                        </div>
-                      </div>
-                    </a>
-                    <a href="#" class="iq-sub-card">
-                      <div class="d-flex align-items-center">
-                        <div class="">
-                          <img class="avatar-40 rounded" src="assets/images/user/02.jpg" alt="">
-                        </div>
-                        <div class="ms-3">
-                          <h6 class="mb-0 ">Lorem Ipsum Watson</h6>
-                          <small class="float-left font-size-12">20 Apr</small>
-                        </div>
-                      </div>
-                    </a>
-                    <a href="#" class="iq-sub-card">
-                      <div class="d-flex align-items-center">
-                        <div class="">
-                          <img class="avatar-40 rounded" src="assets/images/user/03.jpg" alt="">
-                        </div>
-                        <div class="ms-3">
-                          <h6 class="mb-0 ">Why do we use it?</h6>
-                          <small class="float-left font-size-12">30 Jun</small>
-                        </div>
-                      </div>
-                    </a>
-                    <a href="#" class="iq-sub-card">
-                      <div class="d-flex align-items-center">
-                        <div class="">
-                          <img class="avatar-40 rounded" src="assets/images/user/04.jpg" alt="">
-                        </div>
-                        <div class="ms-3">
-                          <h6 class="mb-0 ">Variations Passages</h6>
-                          <small class="float-left font-size-12">12 Sep</small>
-                        </div>
-                      </div>
-                    </a>
-                    <a href="#" class="iq-sub-card">
-                      <div class="d-flex align-items-center">
-                        <div class="">
-                          <img class="avatar-40 rounded" src="assets/images/user/05.jpg" alt="">
-                        </div>
-                        <div class="ms-3">
-                          <h6 class="mb-0 ">Lorem Ipsum generators</h6>
-                          <small class="float-left font-size-12">5 Dec</small>
+                          <h6 class="mb-0 ">{{listMemberName[i]}}</h6>
                         </div>
                       </div>
                     </a>
@@ -366,9 +325,10 @@
                       <h5 class="">Public Channels</h5>
                       <ul class="iq-chat-ui nav flex-column nav-pills">
                         <li>
-                            <a  data-bs-toggle="pill" id="showChat" href="#chatbox1" hidden="hidden">a</a>
-                          <div *ngFor="let pc of listPersonalConversation, index as i">
-                            <a data-bs-toggle="pill" href="#chatbox1" (click)="transferChatDetail(i, pc, 1)">
+                          <a data-bs-toggle="pill" id="showChat" href="#chatbox1" hidden="hidden">a</a>
+                          <div style="cursor: pointer" data-bs-toggle="pill" href="#chatbox1"
+                               *ngFor="let pc of listPersonalConversation, index as i">
+                            <a (click)="transferChatDetail(i, pc, 1)">
                               <div class="d-flex align-items-center">
                                 <div class="avatar me-2">
                                   <img src="{{listStringUserImgConversation[i]}}"
@@ -381,9 +341,6 @@
 
                                 </div>
                                 <div class="chat-meta float-right text-center mt-2 me-1">
-                                  <div class="chat-msg-counter bg-primary text-white">10
-                                  </div>
-                                  <span class="text-nowrap">10 min</span>
                                 </div>
                               </div>
                             </a>
@@ -392,9 +349,9 @@
 
                         <h5 style="margin-top: 30px;">Group
                           <i data-bs-toggle="modal"
-                          data-bs-target="#edit-modal"
-                          style="color: #5d94ef;padding-left: 120px;font-size: 20px" class="ri-add-box-fill">
-                        </i>
+                             data-bs-target="#edit-modal"
+                             style="color: #5d94ef;padding-left: 120px;font-size: 20px" class="ri-add-box-fill">
+                          </i>
                         </h5>
 
                         <div class="modal fade" id="change-name-modal" tabindex="-1" role="dialog"
@@ -411,7 +368,7 @@
                               <div class="iq-search-bar device-search">
 
                                 <form
-                                       class="searchbox">
+                                  class="searchbox">
                                   <input id="inputChangeName" style="border-radius: 20px" type="text" #groupName
                                          class="text search-input">
                                 </form>
@@ -420,7 +377,9 @@
                                   <button type="button" id="change-name" class="btn btn-secondary"
                                           data-bs-dismiss="modal">Close
                                   </button>
-                                  <button type="submit" (click)="changeNameGroup(conversationNow, groupName.value)" class="btn btn-primary">Submit</button>
+                                  <button type="submit" (click)="changeNameGroup(conversationNow, groupName.value)"
+                                          class="btn btn-primary">Submit
+                                  </button>
                                 </div>
                               </div>
 
@@ -437,29 +396,34 @@
                                 <h5 class="modal-title" id="exampleModalCenterTitle">
                                   <span style="color: #0a0a0a;padding: 0px;margin-left: 5px">Add people</span>
                                 </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                <button id="close-modal" type="button" class="btn-close" (click)="closeModal()"
+                                        data-bs-dismiss="modal" aria-label="Close">
                                 </button>
                               </div>
                               <div class="iq-search-bar device-search">
 
-                                <form
-                                      class="searchbox">
-                                  <input style="border-radius: 20px" #people type="text"
+                                <form [formGroup]="searchPeople" class="searchbox">
+                                  <input id="add-people" style="border-radius: 20px" #people type="text"
+                                         formControlName="searchInput"
                                          class="text search-input" (keyup)="searchMember(people.value)">
                                 </form>
-                                <div>
-                                  <ul>
-                                    <li *ngFor="let u of userSearch" (click)="addToGroup(u)">{{u.name}}</li>
-                                  </ul>
+
+
+                                <div class="list-group">
+                                  <a *ngFor="let u of userSearch" (click)="addToGroup(u)"
+                                     style="border: none;cursor: pointer"
+                                     class="list-group-item list-group-item-action"><img
+                                    class="rounded-circle avatar-35" style="margin-right: 20px"
+                                    src="{{u.avatar}}">{{u.name}}</a>
                                 </div>
+
                                 <hr *ngIf="userAddGroup.length > 0">
-                                <div *ngFor="let u of userAddGroup, index as i">
-                                  <p>{{u.name}} <span (click)="deleteMemberFromGroup(i)">X</span></p>
+                                <div style="float: left" *ngFor="let u of userAddGroup, index as i">
+                                  <button style="margin-right: 5px"
+                                          class="btn btn-soft-primary rounded-pill mb-1">{{u.name}}  <i
+                                    class="ri-close-circle-fill" (click)="deleteMemberFromGroup(i)"></i></button>
                                 </div>
                                 <div class="modal-footer">
-                                  <button type="button" id="edit" class="btn btn-secondary"
-                                          data-bs-dismiss="modal">Close
-                                  </button>
                                   <button type="button" (click)="submitGroup()" class="btn btn-primary">Submit</button>
                                 </div>
                               </div>
@@ -469,26 +433,30 @@
                         </div>
 
 
-
                         <li>
-                          <div *ngFor="let pc of listGroupConversation, index as i">
-                            <a data-bs-toggle="pill" href="#chatbox1" (click)="transferChatDetail(i, pc, 2)">
+                          <div style="cursor: pointer" data-bs-toggle="pill" href="#chatbox1"
+                               *ngFor="let pc of listGroupConversation, index as i">
+                            <a (click)="transferChatDetail(i, pc, 2)">
                               <div class="d-flex align-items-center">
                                 <div class="avatar me-2">
-                                  <img src="https://phunugioi.com/wp-content/uploads/2021/11/Hinh-anh-nhom-ban-than-tao-dang-vui-ve-ben-bo-bien-395x600.jpg"
-                                       alt="chatuserimage" class="avatar-50 ">
+                                  <img
+                                    src="https://phunugioi.com/wp-content/uploads/2021/11/Hinh-anh-nhom-ban-than-tao-dang-vui-ve-ben-bo-bien-395x600.jpg"
+                                    alt="chatuserimage" class="avatar-50 ">
                                   <span class="avatar-status"><i
                                     class="ri-checkbox-blank-circle-fill text-success"></i></span>
                                 </div>
-                                <div class="chat-sidebar-name">
-                                  <h6 class="mb-0">{{listNameGroup[i]}}</h6>
-                                  <span data-bs-toggle="modal"
-                                        data-bs-target="#change-name-modal"><i class="ri-edit-2-fill"></i> Change name </span>
+                                <div style="display: grid;grid-template-columns: 90% 10%" class="chat-sidebar-name">
+                                  <div>
+                                     <h6 class="mb-0">{{listNameGroup[i]}}</h6>
+                                  </div>
+                                  <div>
+                                      <span data-bs-toggle="modal"
+                                        data-bs-target="#change-name-modal"><i class="ri-edit-2-fill"></i>
+                                      </span>
+                                  </div>
                                 </div>
                                 <div class="chat-meta float-right text-center mt-2 me-1">
-                                  <div class="chat-msg-counter bg-primary text-white">10
-                                  </div>
-                                  <span class="text-nowrap">10 min</span>
+
                                 </div>
                               </div>
                             </a>

@@ -58,6 +58,11 @@ public class ChatController {
         return new ResponseEntity<>(conversationService.getAllGroupConversation(id), HttpStatus.OK);
     }
 
+    @GetMapping("/room/all/{id}")
+    public ResponseEntity<List<Conversation>> getAllConversation(@PathVariable Long id){
+        return new ResponseEntity<>(conversationService.getALlConversation(id), HttpStatus.OK);
+    }
+
     @GetMapping("/search/{id}")
     public ResponseEntity<List<Users>> searchFriend(@PathVariable Long id, @RequestParam("q") String search){
         return new ResponseEntity<>(userService.findInListFriend(id, search), HttpStatus.OK);

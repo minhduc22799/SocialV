@@ -9,6 +9,8 @@ import {Router} from "@angular/router";
 import {Stomp} from "@stomp/stompjs";
 import * as moment from "moment";
 import {FormControl, FormGroup} from "@angular/forms";
+import {Conversation} from "../Model/conversation";
+import {ChatService} from "../chatService/chat.service";
 
 @Component({
   selector: 'app-privacy-setting',
@@ -39,16 +41,19 @@ export class PrivacySettingComponent implements OnInit{
     seeFriendPermission :  new FormControl(),
     commentPermission :  new FormControl()
   })
+  listAllConversation: Conversation[] = [];
+  listMemberName: any [] = []
+  listAvatarMember: any [] = []
 
   constructor(private postService: PostService,
               private userService: UserService,
               private storage: AngularFireStorage,
               private notificationService: NotificationService,
-              private router: Router) {
+              private router: Router,
+              private chatService:ChatService) {
 
   }
   ngOnInit(): void {
-
     // @ts-ignore
     this.findAllFriend()
     // this.onMoveTop()
@@ -57,6 +62,7 @@ export class PrivacySettingComponent implements OnInit{
     this.getAllNotification()
     this.findMutualFriend()
     this.formSetting.patchValue(this.user)
+    this.getAllConversation()
   }
 
   connect(){
@@ -190,6 +196,39 @@ export class PrivacySettingComponent implements OnInit{
       this.user.commentPermission = userPermission.commentPermission
       window.localStorage.setItem("user", JSON.stringify(this.user));
 
+    })
+  }
+
+  getAllConversation() {
+    // @ts-ignore
+    this.chatService.getAllConversation(this.user).subscribe(data => {
+      this.listAllConversation = data
+      this.chatService.findAllMemberInConversation(data).subscribe(dataMember => {
+        for (let i = 0; i < dataMember.length; i++) {
+          if (this.listAllConversation[i].type === 1) {
+            for (let j = 0; j < dataMember[i].length; j++) {
+              if (dataMember[i][j].id !== this.user.id) {
+                this.listMemberName.push(dataMember[i][j].name)
+                this.listAvatarMember.push(dataMember[i][j].avatar)
+                break;
+              }
+            }
+          } else {
+            this.listAvatarMember.push("https://phunugioi.com/wp-content/uploads/2021/11/Hinh-anh-nhom-ban-than-tao-dang-vui-ve-ben-bo-bien-395x600.jpg")
+            if (data[i].name !== null){
+              this.listMemberName.push(data[i].name)
+            }else {
+              this.listMemberName[i] = ""
+              for (let j = 0; j < dataMember[i].length; j++) {
+                this.listMemberName[i] += dataMember[i][j].name
+                if (j < dataMember[i].length - 1) {
+                  this.listMemberName[i] += `, `;
+                }
+              }
+            }
+          }
+        }
+      })
     })
   }
 

@@ -87,4 +87,7 @@ export class UserService {
   getListCountMutualFriend(id:number,user:Users[]):Observable<any>{
     return this.httpClient.post<any>(`${API_URL}/friend/mutual/search/${id}`,user)
   }
+
+
+
 }

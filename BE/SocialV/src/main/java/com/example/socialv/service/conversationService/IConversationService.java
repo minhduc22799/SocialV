@@ -10,4 +10,6 @@ public interface IConversationService extends IGeneralService<Conversation> {
     void createGroupConversation(List<Users> list);
     List<Conversation> getAllPersonalConversation(Long id);
     List<Conversation> getAllGroupConversation(Long id);
+
+    List<Conversation> getALlConversation(Long id);
 }

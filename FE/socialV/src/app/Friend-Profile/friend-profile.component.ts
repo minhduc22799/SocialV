@@ -14,6 +14,7 @@ import {Stomp} from "@stomp/stompjs";
 import {FormControl, FormGroup} from "@angular/forms";
 import {PostComment} from "../Model/post-comment";
 import {ChatService} from "../chatService/chat.service";
+import {Conversation} from "../Model/conversation";
 
 @Component({
   selector: 'app-friend-profile',
@@ -62,6 +63,9 @@ export class FriendProfileComponent implements OnInit {
   commentForm:FormGroup = new FormGroup({
     content: new FormControl()
   })
+  listAllConversation: Conversation[] = [];
+  listMemberName: any [] = []
+  listAvatarMember: any [] = []
 
   commentFormEdit:FormGroup = new FormGroup({
     id:new FormControl(),
@@ -112,6 +116,7 @@ export class FriendProfileComponent implements OnInit {
       this.findCountLike(data)
       this.findCountComment(data)
       this.getAllListComment(data)
+      this.getAllConversation()
 
     })
   }
@@ -479,6 +484,37 @@ export class FriendProfileComponent implements OnInit {
     })
   }
 
-
+  getAllConversation() {
+    // @ts-ignore
+    this.chatService.getAllConversation(this.user).subscribe(data => {
+      this.listAllConversation = data
+      this.chatService.findAllMemberInConversation(data).subscribe(dataMember => {
+        for (let i = 0; i < dataMember.length; i++) {
+          if (this.listAllConversation[i].type === 1) {
+            for (let j = 0; j < dataMember[i].length; j++) {
+              if (dataMember[i][j].id !== this.user.id) {
+                this.listMemberName.push(dataMember[i][j].name)
+                this.listAvatarMember.push(dataMember[i][j].avatar)
+                break;
+              }
+            }
+          } else {
+            this.listAvatarMember.push("https://phunugioi.com/wp-content/uploads/2021/11/Hinh-anh-nhom-ban-than-tao-dang-vui-ve-ben-bo-bien-395x600.jpg")
+            if (data[i].name !== null){
+              this.listMemberName.push(data[i].name)
+            }else {
+              this.listMemberName[i] = ""
+              for (let j = 0; j < dataMember[i].length; j++) {
+                this.listMemberName[i] += dataMember[i][j].name
+                if (j < dataMember[i].length - 1) {
+                  this.listMemberName[i] += `, `;
+                }
+              }
+            }
+          }
+        }
+      })
+    })
+  }
 
 }

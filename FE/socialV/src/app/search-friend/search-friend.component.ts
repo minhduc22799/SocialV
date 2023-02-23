@@ -9,6 +9,8 @@ import {Stomp} from "@stomp/stompjs";
 import * as moment from "moment/moment";
 import {Notifications} from "../Model/notifications";
 import {NotificationService} from "../notificationService/notification.service";
+import {Conversation} from "../Model/conversation";
+import {ChatService} from "../chatService/chat.service";
 
 @Component({
   selector: 'app-search-friend',
@@ -32,6 +34,11 @@ export class SearchFriendComponent implements OnInit{
   // @ts-ignore
   search:string= JSON.parse(localStorage.getItem("nameUser"))
 
+  listAllConversation: Conversation[] = [];
+  listMemberName: any [] = []
+  listAvatarMember: any [] = []
+
+
 
   ngOnInit(): void {
     // @ts-ignore
@@ -41,13 +48,15 @@ export class SearchFriendComponent implements OnInit{
     this.connect()
     this.getAllNotification()
     this.findMutualFriend()
+    this.getAllConversation()
   }
 
   constructor(private postService: PostService,
               private userService: UserService,
               private storage: AngularFireStorage,
               private notificationService: NotificationService,
-              private router: Router) {
+              private router: Router,
+              private chatService:ChatService) {
 
   }
 
@@ -169,6 +178,39 @@ export class SearchFriendComponent implements OnInit{
     this.userService.findUsersByNameContaining(name).subscribe(data=>{
 
         this.listSearchFriend=data
+    })
+  }
+
+  getAllConversation() {
+    // @ts-ignore
+    this.chatService.getAllConversation(this.user).subscribe(data => {
+      this.listAllConversation = data
+      this.chatService.findAllMemberInConversation(data).subscribe(dataMember => {
+        for (let i = 0; i < dataMember.length; i++) {
+          if (this.listAllConversation[i].type === 1) {
+            for (let j = 0; j < dataMember[i].length; j++) {
+              if (dataMember[i][j].id !== this.user.id) {
+                this.listMemberName.push(dataMember[i][j].name)
+                this.listAvatarMember.push(dataMember[i][j].avatar)
+                break;
+              }
+            }
+          } else {
+            this.listAvatarMember.push("https://phunugioi.com/wp-content/uploads/2021/11/Hinh-anh-nhom-ban-than-tao-dang-vui-ve-ben-bo-bien-395x600.jpg")
+            if (data[i].name !== null){
+              this.listMemberName.push(data[i].name)
+            }else {
+              this.listMemberName[i] = ""
+              for (let j = 0; j < dataMember[i].length; j++) {
+                this.listMemberName[i] += dataMember[i][j].name
+                if (j < dataMember[i].length - 1) {
+                  this.listMemberName[i] += `, `;
+                }
+              }
+            }
+          }
+        }
+      })
     })
   }
 

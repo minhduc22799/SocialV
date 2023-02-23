@@ -16,6 +16,8 @@ import {PostComment} from "../Model/post-comment";
 import {Notifications} from "../Model/notifications";
 import {NotificationService} from "../notificationService/notification.service";
 import {Stomp} from "@stomp/stompjs";
+import {Conversation} from "../Model/conversation";
+import {ChatService} from "../chatService/chat.service";
 
 @Component({
   selector: 'app-newfeed',
@@ -72,7 +74,9 @@ export class NewFeedComponent implements OnInit {
       id: new FormControl()
     })
   })
-
+  listAllConversation: Conversation[] = [];
+  listMemberName: any [] = []
+  listAvatarMember: any [] = []
 
 
   postForm: FormGroup = new FormGroup({
@@ -93,6 +97,7 @@ export class NewFeedComponent implements OnInit {
     // this.onMoveTop()
     this.findListRequest()
     this.connect()
+    this.getAllConversation()
   }
 
   showMore() {
@@ -118,7 +123,8 @@ export class NewFeedComponent implements OnInit {
               private userService: UserService,
               private storage: AngularFireStorage,
               private notificationService: NotificationService,
-              private router: Router) {
+              private router: Router,
+              private chatService:ChatService) {
 
   }
 
@@ -477,6 +483,39 @@ export class NewFeedComponent implements OnInit {
       this.router.navigate(['/SearchFriend']);
       window.localStorage.setItem("listUser", JSON.stringify(data));
       window.localStorage.setItem("nameUser", JSON.stringify(name));
+    })
+  }
+
+  getAllConversation() {
+    // @ts-ignore
+    this.chatService.getAllConversation(this.user).subscribe(data => {
+      this.listAllConversation = data
+      this.chatService.findAllMemberInConversation(data).subscribe(dataMember => {
+        for (let i = 0; i < dataMember.length; i++) {
+          if (this.listAllConversation[i].type === 1) {
+            for (let j = 0; j < dataMember[i].length; j++) {
+              if (dataMember[i][j].id !== this.user.id) {
+                this.listMemberName.push(dataMember[i][j].name)
+                this.listAvatarMember.push(dataMember[i][j].avatar)
+                break;
+              }
+            }
+          } else {
+            this.listAvatarMember.push("https://phunugioi.com/wp-content/uploads/2021/11/Hinh-anh-nhom-ban-than-tao-dang-vui-ve-ben-bo-bien-395x600.jpg")
+            if (data[i].name !== null){
+              this.listMemberName.push(data[i].name)
+            }else {
+              this.listMemberName[i] = ""
+              for (let j = 0; j < dataMember[i].length; j++) {
+                this.listMemberName[i] += dataMember[i][j].name
+                if (j < dataMember[i].length - 1) {
+                  this.listMemberName[i] += `, `;
+                }
+              }
+            }
+          }
+        }
+      })
     })
   }
 }

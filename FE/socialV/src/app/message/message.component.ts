@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Users} from "../Model/Users";
 import {Notifications} from "../Model/notifications";
 import {PostService} from "../PostService/post.service";
@@ -25,6 +25,7 @@ export class MessageComponent implements OnInit, AfterViewChecked {
   listFriend: Users[] = [];
   listRequest: Users[] = [];
   listPersonalConversation: Conversation[] = [];
+  listAllConversation: Conversation[] = [];
   listGroupConversation: Conversation[] = [];
   listUserConversation: Users[][] = [];
   listUserGroup: Users[][] = [];
@@ -42,9 +43,15 @@ export class MessageComponent implements OnInit, AfterViewChecked {
   userAddGroup: Users[] = [];
   listMutualFriend: number[] = [];
   private stompClient: any;
+  listMemberName: any [] = []
+  listAvatarMember: any [] = []
   conversationNow!: Conversation
   messageForm: FormGroup = new FormGroup({
     content: new FormControl()
+  })
+
+  searchPeople: FormGroup = new FormGroup({
+    searchInput: new FormControl()
   })
   // @ts-ignore
   search: string = JSON.parse(localStorage.getItem("nameUser"))
@@ -57,6 +64,8 @@ export class MessageComponent implements OnInit, AfterViewChecked {
     this.getAllPersonalConversation()
     this.getAllGroupConversation()
     this.fromFriendProfile()
+    this.getAllConversation()
+
   }
 
   constructor(private postService: PostService,
@@ -104,10 +113,18 @@ export class MessageComponent implements OnInit, AfterViewChecked {
       this.userAddGroup.push(this.user)
       this.chatService.createGroupConversation(this.userAddGroup).subscribe(() => {
         this.getAllGroupConversation()
-        document.getElementById("edit")!.click()
+        document.getElementById("close-modal")!.click()
+
         this.userAddGroup = []
       })
     }
+  }
+
+  closeModal() {
+    // @ts-ignore
+    this.searchPeople.reset()
+    this.userAddGroup = []
+    this.userSearch = []
   }
 
   deleteMemberFromGroup(index: number) {
@@ -143,6 +160,39 @@ export class MessageComponent implements OnInit, AfterViewChecked {
     })
   }
 
+  getAllConversation() {
+    // @ts-ignore
+    this.chatService.getAllConversation(this.user).subscribe(data => {
+      this.listAllConversation = data
+      this.chatService.findAllMemberInConversation(data).subscribe(dataMember => {
+        for (let i = 0; i < dataMember.length; i++) {
+          if (this.listAllConversation[i].type === 1) {
+            for (let j = 0; j < dataMember[i].length; j++) {
+              if (dataMember[i][j].id !== this.user.id) {
+                this.listMemberName.push(dataMember[i][j].name)
+                this.listAvatarMember.push(dataMember[i][j].avatar)
+                break;
+              }
+            }
+          } else {
+            this.listAvatarMember.push("https://phunugioi.com/wp-content/uploads/2021/11/Hinh-anh-nhom-ban-than-tao-dang-vui-ve-ben-bo-bien-395x600.jpg")
+            if (data[i].name !== null){
+              this.listMemberName.push(data[i].name)
+            }else {
+                this.listMemberName[i] = ""
+              for (let j = 0; j < dataMember[i].length; j++) {
+                this.listMemberName[i] += dataMember[i][j].name
+                if (j < dataMember[i].length - 1) {
+                  this.listMemberName[i] += `, `;
+                }
+              }
+            }
+            }
+        }
+      })
+    })
+  }
+
   getAllPersonalConversation() {
     this.chatService.getAllPersonalConversation(this.user).subscribe(data => {
       this.listPersonalConversation = data
@@ -161,6 +211,7 @@ export class MessageComponent implements OnInit, AfterViewChecked {
       })
     })
   }
+
 
   getAllGroupConversation() {
     this.chatService.getAllGroupConversation(this.user).subscribe(data => {
