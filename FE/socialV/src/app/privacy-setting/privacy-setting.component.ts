@@ -55,7 +55,6 @@ export class PrivacySettingComponent implements OnInit{
     this.connect()
     this.getAllNotification()
     this.findMutualFriend()
-    this.setPermissionComment()
   }
 
   connect(){
