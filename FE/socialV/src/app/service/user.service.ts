@@ -25,6 +25,7 @@ export class UserService {
     return this.httpClient.get<Users>(`${API_URL}/user/${id}`)
   }
 
+
   findAllFriend(id: number | undefined):Observable<Users[]>{
     return this.httpClient.get<Users[]>(`${API_URL}/user/friend/${id}`)
   }
@@ -81,4 +82,9 @@ export class UserService {
   getListCountMutualFriend(id:number,user:Users[]):Observable<any>{
     return this.httpClient.post<any>(`${API_URL}/friend/mutual/search/${id}`,user)
   }
+
+  countFriend(users:Users[]):Observable<any>{
+    return this.httpClient.post<any>(API_URL+"/friend/sum",users)
+  }
+
 }

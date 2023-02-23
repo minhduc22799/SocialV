@@ -5,6 +5,7 @@ import {Users} from "../model/Users";
 import {UserService} from "../service/user.service";
 import {Router} from "@angular/router";
 import Swal from "sweetalert2";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-admin-login',
@@ -16,7 +17,8 @@ export class AdminLoginComponent implements OnInit {
   user!: Users
 
   constructor(private userService: UserService,
-              private router: Router) {
+              private router: Router,
+              private toastr:ToastrService) {
   }
 
   ngOnInit(): void {
@@ -33,14 +35,16 @@ export class AdminLoginComponent implements OnInit {
     this.user=this.loginAdminForm.value
     console.log(this.user)
     this.userService.loginAdmin(this.user).subscribe(()=>{
+      this.success()
       this.router.navigate(['/AdminManagement']);
     }, err => {
-      Swal.fire({
-        icon: 'error',
-        text: 'Login failed'
-      })
+      this.error()
     });
   }
-
-
+  success(): void {
+    this.toastr.success('Login Success !', 'Success');
+  }
+  error():void{
+    this.toastr.error('Password or Username not match !','Error')
+  }
 }

@@ -13,6 +13,7 @@ import {Notifications} from "../Model/notifications";
 import {NotificationService} from "../notificationService/notification.service";
 import * as moment from "moment";
 import {Stomp} from "@stomp/stompjs";
+import {ToastrService} from "ngx-toastr";
 
 
 @Component({
@@ -36,14 +37,14 @@ export class EditProfileComponent implements OnInit {
   pathName!: string;
   listRequest: Users[] = [];
   friend?: Users
-  countNotSeen:number = 0
-
+  countNotSeen: number = 0
 
 
   constructor(private userService: UserService,
               private router: Router,
               private storage: AngularFireStorage,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -70,9 +71,10 @@ export class EditProfileComponent implements OnInit {
     this.findListRequest()
     this.connect()
   }
-  findListRequest(){
+
+  findListRequest() {
     // @ts-ignore
-    this.userService.findListRequestFriend(this.user.id).subscribe((data)=>{
+    this.userService.findListRequestFriend(this.user.id).subscribe((data) => {
       this.listRequest = data
 
     })
@@ -87,9 +89,9 @@ export class EditProfileComponent implements OnInit {
         this.timeNotificationMoment.push(moment(this.listNotification[j].notificationAt).fromNow())
       }
       this.countNotSeen = 0
-      for (let i = 0; i <this.checkValidNotification().length ; i++) {
+      for (let i = 0; i < this.checkValidNotification().length; i++) {
         // @ts-ignore
-        if (!this.checkValidNotification()[i].status){
+        if (!this.checkValidNotification()[i].status) {
           this.countNotSeen++
         }
 
@@ -159,11 +161,7 @@ export class EditProfileComponent implements OnInit {
             this.userService.editProfile(user).subscribe(data => {
               window.localStorage.setItem("user", JSON.stringify(data));
               this.user = data
-              Swal.fire(
-                'Good job!',
-                'You clicked the button!',
-                'success'
-              )
+              this.success()
             })
           });
         })
@@ -173,15 +171,22 @@ export class EditProfileComponent implements OnInit {
       user.img = null
       this.userService.editProfile(user).subscribe((data) => {
         window.localStorage.setItem("user", JSON.stringify(data));
-        Swal.fire(
-          'Good job!',
-          'You clicked the button!',
-          'success'
-        )
+        this.success()
       })
     }
   }
 
+  success(): void {
+    this.toastr.success('Changed success !', 'Success');
+  }
+
+  error(): void {
+    this.toastr.error('Current Password is not match !', 'Error')
+  }
+
+  warning(): void {
+    this.toastr.warning('New Password & Verify Password not match', 'Warning')
+  }
 
   onSubmit() {
     let userUpdate: UserUpdate = new UserUpdate()
@@ -189,15 +194,28 @@ export class EditProfileComponent implements OnInit {
     userUpdate.newPassword = this.formChangePass.get('newPass')?.value
     userUpdate.confirmNewPassword = this.formChangePass.get('confirmPass')?.value
     userUpdate.id = this.user.id
-    this.userService.changePassword(userUpdate).subscribe((data) => {
-      window.localStorage.setItem("user", JSON.stringify(data));
-      Swal.fire('Changed!', '', 'success')
-      this.formChangePass.reset()
-    },err=>{
-      Swal.fire('Not Match', '', 'error')
+    let flag=true
+    if (userUpdate.oldPassword == this.user.password) {
+      if (userUpdate.newPassword == userUpdate.confirmNewPassword) {
+        if (flag){
+        this.userService.changePassword(userUpdate).subscribe((data) => {
+          // window.localStorage.setItem("user", JSON.stringify(data));
+          this.formChangePass.reset()
+          this.success()
+        }, err => {
+          this.error();
+        })
+          flag=false
+      }
+      }
+      if(flag){
+      this.warning()}
+      flag=false
+    }
+    if (flag) {
+      this.error()
+    }  }
 
-    })
-  }
   deleteRequest(friendRequestId: any) {
     this.userService.deleteRequest(this.user.id, friendRequestId).subscribe(() => {
       this.findListRequest()

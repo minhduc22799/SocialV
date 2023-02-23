@@ -26,9 +26,12 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { AdminManagementComponent } from './admin-management/admin-management.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { SearchFriendComponent } from './search-friend/search-friend.component';
-
+import {ToastrModule} from "ngx-toastr";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {NgxPaginationModule} from "ngx-pagination";
 @NgModule({
   declarations: [
+
     AppComponent,
     RegistrationComponent,
     LoginComponent,
@@ -42,20 +45,27 @@ import { SearchFriendComponent } from './search-friend/search-friend.component';
     PostDetailComponent,
     SearchFriendComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireStorageModule,
-    AngularFireDatabaseModule,
-    NgImageSliderModule,
-    InfiniteScrollModule,
-    BrowserAnimationsModule,
-    MatProgressBarModule,
-    SweetAlert2Module,
-  ],
+    imports: [
+      NgxPaginationModule,
+        ToastrModule.forRoot({
+            timeOut: 5000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+        }),
+        BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFireStorageModule,
+        AngularFireDatabaseModule,
+        NgImageSliderModule,
+        InfiniteScrollModule,
+        BrowserAnimationsModule,
+        MatProgressBarModule,
+        SweetAlert2Module,
+        MatPaginatorModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

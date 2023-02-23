@@ -409,7 +409,7 @@
                         </div>
                         <div class="form-group col-sm-6">
                           <label for="birthDay" class="form-label">Birth Day:</label>
-                          <input type="text" class="form-control" id="birthDay" formControlName="birthday">
+                          <input type="date" class="form-control" id="birthDay" formControlName="birthday">
                           <span *ngIf="formEditProfile.get('birthday')?.errors?.['required'] && formEditProfile.get('birthday')?.touched" style="color: red">Not be empty </span>
 
                         </div>

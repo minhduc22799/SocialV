@@ -158,26 +158,33 @@
                             <th>Name</th>
                             <th>User Name</th>
                             <th>Email</th>
-                            <th>Phone</th>
+                            <th>Friend Quantity</th>
                             <th>Status</th>
                             <th colspan="2">Action</th>
                           </tr>
                           </thead>
-                          <tbody *ngFor="let st of userList ">
+                          <tbody *ngFor="let st of userList | slice :page*pageSize :   page*pageSize+pageSize ,index as i  "  >
                           <tr>
                             <td>{{st.name}}</td>
                             <td>{{st.username}}</td>
                             <td>{{st.email}}</td>
-                            <td>{{st.phone}}</td>
-                            <td> <p *ngIf="st.status">Block</p>
-                              <p  *ngIf="!st.status">Active</p></td>
+                            <td>{{count[i]}}</td>
+
+                            <td> <p *ngIf="!st.status">Block</p>
+                              <p  *ngIf="st.status">Active</p></td>
                             <td>
-                              <a href="http://localhost:4200/AdminManagement"><button class="btn btn-warning" (click)="blockAndActiveUser(st.id!)" *ngIf="!st.status">Block.</button></a>
-                              <a href="http://localhost:4200/AdminManagement"><button class="btn btn-danger" (click)="blockAndActiveUser(st.id!)" *ngIf="st.status">Active</button></a>
+                              <button class="btn btn-warning" (click)="blockAndActiveUser(st.id!)" *ngIf="st.status">Block.</button>
+                              <button class="btn btn-danger" (click)="blockAndActiveUser(st.id!)" *ngIf="!st.status">Active</button>
                             </td>
                           </tr>
                           </tbody>
+
                         </table>
+                        <mat-paginator [length]="userList.length"
+                                       [pageSize]="3"
+                                       aria-label="Select page">
+                        </mat-paginator>
+
                       </div>
                     </div>
                   </div>
