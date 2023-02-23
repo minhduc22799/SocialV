@@ -19,7 +19,6 @@ import {FormControl, FormGroup} from "@angular/forms";
   styleUrls: ['./message.component.css']
 })
 export class MessageComponent implements OnInit, AfterViewChecked {
-
   data = localStorage.getItem("user")
   // @ts-ignore
   user: Users = JSON.parse(this.data)
