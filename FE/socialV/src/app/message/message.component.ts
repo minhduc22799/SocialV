@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {Users} from "../Model/Users";
 import {Notifications} from "../Model/notifications";
 import {PostService} from "../PostService/post.service";
 import {UserService} from "../service/user.service";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {NotificationService} from "../notificationService/notification.service";
-import {Router} from "@angular/router";
+import {Router, NavigationEnd} from "@angular/router";
 import {Stomp} from "@stomp/stompjs";
 import * as moment from "moment";
 import {ChatService} from "../chatService/chat.service";
@@ -18,8 +18,7 @@ import {FormControl, FormGroup} from "@angular/forms";
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.css']
 })
-export class MessageComponent implements OnInit {
-
+export class MessageComponent implements OnInit, AfterViewChecked {
   data = localStorage.getItem("user")
   // @ts-ignore
   user: Users = JSON.parse(this.data)
@@ -46,8 +45,6 @@ export class MessageComponent implements OnInit {
     content: new FormControl()
   })
   // @ts-ignore
-  listSearchFriend: Users[] = JSON.parse(localStorage.getItem("listUser"))
-  // @ts-ignore
   search: string = JSON.parse(localStorage.getItem("nameUser"))
 
   ngOnInit(): void {
@@ -57,6 +54,7 @@ export class MessageComponent implements OnInit {
     this.getAllNotification()
     this.getAllPersonalConversation()
     this.getAllGroupConversation()
+    this.fromFriendProfile()
   }
 
   constructor(private postService: PostService,
@@ -65,6 +63,12 @@ export class MessageComponent implements OnInit {
               private notificationService: NotificationService,
               private chatService: ChatService,
               private router: Router) {
+  }
+
+  ngAfterViewChecked(): void {
+    if (this.conversationNow != null) {
+      document.getElementById("showChat")!.click()
+    }
   }
 
   sendMessage(conversation: Conversation) {
@@ -81,6 +85,38 @@ export class MessageComponent implements OnInit {
       })
     })
   }
+
+  fromFriendProfile() {
+
+    // @ts-ignore
+    this.conversationNow = JSON.parse(localStorage.getItem("roomChat"))
+    if (this.conversationNow !== null) {
+      this.chatService.getMessage(this.conversationNow?.id).subscribe(data => {
+        this.listMessage = data
+        this.chatService.findMember(this.conversationNow?.id).subscribe(data => {
+          console.log(this.conversationNow)
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].id !== this.user.id) {
+              this.userNameChat = data[i].name
+              this.userImgChat = data[i].avatar
+              break;
+            }
+          }
+          localStorage.removeItem("roomChat");
+        })
+      })
+    }
+  }
+
+  changeNameGroup(conversation: Conversation, name: string){
+    conversation.name = name
+    this.chatService.changeNameGroup(conversation).subscribe(()=>{
+      document.getElementById("change-name")!.click()
+      this.getAllGroupConversation()
+      this.userNameChat = name
+    })
+  }
+
 
   getAllPersonalConversation() {
     this.chatService.getAllPersonalConversation(this.user).subscribe(data => {
@@ -107,15 +143,15 @@ export class MessageComponent implements OnInit {
       this.chatService.findAllMemberInConversation(this.listGroupConversation).subscribe(data => {
         this.listUserGroup = data;
         this.listNameGroup = []
-        for (let i = 0; i < this.listGroupConversation.length; i++){
-          if (this.listGroupConversation[i].name != null){
+        for (let i = 0; i < this.listGroupConversation.length; i++) {
+          if (this.listGroupConversation[i].name != null) {
             // @ts-ignore
             this.listNameGroup[i] = this.listGroupConversation[i].name
-          }else {
+          } else {
             this.listNameGroup[i] = "";
-            for (let j = 0; j < this.listUserGroup[i].length; j++){
+            for (let j = 0; j < this.listUserGroup[i].length; j++) {
               this.listNameGroup[i] += this.listUserGroup[i][j].name
-              if (j < this.listUserGroup[i].length -1){
+              if (j < this.listUserGroup[i].length - 1) {
                 this.listNameGroup[i] += `, `;
               }
             }
@@ -129,13 +165,13 @@ export class MessageComponent implements OnInit {
     this.chatService.getMessage(conversation?.id).subscribe(data => {
       this.conversationNow = conversation
       this.listMessage = data
-      if (typeId == 1){
-      this.userNameChat = this.listStringUserConversation[id]
-      this.userImgChat = this.listStringUserImgConversation[id]
+      if (typeId == 1) {
+        this.userNameChat = this.listStringUserConversation[id]
+        this.userImgChat = this.listStringUserImgConversation[id]
       }
-      if (typeId == 2){
+      if (typeId == 2) {
         this.userNameChat = this.listNameGroup[id]
-          this.userImgChat = "https://phunugioi.com/wp-content/uploads/2021/11/Hinh-anh-nhom-ban-than-tao-dang-vui-ve-ben-bo-bien-395x600.jpg"
+        this.userImgChat = "https://phunugioi.com/wp-content/uploads/2021/11/Hinh-anh-nhom-ban-than-tao-dang-vui-ve-ben-bo-bien-395x600.jpg"
       }
     })
   }

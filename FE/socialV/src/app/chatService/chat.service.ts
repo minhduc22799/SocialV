@@ -28,12 +28,24 @@ export class ChatService {
     return this.http.get<Messages[]>(apiUrl + `/chat/message/${id}`);
   }
 
-  findAllMemberInConversation(conversations: Conversation[]): Observable<any>{
+  findAllMemberInConversation(conversations: Conversation[]): Observable<any> {
     return this.http.post<Users[][]>(apiUrl + `/chat/member`, conversations);
   }
 
-  sendMessage(message: Messages): Observable<any>{
+  findMember(id: number | undefined): Observable<Users[]> {
+    return this.http.get<Users[]>(apiUrl + `/chat/member/${id}`);
+  }
+
+  sendMessage(message: Messages): Observable<any> {
     return this.http.post<any>(apiUrl + `/chat`, message);
+  }
+
+  getPersonalConversation(id1: any, id2: any): Observable<any> {
+    return this.http.get<Conversation>(apiUrl + `/chat/room/${id1}/${id2}`);
+  }
+
+  changeNameGroup(conversation: Conversation): Observable<any>{
+    return this.http.put<any>(apiUrl + `/chat/changeName`, conversation);
   }
 
 }
