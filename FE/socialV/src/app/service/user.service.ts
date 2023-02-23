@@ -88,6 +88,8 @@ export class UserService {
     return this.httpClient.post<any>(`${API_URL}/friend/mutual/search/${id}`,user)
   }
 
-
+  countFriend(users:Users[]):Observable<any>{
+    return this.httpClient.post<any>(API_URL+"/friend/sum",users)
+  }
 
 }

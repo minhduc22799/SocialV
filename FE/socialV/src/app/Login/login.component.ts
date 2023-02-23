@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Users} from "../Model/Users";
 import {UserService} from "../service/user.service";
 import Swal from "sweetalert2";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-login',
@@ -14,32 +15,68 @@ export class LoginComponent implements OnInit{
   loginForm!:FormGroup
   user!:Users
   private stompClient: any;
+  userList: Users[] = [];
 
-  constructor(private userService:UserService,
-              private router:Router) {
+  constructor(private userService: UserService,
+              private router: Router,
+              private toastr: ToastrService) {
   }
+
   ngOnInit(): void {
+    this.userService.showAllUser().subscribe((data) => {
+      this.userList = data
+    })
+
     this.loginForm = new FormGroup({
-    username: new FormControl('',[Validators.required,Validators.pattern('^[a-zA-Z0-9]*$')]),
-    password: new FormControl('', [Validators.required,Validators.pattern('^[a-zA-Z0-9]*$'), Validators.minLength(6), Validators.maxLength(32)])
-  });
+      username: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9]*$')]),
+      password: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9]*$'), Validators.minLength(6), Validators.maxLength(32)])
+    });
   }
-  login(){
-      this.user=this.loginForm.value
+
+  login() {
+    this.user = this.loginForm.value
     // @ts-ignore
     this.user.checkOn = true
-      this.userService.login(this.user).subscribe(user=>{
-        // @ts-ignore
+    let flag=true
+    if (this.checkUsernameAndPassMatch((this.loginForm.get('username')?.value), this.loginForm.get('password')?.value)) {
+        if (flag){
+      this.userService.login(this.user).subscribe(user => {
         window.localStorage.setItem("user", JSON.stringify(user));
-        console.log("Đăng nhập thành công");
-        this.router.navigate(['/NewFeed']);
+        this.success()
+          flag=false
+          this.router.navigate(['/NewFeed']);
       }, err => {
-        Swal.fire({
-          icon: 'error',
-          text: 'Login failed'
-        })
-      });
+        this.warning()
+          flag=false
+      }
+      )
+          flag=false
+        }
+    }       if (flag){ this.error()}
+
   }
+
+  success(): void {
+    this.toastr.success('Login Success !', 'Success');
+  }
+
+  error(): void {
+    this.toastr.error('Password or Username not match !', 'Error')
+  }
+
+  warning(): void {
+    this.toastr.warning('Account be blocked', 'Warning')
+  }
+
+  checkUsernameAndPassMatch(username: string, pass: string): boolean {
+    for (let i = 0; i < this.userList.length; i++) {
+      if (this.userList[i].username == username && this.userList[i].password == pass) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 
   sendNotification(){
     // @ts-ignore

@@ -29,6 +29,9 @@ import { SearchFriendComponent } from './search-friend/search-friend.component';
 import { PrivacySettingComponent } from './privacy-setting/privacy-setting.component';
 import { MessageComponent } from './message/message.component';
 
+import {ToastrModule} from "ngx-toastr";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {NgxPaginationModule} from "ngx-pagination";
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +50,12 @@ import { MessageComponent } from './message/message.component';
     MessageComponent
   ],
     imports: [
+      NgxPaginationModule,
+      ToastrModule.forRoot({
+        timeOut: 5000,
+        positionClass: 'toast-top-right',
+        preventDuplicates: true,
+      }),
         BrowserModule,
         AppRoutingModule,
         ReactiveFormsModule,
@@ -60,6 +69,7 @@ import { MessageComponent } from './message/message.component';
         MatProgressBarModule,
         SweetAlert2Module,
         FormsModule,
+      MatPaginatorModule,
     ],
   providers: [],
   bootstrap: [AppComponent]
