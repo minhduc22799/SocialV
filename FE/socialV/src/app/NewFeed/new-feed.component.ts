@@ -16,7 +16,6 @@ import {PostComment} from "../Model/post-comment";
 import {Notifications} from "../Model/notifications";
 import {NotificationService} from "../notificationService/notification.service";
 import {Stomp} from "@stomp/stompjs";
-import {iif} from "rxjs";
 
 @Component({
   selector: 'app-newfeed',

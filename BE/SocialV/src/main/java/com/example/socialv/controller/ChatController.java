@@ -44,8 +44,8 @@ public class ChatController {
     }
 
     @PostMapping("/group")
-    public ResponseEntity<?> createGroupChat(@RequestBody List<Long> userId){
-        conversationService.createGroupConversation(userId);
+    public ResponseEntity<?> createGroupChat(@RequestBody List<Users> users){
+        conversationService.createGroupConversation(users);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

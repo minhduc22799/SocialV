@@ -24,6 +24,10 @@ export class ChatService {
     return this.http.get<Conversation[]>(apiUrl + `/chat/room/group/${user.id}`);
   }
 
+  createGroupConversation(users: Users[]): Observable<any>{
+    return this.http.post<any>(apiUrl + `/chat/group`, users);
+  }
+
   getMessage(id: number | undefined): Observable<any> {
     return this.http.get<Messages[]>(apiUrl + `/chat/message/${id}`);
   }
