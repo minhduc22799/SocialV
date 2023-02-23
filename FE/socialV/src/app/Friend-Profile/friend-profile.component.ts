@@ -44,6 +44,8 @@ export class FriendProfileComponent implements OnInit {
   countNotSeen:number = 0
   private stompClient: any;
   numToShow = 3;
+  listPhoto:any[] = []
+
 
   // @ts-ignore
   //nick wall
@@ -342,8 +344,13 @@ export class FriendProfileComponent implements OnInit {
             thumbImage: this.listImgPost[i][j].img,
           };
           this.listImg[i].push(imageObject1);
+          // @ts-ignore
+          if (this.listImgPost[i][j].post.users.id === this.friend.id ){
+            this.listPhoto.push(this.listImgPost[i][j])
+          }
         }
       }
+      console.log(this.listPhoto)
     })
   }
 

@@ -18,7 +18,7 @@
           </li>
           <li class="">
             <a routerLink="/message" class=" ">
-              <i style="font-size: 18px" class="ri-mail-line"></i><span>Message</span>
+              <i style="font-size: 18px" class="ri-messenger-line"></i><span>Message</span>
             </a>
           </li>
           <li class=" ">
@@ -116,7 +116,9 @@
                       <h5 class="mb-0 text-white">All Notifications</h5>
                     </div>
                   </div>
-                  <div style="height: 300px;overflow: auto;" class="card-body p-0">
+                  <div  style="min-height: 70px;max-height: 300px;height:auto;overflow: auto" class="card-body p-0">
+                    <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listNotification.length < 1">
+                      <h6 style="color: #c7c2c2">you don't have any notifications</h6></div>
                     <div *ngFor="let n of listNotification, index as q">
                       <a *ngIf="countOther[q] > 0 && !n.status" routerLink="/postDetail/{{n?.post?.id}}"
                          class="iq-sub-card" (click)="seenNotification(n.id)"
@@ -161,7 +163,7 @@
             <li class="nav-item dropdown">
               <a href="#" class="dropdown-toggle" id="mail-drop" data-bs-toggle="dropdown" aria-haspopup="true"
                  aria-expanded="false">
-                <i class="ri-mail-line"></i>
+                <i class="ri-messenger-line"></i>
               </a>
               <div class="sub-drop dropdown-menu" aria-labelledby="mail-drop">
                 <div class="card shadow-none m-0">
@@ -489,13 +491,11 @@
                       </div>
                       <div class="card-body">
                         <ul class="profile-img-gallary p-0 m-0 list-unstyled">
-                          <div *ngFor="let photoProfile of listImgPost,index as pi">
-                            <div *ngFor="let pm of listImgPost[pi]">
-                              <li *ngIf="pm?.post?.users?.id === friend?.id" routerLink= "postDetail/{{pm?.post?.id}}" class="" >
-                                <img style="cursor: pointer" src="{{pm.img}}" alt="gallary-image" width="84.66px"
-                                     height="84.66px"/>
-                              </li>
-                            </div>
+                          <div *ngFor="let pm of listPhoto, index as p" [hidden]="p >= 9 ">
+                            <li  routerLink= "postDetail/{{pm?.post?.id}}" class="" >
+                              <img  style="cursor: pointer" src="{{pm.img}}" alt="gallary-image" width="84.66px"
+                                    height="84.66px"/>
+                            </li>
                           </div>
                         </ul>
                       </div>
@@ -506,7 +506,7 @@
                           <h4 class="card-title">Friends</h4>
                         </div>
                         <div class="card-header-toolbar d-flex align-items-center">
-                          <p class="m-0"><a href="">Add New </a></p>
+
                         </div>
                       </div>
                       <div class="card-body">
@@ -904,36 +904,20 @@
               <div class="card">
                 <div class="card-body">
                   <h2 style="margin-bottom: 40px">Photos</h2>
-                  <div  class="friend-list-tab mt-2">
+                  <div class="friend-list-tab mt-2">
                     <div class="tab-content">
                       <div class="tab-pane fade active show" id="photosofyou" role="tabpanel">
                         <div class="card-body p-0">
                           <div style="display: grid; grid-template-columns: 237px 237px 237px 237px">
-                            <div *ngFor="let photo of listImgPost, index as p">
-                              <div *ngFor="let ip of listImgPost[p]">
-                                <div *ngIf="ip?.post?.users?.id === friend?.id"
-                                     style="width: 228px;height: 152px;margin-bottom: 10px" class="">
+                            <div *ngFor="let ip of listPhoto,index as p"  >
+                              <div style="width: 228px;height: 152px;margin-bottom: 10px" class="">
+                                <div class="user-images position-relative overflow-hidden">
+                                  <a routerLink="/postDetail/{{ip?.post?.id}}" href="#">
+                                    <img src="{{ip.img}}" width="228px" height="152px"
+                                         class="rounded"
+                                         alt="Responsive image">
+                                  </a>
 
-                                  <div class="user-images position-relative overflow-hidden">
-                                    <a routerLink="/postDetail/{{ip?.post?.id}}" href="#">
-                                      <img  src="{{ip.img}}" width="228px" height="152px"
-                                            class="rounded"
-                                            alt="Responsive image">
-                                    </a>
-                                    <div class="image-hover-data">
-                                      <div class="product-elements-icon">
-                                        <ul class="d-flex align-items-center m-0 p-0 list-inline">
-                                          <li><a href="#" class="pe-3 text-white"> {{countLike[p]}} <i class="ri-thumb-up-line"></i>
-                                          </a>
-                                          </li>
-                                          <li><a href="#" class="pe-3 text-white"> {{countComment[p]}} <i class="ri-chat-3-line"></i>
-                                          </a>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </div>
-
-                                  </div>
                                 </div>
                               </div>
                             </div>

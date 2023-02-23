@@ -27,7 +27,8 @@ export class PrivacySettingComponent implements OnInit{
   countOther: any[] = [];
   listMutualFriend: number[] = [];
   private stompClient: any;
-  checkPermission?:boolean
+  checkPermissionFriend?:any
+  checkPermissionComment?:any
   // @ts-ignore
   listSearchFriend:Users[]= JSON.parse(localStorage.getItem("listUser"))
   // @ts-ignore
@@ -55,6 +56,7 @@ export class PrivacySettingComponent implements OnInit{
     this.connect()
     this.getAllNotification()
     this.findMutualFriend()
+    this.formSetting.patchValue(this.user)
   }
 
   connect(){
@@ -179,12 +181,16 @@ export class PrivacySettingComponent implements OnInit{
     })
   }
   setPermissionComment(){
-    const users = this.formSetting.value
-    users.username = this.user.username
-    this.userService.permissionComment(users).subscribe(()=>{
+    // @ts-ignore
+    const userPermission = this.formSetting.value
+    userPermission.username = this.user.username
+    console.log(userPermission)
+    this.userService.permissionComment(userPermission).subscribe(()=>{
+      this.user.seeFriendPermission = userPermission.seeFriendPermission
+      this.user.commentPermission = userPermission.commentPermission
       window.localStorage.setItem("user", JSON.stringify(this.user));
-    })
 
+    })
   }
 
 

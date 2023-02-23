@@ -17,7 +17,7 @@
           </li>
           <li class="">
             <a routerLink="/message" class=" ">
-              <i style="font-size: 18px" class="ri-mail-line"></i><span>Message</span>
+              <i style="font-size: 18px" class="ri-messenger-line"></i><span>Message</span>
             </a>
           </li>
           <li class=" ">
@@ -121,7 +121,7 @@
                     </div>
                   </div>
                   <div style="min-height: 70px;max-height: 300px;height:auto;overflow: auto" class="card-body p-0">
-                    <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listRequest.length < 1">
+                    <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listNotification.length < 1">
                       <h6 style="color: #c7c2c2">you don't have any notifications</h6></div>
                     <div *ngFor="let n of listNotification, index as q">
                       <a *ngIf="countOther[q] > 0 && !n.status" routerLink="/postDetail/{{n?.post?.id}}"
@@ -168,7 +168,7 @@
             <li class="nav-item dropdown">
               <a href="#" class="dropdown-toggle" id="mail-drop" data-bs-toggle="dropdown" aria-haspopup="true"
                  aria-expanded="false">
-                <i class="ri-mail-line"></i>
+                <i class="ri-messenger-line"></i>
               </a>
               <div class="sub-drop dropdown-menu" aria-labelledby="mail-drop">
                 <div class="card shadow-none m-0">
@@ -342,9 +342,9 @@
                 <div class="data-privacy">
                   <h4 class="mb-2">Who can comment on your posts?</h4>
                   <div class="form-check form-check-inline">
-                    <div class="form-group" formGroupName="privacyComment" style="margin-top: 5px; width: 140px">
-                      <select class="form-select mb-3" formControlName="commentPermission">
-                        <option [ngValue]="true">Anyone</option>
+                    <div id="checkPermissionComment" class="form-group" style="margin-top: 5px; width: 140px">
+                      <select name="checkPermissionComment" class="form-select mb-3" formControlName="commentPermission">
+                        <option [ngValue]="true" >Anyone</option>
                         <option [ngValue]="false">Friends</option>
                       </select>
                     </div>
@@ -357,9 +357,9 @@
                 <div class="data-privacy">
                   <h4 class="mb-2">Who can see your friends list?</h4>
                   <div class="form-check form-check-inline">
-                    <div class="form-group" formGroupName="privacyFriend" style="margin-top: 5px; width: 140px">
-                      <select  class="form-select mb-3" formControlName="seeFriendPermission">
-                        <option [ngValue]="true">Anyone</option>
+                    <div class="form-group" style="margin-top: 5px; width: 140px">
+                      <select id="checkPermissionFriend" name="checkPermissionFriend" class="form-select mb-3" formControlName="seeFriendPermission">
+                        <option [ngValue]="true" >Anyone</option>
                         <option [ngValue]="false">Friends</option>
                       </select>
                     </div>
