@@ -35,16 +35,13 @@ public class Users {
     @NotNull(message = "không được bỏ trống")
     private LocalDate birthday;
     //status block hoac active( default true)
-    @Column(columnDefinition = "boolean default true")
     private boolean status;
     //default false , khi dang nhap thi chuyen thanh true, log out thi thanh false
-    @Column(columnDefinition = "boolean default false")
     private boolean checkOn;
     // default true: cho xem bạn bè
-    @Column(columnDefinition = "boolean default true")
     private boolean seeFriendPermission;
     //default true: cho người lạ comment
-    @Column(columnDefinition = "boolean default true")
+
     private boolean commentPermission;
     private String avatar;
     private String address;

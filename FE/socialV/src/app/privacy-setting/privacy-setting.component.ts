@@ -1,21 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {Users} from "../Model/Users";
-import {AngularFireStorage} from "@angular/fire/compat/storage";
-import {NavigationEnd, Router} from "@angular/router";
+import {Notifications} from "../Model/notifications";
 import {PostService} from "../PostService/post.service";
 import {UserService} from "../service/user.service";
-import {Observable} from "rxjs";
-import {Stomp} from "@stomp/stompjs";
-import * as moment from "moment/moment";
-import {Notifications} from "../Model/notifications";
+import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {NotificationService} from "../notificationService/notification.service";
+import {Router} from "@angular/router";
+import {Stomp} from "@stomp/stompjs";
+import * as moment from "moment";
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
-  selector: 'app-search-friend',
-  templateUrl: './search-friend.component.html',
-  styleUrls: ['./search-friend.component.css']
+  selector: 'app-privacy-setting',
+  templateUrl: './privacy-setting.component.html',
+  styleUrls: ['./privacy-setting.component.css']
 })
-export class SearchFriendComponent implements OnInit{
+export class PrivacySettingComponent implements OnInit{
   data = localStorage.getItem("user")
   // @ts-ignore
   user: Users = JSON.parse(this.data)
@@ -27,21 +27,18 @@ export class SearchFriendComponent implements OnInit{
   countOther: any[] = [];
   listMutualFriend: number[] = [];
   private stompClient: any;
+  checkPermissionFriend?:any
+  checkPermissionComment?:any
   // @ts-ignore
   listSearchFriend:Users[]= JSON.parse(localStorage.getItem("listUser"))
   // @ts-ignore
   search:string= JSON.parse(localStorage.getItem("nameUser"))
 
 
-  ngOnInit(): void {
-    // @ts-ignore
-    this.findAllFriend()
-    // this.onMoveTop()
-    this.findListRequest()
-    this.connect()
-    this.getAllNotification()
-    this.findMutualFriend()
-  }
+  formSetting:FormGroup = new FormGroup({
+    seeFriendPermission :  new FormControl(),
+    commentPermission :  new FormControl()
+  })
 
   constructor(private postService: PostService,
               private userService: UserService,
@@ -49,6 +46,17 @@ export class SearchFriendComponent implements OnInit{
               private notificationService: NotificationService,
               private router: Router) {
 
+  }
+  ngOnInit(): void {
+
+    // @ts-ignore
+    this.findAllFriend()
+    // this.onMoveTop()
+    this.findListRequest()
+    this.connect()
+    this.getAllNotification()
+    this.findMutualFriend()
+    this.formSetting.patchValue(this.user)
   }
 
   connect(){
@@ -59,6 +67,7 @@ export class SearchFriendComponent implements OnInit{
       _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
         _this.getAllNotification()
         _this.findListRequest()
+        _this.findAllFriend()
       })
     })
   }
@@ -168,7 +177,19 @@ export class SearchFriendComponent implements OnInit{
   searchUserByNameContaining(name:string){
     this.userService.findUsersByNameContaining(name).subscribe(data=>{
 
-        this.listSearchFriend=data
+      this.listSearchFriend=data
+    })
+  }
+  setPermissionComment(){
+    // @ts-ignore
+    const userPermission = this.formSetting.value
+    userPermission.username = this.user.username
+    console.log(userPermission)
+    this.userService.permissionComment(userPermission).subscribe(()=>{
+      this.user.seeFriendPermission = userPermission.seeFriendPermission
+      this.user.commentPermission = userPermission.commentPermission
+      window.localStorage.setItem("user", JSON.stringify(this.user));
+
     })
   }
 

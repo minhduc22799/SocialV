@@ -5,13 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Message {
+public class Messages {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,5 +22,7 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Users users;
+    private LocalDateTime textAt;
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 }

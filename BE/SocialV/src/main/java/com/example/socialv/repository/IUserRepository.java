@@ -11,7 +11,6 @@ import java.util.List;
 @Repository
 public interface IUserRepository extends JpaRepository<Users, Long> {
     Users findUserByUsername(String username);
-
     @Query(value = "select * from users join friend_request fr on users.id = fr.user_receive_id " +
             "where fr.user_request_id =?1 and fr.status = true"
             , nativeQuery = true)
@@ -24,4 +23,6 @@ public interface IUserRepository extends JpaRepository<Users, Long> {
     List<Users>findUsersByNameContainingAndStatusIsTrue(String name);
     @Query(value = "select * from users where users.role_id = 1 ",nativeQuery = true)
     List<Users>showAllUser();
+    @Query(value = "select * from users join conversation_member cm on users.id = cm.user_id where cm.conversation_id = ?1", nativeQuery = true)
+    List<Users> findMemberByConversation(Long id);
 }

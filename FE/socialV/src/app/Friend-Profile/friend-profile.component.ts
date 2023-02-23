@@ -13,6 +13,7 @@ import {NotificationService} from "../notificationService/notification.service";
 import {Stomp} from "@stomp/stompjs";
 import {FormControl, FormGroup} from "@angular/forms";
 import {PostComment} from "../Model/post-comment";
+import {ChatService} from "../chatService/chat.service";
 
 @Component({
   selector: 'app-friend-profile',
@@ -43,6 +44,8 @@ export class FriendProfileComponent implements OnInit {
   countNotSeen:number = 0
   private stompClient: any;
   numToShow = 3;
+  listPhoto:any[] = []
+
 
   // @ts-ignore
   //nick wall
@@ -78,7 +81,6 @@ export class FriendProfileComponent implements OnInit {
     this.connect()
     this.findListRequest()
 
-
   }
   showMore() {
     this.numToShow += 5;
@@ -92,6 +94,7 @@ export class FriendProfileComponent implements OnInit {
               private userService: UserService,
               private routerActive: ActivatedRoute,
               private notificationService: NotificationService,
+              private chatService: ChatService,
               private router: Router
   ) {
   }
@@ -121,7 +124,15 @@ export class FriendProfileComponent implements OnInit {
       _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
         _this.getAllNotification()
         _this.findListRequest()
+        _this.findAllFriend()
       })
+    })
+  }
+
+  goToRoomChat(){
+    this.chatService.getPersonalConversation(this.user.id, this.idFiend).subscribe(data =>{
+      window.localStorage.setItem("roomChat", JSON.stringify(data));
+      this.router.navigate(['/message']);
     })
   }
 
@@ -210,6 +221,10 @@ export class FriendProfileComponent implements OnInit {
         this.existF = true
       }
     }
+    if (!this.friend.seeFriendPermission && !this.existF){
+      this.listFriendOfFriend = []
+      this.listMutualFriend = []
+    }
   }
 
   findFriend() {
@@ -272,6 +287,13 @@ export class FriendProfileComponent implements OnInit {
       this.sendNotification()
     })
   }
+
+  deleteRequestById(friendRequestId: any) {
+    this.userService.deleteRequest(this.user.id, friendRequestId).subscribe(() => {
+      this.findListRequest()
+      this.sendNotification()
+    })
+  }
   confirmRequest(friendRequestId: any){
     this.userService.confirmRequest(this.user.id, friendRequestId).subscribe(()=>{
       this.findFriendOfFriend()
@@ -322,8 +344,13 @@ export class FriendProfileComponent implements OnInit {
             thumbImage: this.listImgPost[i][j].img,
           };
           this.listImg[i].push(imageObject1);
+          // @ts-ignore
+          if (this.listImgPost[i][j].post.users.id === this.friend.id ){
+            this.listPhoto.push(this.listImgPost[i][j])
+          }
         }
       }
+      console.log(this.listPhoto)
     })
   }
 
@@ -331,7 +358,12 @@ export class FriendProfileComponent implements OnInit {
   findMutualFriend() {
     // @ts-ignore
     this.userService.findMutualFriends(this.idFiend, this.user.id).subscribe((data) => {
-      this.listMutualFriend = data
+      if (!this.friend.seeFriendPermission && !this.existF){
+        this.listFriendOfFriend = []
+        this.listMutualFriend = []
+      }else {
+        this.listMutualFriend = data
+      }
     })
   }
 
@@ -349,9 +381,11 @@ export class FriendProfileComponent implements OnInit {
   }
 
   logOut() {
-    localStorage.removeItem("user");
-    this.router.navigate(['']);
-
+    this.userService.logOut(this.user).subscribe(()=>{
+      localStorage.removeItem("user");
+      this.sendNotification()
+      this.router.navigate(['']);
+    })
   }
 
   likePost(idPost?: number) {
@@ -360,17 +394,20 @@ export class FriendProfileComponent implements OnInit {
     })
   }
 
-  addComment(post:Post){
+  addComment(post:Post) {
+    if (!post.users?.commentPermission && !this.existF) {
+      alert("you can't comment on this post")
+    }else {
+      const postComment = this.commentForm.value
+      postComment.users = this.user
+      postComment.post = post
 
-    const postComment = this.commentForm.value
-    postComment.users = this.user
-    postComment.post = post
-
-    this.postService.addComment(postComment).subscribe(() =>{
-      this.findAllPostFriend()
-      this.commentForm.reset()
-    })
-  }
+      this.postService.addComment(postComment).subscribe(() => {
+        this.findAllPostFriend()
+        this.commentForm.reset()
+      })
+    }
+    }
 
 
   getCommentById(id:number){

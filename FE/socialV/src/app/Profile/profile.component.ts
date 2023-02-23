@@ -57,6 +57,7 @@ export class ProfileComponent implements OnInit{
   listCheckLikeComment: boolean[][] = [];
   countNotSeen:number = 0
   numToShow = 3;
+  listPhoto:any[] = []
 
 
   postUpdateForm: FormGroup = new FormGroup({
@@ -70,6 +71,7 @@ export class ProfileComponent implements OnInit{
       id: new FormControl()
     })
   })
+
 
 
   commentForm:FormGroup = new FormGroup({
@@ -125,6 +127,7 @@ export class ProfileComponent implements OnInit{
       _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
         _this.getAllNotification()
         _this.findListRequest()
+        _this.findAllFriend()
       })
     })
   }
@@ -198,6 +201,7 @@ export class ProfileComponent implements OnInit{
       this.findCountLike(data)
       this.findCountComment(data)
       this.getAllListComment(data)
+
     })
   }
 
@@ -232,9 +236,14 @@ export class ProfileComponent implements OnInit{
             thumbImage:  this.listImgPost[i][j].img,
           };
           this.listImg[i].push(imageObject1);
+
+          // @ts-ignore
+          if (this.listImgPost[i][j].post.users.id === this.user.id ){
+                this.listPhoto.push(this.listImgPost[i][j])
+          }
         }
       }
-
+      console.log(this.listPhoto)
     })
   }
 
@@ -375,10 +384,12 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-  logOut(){
-    localStorage.removeItem("user");
-    this.router.navigate(['']);
-
+  logOut() {
+    this.userService.logOut(this.user).subscribe(()=>{
+      localStorage.removeItem("user");
+      this.sendNotification()
+      this.router.navigate(['']);
+    })
   }
   findListRequest() {
     // @ts-ignore

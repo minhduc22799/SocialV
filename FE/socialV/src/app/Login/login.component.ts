@@ -11,11 +11,11 @@ import {ToastrService} from "ngx-toastr";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
-  loginForm!: FormGroup
-  user!: Users
+export class LoginComponent implements OnInit{
+  loginForm!:FormGroup
+  user!:Users
+  private stompClient: any;
   userList: Users[] = [];
-
 
   constructor(private userService: UserService,
               private router: Router,
@@ -35,6 +35,8 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.user = this.loginForm.value
+    // @ts-ignore
+    this.user.checkOn = true
     let flag=true
     if (this.checkUsernameAndPassMatch((this.loginForm.get('username')?.value), this.loginForm.get('password')?.value)) {
         if (flag){
@@ -75,4 +77,9 @@ export class LoginComponent implements OnInit {
     return false;
   }
 
+
+  sendNotification(){
+    // @ts-ignore
+    this.stompClient.send('/app/hello',{}, this.user.id.toString());
+  }
 }

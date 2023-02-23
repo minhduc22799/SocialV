@@ -15,8 +15,8 @@
             </a>
           </li>
           <li class="">
-            <a href="" class=" ">
-              <i class="las la-users"></i><span>Group</span>
+            <a routerLink="/message" class=" ">
+              <i style="font-size: 18px" class="ri-messenger-line"></i><span>Message</span>
             </a>
           </li>
           <li class=" ">
@@ -76,6 +76,8 @@
                     <small class="badge  bg-light text-dark ">{{listRequest.length}}</small>
                   </div>
                   <div class="card-body p-0">
+                    <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listRequest.length < 1" > <h5 style="color: #c7c2c2">You don't have any request</h5> </div>
+
                     <div *ngFor="let friendRequest of listRequest " class="iq-friend-request">
                       <div
                         class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
@@ -84,14 +86,13 @@
                                alt="">
                           <div class="ms-3">
                             <h6  routerLink="/friendProfile/{{friendRequest.id}}" class="mb-0 ">{{friendRequest.name}}</h6>
-                            <p class="mb-0">40 friends</p>
                           </div>
                         </div>
                         <div class="d-flex align-items-center">
                           <a (click)="confirmRequest(friendRequest.name)"
-                             class="me-3 btn btn-primary rounded">Confirm</a>
+                             class="me-3 btn btn-danger rounded">Confirm</a>
                           <a (click)="deleteRequest(friendRequest.id)"
-                             class="me-3 btn btn-secondary rounded">Delete Request</a>
+                             class="me-3 btn btn-success rounded">Delete Request</a>
                         </div>
                       </div>
                     </div>
@@ -116,7 +117,8 @@
                       <h5 class="mb-0 text-white">All Notifications</h5>
                     </div>
                   </div>
-                  <div style="height: 300px;overflow: auto" class="card-body p-0">
+                  <div  style="min-height: 70px;max-height: 300px;height:auto;overflow: auto" class="card-body p-0">
+                    <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listNotification.length < 1" > <h6 style="color: #c7c2c2">you don't have any notifications</h6> </div>
                     <div *ngFor="let n of listNotification, index as q">
                       <a *ngIf="countOther[q] > 0 && !n.status" routerLink="/postDetail/{{n?.post?.id}}" (click)="seenNotification(n.id)" class="iq-sub-card" style="background-color: #eef2fc;margin-bottom: 3px">
                         <div class="d-flex align-items-center">
@@ -158,7 +160,7 @@
             <li class="nav-item dropdown">
               <a href="#" class="dropdown-toggle" id="mail-drop" data-bs-toggle="dropdown"
                  aria-haspopup="true" aria-expanded="false">
-                <i class="ri-mail-line"></i>
+                <i class="ri-messenger-line"></i>
               </a>
               <div class="sub-drop dropdown-menu" aria-labelledby="mail-drop">
                 <div class="card shadow-none m-0">
@@ -272,18 +274,8 @@
                         </div>
                       </div>
                     </a>
-                    <a href=" app/account-setting.html" class="iq-sub-card iq-bg-info-hover">
-                      <div class="d-flex align-items-center">
-                        <div class="rounded card-icon bg-soft-info">
-                          <i class="ri-account-box-line"></i>
-                        </div>
-                        <div class="ms-3">
-                          <h6 class="mb-0 ">Account settings</h6>
-                          <p class="mb-0 font-size-12">Manage your account parameters.</p>
-                        </div>
-                      </div>
-                    </a>
-                    <a href=" app/privacy-setting.html" class="iq-sub-card iq-bg-danger-hover">
+
+                    <a routerLink="/privacy" class="iq-sub-card iq-bg-danger-hover">
                       <div class="d-flex align-items-center">
                         <div class="rounded card-icon bg-soft-danger">
                           <i class="ri-lock-line"></i>
@@ -371,7 +363,7 @@
                       <div class="form-group row align-items-center">
                         <div class="col-md-12">
                           <div class="profile-img-edit">
-                            <img class="profile-pic" src="{{user.avatar}}"
+                            <img width="150px" height="150px" class="profile-pic" src="{{user.avatar}}"
                                  alt="profile-pic">
                             <div  class="p-image">
                               <label style="cursor: pointer" for="image-edit"><i class="ri-pencil-line text-white"></i></label>

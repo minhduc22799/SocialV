@@ -16,7 +16,6 @@ import {PostComment} from "../Model/post-comment";
 import {Notifications} from "../Model/notifications";
 import {NotificationService} from "../notificationService/notification.service";
 import {Stomp} from "@stomp/stompjs";
-import {iif} from "rxjs";
 
 @Component({
   selector: 'app-newfeed',
@@ -55,6 +54,8 @@ export class NewFeedComponent implements OnInit {
   postCm?: Post
   commentP?: PostComment
   numToShow = 3;
+  showFullContent: boolean = false;
+  maxHeight: number = 30;
 
   private stompClient: any;
   listSearchFriend:Users[]=[]
@@ -101,6 +102,9 @@ export class NewFeedComponent implements OnInit {
   showLess() {
     this.numToShow -= 5;
   }
+  toggleShowFullContent() {
+    this.showFullContent = !this.showFullContent;
+  }
 
   onMoveTop() {
     this.router.events.subscribe((event) => {
@@ -124,9 +128,9 @@ export class NewFeedComponent implements OnInit {
     const _this = this;
     this.stompClient.connect({}, function (){
       _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
-
         _this.getAllNotification()
         _this.findListRequest()
+        _this.findAllFriend()
       })
     })
   }
@@ -205,7 +209,6 @@ export class NewFeedComponent implements OnInit {
       for (let j = 0; j < post.length; j++) {
         this.timeMoment.push(moment(post[j].createAt).fromNow())
       }
-      console.log(this.timeMoment)
       this.findAllImgPost(post)
       this.findFriendLike(post)
       this.findCountLike(post)
@@ -358,6 +361,8 @@ export class NewFeedComponent implements OnInit {
       if (this.imageFiles.length === 0) {
       this.sendNotification()
         this.postForm.reset();
+        // @ts-ignore
+        this.postForm.get("postStatus")?.get("id").setValue(1)
         this.findAll();
         document.getElementById("btn-close")?.click()
         Swal.fire(
@@ -449,9 +454,11 @@ export class NewFeedComponent implements OnInit {
   }
 
   logOut() {
-    localStorage.removeItem("user");
-    this.router.navigate(['']);
-
+    this.userService.logOut(this.user).subscribe(()=>{
+      localStorage.removeItem("user");
+      this.sendNotification()
+      this.router.navigate(['']);
+    })
   }
 
   getListCommentLike() {

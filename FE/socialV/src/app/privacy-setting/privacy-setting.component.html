@@ -1,4 +1,3 @@
-
 <!-- loader END -->
 <!-- Wrapper Start -->
 <div class="wrapper">
@@ -43,9 +42,10 @@
 
         </div>
         <div class="iq-search-bar device-search">
-          <form  class="searchbox">
-            <a class="search-link" ><i class="ri-search-line"></i></a>
-            <input type="text" class="text search-input" #name placeholder="Search here..." (change)="searchUserByNameContaining(name.value)">
+          <form class="searchbox">
+            <a class="search-link"><i class="ri-search-line"></i></a>
+            <input type="text" class="text search-input" #name placeholder="Search here..."
+                   (change)="searchUserByNameContaining(name.value)">
           </form>
         </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -64,7 +64,8 @@
               <a href="#" class="dropdown-toggle" id="group-drop" data-bs-toggle="dropdown"
                  aria-haspopup="true" aria-expanded="false">
                 <i class="ri-group-line"></i>
-                <small *ngIf="listRequest.length > 0" style="font-size: 10px;padding: 2px 4px 2px 4px;margin-left: -8px" class="bg-danger rounded-circle text-white">{{listRequest.length}}</small>
+                <small *ngIf="listRequest.length > 0" style="font-size: 10px;padding: 2px 4px 2px 4px;margin-left: -8px"
+                       class="bg-danger rounded-circle text-white">{{listRequest.length}}</small>
               </a>
 
               <div class="sub-drop sub-drop-large dropdown-menu" aria-labelledby="group-drop">
@@ -76,7 +77,9 @@
                     <small class="badge  bg-light text-dark ">{{listRequest.length}}</small>
                   </div>
                   <div class="card-body p-0">
-                    <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listRequest.length < 1" > <h5 style="color: #c7c2c2">You don't have any request</h5> </div>
+                    <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listRequest.length < 1">
+                      <h5 style="color: #c7c2c2">You don't have any request</h5></div>
+
                     <div *ngFor="let friendRequest of listRequest " class="iq-friend-request">
                       <div
                         class="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between">
@@ -84,7 +87,8 @@
                           <img class="avatar-40 rounded" src="{{friendRequest.avatar}}"
                                alt="">
                           <div class="ms-3">
-                            <h6  routerLink="/friendProfile/{{friendRequest.id}}" class="mb-0 ">{{friendRequest.name}}</h6>
+                            <h6 routerLink="/friendProfile/{{friendRequest.id}}"
+                                class="mb-0 ">{{friendRequest.name}}</h6>
                           </div>
                         </div>
                         <div class="d-flex align-items-center">
@@ -106,7 +110,8 @@
             <li class="nav-item dropdown">
               <a href="#" class="search-toggle   dropdown-toggle" id="notification-drop" data-bs-toggle="dropdown">
                 <i class="ri-notification-4-line"></i>
-                <small  *ngIf="countNotSeen > 0" style="font-size: 10px;padding: 2px 4px 2px 4px;margin-left: -8px" class="bg-danger rounded-circle text-white">{{countNotSeen}}</small>
+                <small *ngIf="countNotSeen > 0" style="font-size: 10px;padding: 2px 4px 2px 4px;margin-left: -8px"
+                       class="bg-danger rounded-circle text-white">{{countNotSeen}}</small>
               </a>
               <div class="sub-drop dropdown-menu" aria-labelledby="notification-drop">
                 <div class="card shadow-none m-0">
@@ -115,10 +120,13 @@
                       <h5 class="mb-0 text-white">All Notifications</h5>
                     </div>
                   </div>
-                  <div  style="min-height: 70px;max-height: 300px;height:auto;overflow: auto" class="card-body p-0">
-                    <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listRequest.length < 1" > <h6 style="color: #c7c2c2">you don't have any notifications</h6> </div>
+                  <div style="min-height: 70px;max-height: 300px;height:auto;overflow: auto" class="card-body p-0">
+                    <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listNotification.length < 1">
+                      <h6 style="color: #c7c2c2">you don't have any notifications</h6></div>
                     <div *ngFor="let n of listNotification, index as q">
-                      <a *ngIf="countOther[q] > 0 && !n.status" routerLink="/postDetail/{{n?.post?.id}}"  (click)="seenNotification(n)" class="iq-sub-card" style="background-color: #eef2fc;margin-bottom: 3px">
+                      <a *ngIf="countOther[q] > 0 && !n.status" routerLink="/postDetail/{{n?.post?.id}}"
+                         (click)="seenNotification(n)" class="iq-sub-card"
+                         style="background-color: #eef2fc;margin-bottom: 3px">
                         <div class="d-flex align-items-center">
                           <div class="">
                             <img class="avatar-40 rounded" src="{{n?.users?.avatar}}" alt="">
@@ -134,7 +142,8 @@
                           </div>
                         </div>
                       </a>
-                      <a *ngIf="countOther[q] > 0 && n.status" routerLink="/postDetail/{{n?.post?.id}}" class="iq-sub-card">
+                      <a *ngIf="countOther[q] > 0 && n.status" routerLink="/postDetail/{{n?.post?.id}}"
+                         class="iq-sub-card">
                         <div class="d-flex align-items-center">
                           <div class="">
                             <img class="avatar-40 rounded" src="{{n?.users?.avatar}}" alt="">
@@ -155,6 +164,7 @@
                 </div>
               </div>
             </li>
+
             <li class="nav-item dropdown">
               <a href="#" class="dropdown-toggle" id="mail-drop" data-bs-toggle="dropdown" aria-haspopup="true"
                  aria-expanded="false">
@@ -228,6 +238,7 @@
                 </div>
               </div>
             </li>
+
             <li class="nav-item dropdown">
               <a href="#" class="   d-flex align-items-center dropdown-toggle" id="drop-down-arrow"
                  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -268,7 +279,7 @@
                       </div>
                     </a>
 
-                    <a routerLink="/privacy" class="iq-sub-card iq-bg-danger-hover">
+                    <a routerLink="privacy" class="iq-sub-card iq-bg-danger-hover">
                       <div class="d-flex align-items-center">
                         <div class="rounded card-icon bg-soft-danger">
                           <i class="ri-lock-line"></i>
@@ -317,33 +328,60 @@
       </div>
     </div>
   </div>
-  <div style="margin-left:12.5%" id="content-page" class="content-page">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-10 row m-0 p-0">
-            <h4 *ngIf="listSearchFriend.length > 0" style="margin-bottom: 20px">Result for : " {{search}} "</h4>
-            <h4 *ngIf="listSearchFriend.length < 1" style="margin-bottom: 20px">No Result for : " {{search}} "</h4>
-            <div class="card p-0"  >
-              <div class="card-body p-0">
-                <ul class="todo-task-lists m-0 p-0">
-                  <div *ngFor="let s of listSearchFriend, index as i">
-                  <li  class="d-flex align-items-center p-3" *ngIf="s.id !== user.id"    >
-                    <div style="cursor: pointer" routerLink="/friendProfile/{{s.id}}" class="user-img img-fluid"><img src="{{s.avatar}}" alt="story-img" class="rounded-circle avatar-60"></div>
-                    <div class="d-flex align-items-center justify-content-between w-100">
-                      <div class="ms-3" >
-                        <h5 style="cursor: pointer" routerLink="/friendProfile/{{s.id}}" class="d-inline-block">{{s.name}}</h5>
-                        <p *ngIf="listMutualFriend[i] > 0" class="mb-0">{{listMutualFriend[i]}} Mutual Friends</p>
-                      </div>
-                    </div>
-                  </li>
-              </div>
-
-                </ul>
-              </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between">
+            <div class="header-title">
             </div>
+          </div>
+          <div class="card-body">
+            <div class="acc-privacy">
+              <form [formGroup]="formSetting" (ngSubmit)="setPermissionComment()">
+                <div class="data-privacy">
+                  <h4 class="mb-2">Who can comment on your posts?</h4>
+                  <div class="form-check form-check-inline">
+                    <div id="checkPermissionComment" class="form-group" style="margin-top: 5px; width: 140px">
+                      <select name="checkPermissionComment" class="form-select mb-3" formControlName="commentPermission">
+                        <option [ngValue]="true" >Anyone</option>
+                        <option [ngValue]="false">Friends</option>
+                      </select>
+                    </div>
+                  </div>
+                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
+                    and scrambled it to make a type specimen book</p>
+                </div>
+                <hr>
+                <div class="data-privacy">
+                  <h4 class="mb-2">Who can see your friends list?</h4>
+                  <div class="form-check form-check-inline">
+                    <div class="form-group" style="margin-top: 5px; width: 140px">
+                      <select id="checkPermissionFriend" name="checkPermissionFriend" class="form-select mb-3" formControlName="seeFriendPermission">
+                        <option [ngValue]="true" >Anyone</option>
+                        <option [ngValue]="false">Friends</option>
+                      </select>
+                    </div>
+                  </div>
+                  <p>It is a long established fact that a reader will be distracted by the readable content of a page
+                    when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal
+                    distribution of letters, as opposed to using 'Content here, content here', making it look like
+                    readable English.</p>
+                </div>
+                <hr>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                <hr>
+                <div class="data-privacy">
+                  <h4 class="mb-2">Privacy Help</h4>
+                  <a href="#"><i class="ri-customer-service-2-line me-2"></i>Support</a>
+                </div>
+              </form>
+            </div>
+
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>

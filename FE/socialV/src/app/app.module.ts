@@ -9,7 +9,7 @@ import {NewFeedComponent} from './NewFeed/new-feed.component';
 import {PostModalComponent} from './Post-Modal/post-modal.component';
 import {ProfileComponent} from './Profile/profile.component';
 import {FriendProfileComponent} from './Friend-Profile/friend-profile.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {NgImageSliderModule} from "ng-image-slider";
 import {EditProfileComponent} from './edit-profile/edit-profile.component';
@@ -26,12 +26,14 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { AdminManagementComponent } from './admin-management/admin-management.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { SearchFriendComponent } from './search-friend/search-friend.component';
+import { PrivacySettingComponent } from './privacy-setting/privacy-setting.component';
+import { MessageComponent } from './message/message.component';
+
 import {ToastrModule} from "ngx-toastr";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {NgxPaginationModule} from "ngx-pagination";
 @NgModule({
   declarations: [
-
     AppComponent,
     RegistrationComponent,
     LoginComponent,
@@ -43,15 +45,17 @@ import {NgxPaginationModule} from "ngx-pagination";
     AdminLoginComponent,
     AdminManagementComponent,
     PostDetailComponent,
-    SearchFriendComponent
+    SearchFriendComponent,
+    PrivacySettingComponent,
+    MessageComponent
   ],
     imports: [
       NgxPaginationModule,
-        ToastrModule.forRoot({
-            timeOut: 5000,
-            positionClass: 'toast-top-right',
-            preventDuplicates: true,
-        }),
+      ToastrModule.forRoot({
+        timeOut: 5000,
+        positionClass: 'toast-top-right',
+        preventDuplicates: true,
+      }),
         BrowserModule,
         AppRoutingModule,
         ReactiveFormsModule,
@@ -64,7 +68,8 @@ import {NgxPaginationModule} from "ngx-pagination";
         BrowserAnimationsModule,
         MatProgressBarModule,
         SweetAlert2Module,
-        MatPaginatorModule,
+        FormsModule,
+      MatPaginatorModule,
     ],
   providers: [],
   bootstrap: [AppComponent]

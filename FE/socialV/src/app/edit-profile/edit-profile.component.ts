@@ -114,6 +114,7 @@ export class EditProfileComponent implements OnInit {
       _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
         _this.getAllNotification()
         _this.findListRequest()
+        _this.findAllFriend()
       })
     })
   }
@@ -243,11 +244,12 @@ export class EditProfileComponent implements OnInit {
       this.pathName = this.imageFile.name
     }
   }
-
   logOut() {
-    localStorage.removeItem("user");
-    this.router.navigate(['']);
-
+    this.userService.logOut(this.user).subscribe(()=>{
+      localStorage.removeItem("user");
+      this.sendNotification()
+      this.router.navigate(['']);
+    })
   }
 
   onMoveTop() {

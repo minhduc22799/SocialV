@@ -124,6 +124,7 @@ export class PostDetailComponent {
       _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
         _this.getAllNotification()
         _this.findListRequest()
+        _this.findAllFriend()
       })
     })
   }
@@ -174,7 +175,6 @@ export class PostDetailComponent {
         }
       }
     }
-    console.log(this.listNotification)
     return this.listNotification;
   }
 
@@ -378,9 +378,11 @@ export class PostDetailComponent {
   }
 
   logOut() {
-    localStorage.removeItem("user");
-    this.router.navigate(['']);
-
+    this.userService.logOut(this.user).subscribe(()=>{
+      localStorage.removeItem("user");
+      this.sendNotification()
+      this.router.navigate(['']);
+    })
   }
 
   getListCommentLike() {
