@@ -418,6 +418,7 @@ export class NewFeedComponent implements OnInit {
             this.findAll()
           })
           document.getElementById("btn-close")?.click()
+          document.getElementById("btn-close")?.click()
           this.postForm.reset();
           this.imgSrc = []
           this.sendNotification()
