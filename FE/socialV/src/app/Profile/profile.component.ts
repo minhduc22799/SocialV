@@ -19,6 +19,7 @@ import {Stomp} from "@stomp/stompjs";
 import {PostComment} from "../Model/post-comment";
 import {Conversation} from "../Model/conversation";
 import {ChatService} from "../chatService/chat.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-profile',
@@ -115,7 +116,8 @@ export class ProfileComponent implements OnInit{
                private routerActive:ActivatedRoute,
                private storage: AngularFireStorage,
                private router:Router,
-               private chatService:ChatService) {
+               private chatService:ChatService,
+               private toastr:ToastrService) {
   }
 
   // @ts-ignore
@@ -311,11 +313,7 @@ export class ProfileComponent implements OnInit{
       this.postService.editImgPost(this.listImgDelete).subscribe(()=>{
         if (this.imageFiles.length == 0){
           document.getElementById("btn-close-edit")?.click()
-          Swal.fire(
-            'Good job!',
-            'You clicked the button!',
-            'success'
-          )
+          this.success()
           this.findPostAllProfile()
         }
         this.createPostImg(post)
@@ -371,7 +369,7 @@ export class ProfileComponent implements OnInit{
   t = 0;
 
   createPostImg(post: Post) {
-    if (this.imageFiles !== undefined) {
+    if (this.imageFiles.length > 0) {
       this.checkUploadMultiple = true
       this.arrFileInFireBase = this.storage.ref(this.imageFiles[this.t].name);
       this.arrFileInFireBase.put(this.imageFiles[this.t]).then(data => {
@@ -394,11 +392,9 @@ export class ProfileComponent implements OnInit{
           })
           document.getElementById("btn-close-edit")?.click()
           this.imgSrc = []
-          Swal.fire(
-            'Good job!',
-            'You clicked the button!',
-            'success'
-          )
+          this.imageFiles=[]
+          this.checkUploadMultiple = false
+         this.success()
         }
       })
     }
@@ -555,6 +551,8 @@ export class ProfileComponent implements OnInit{
     })
   }
 
-
+  success(): void {
+    this.toastr.success('Edit post successfully !', 'Success');
+  }
 
 }

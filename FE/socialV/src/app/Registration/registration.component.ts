@@ -82,7 +82,7 @@ export class RegistrationComponent implements OnInit {
     }
   }
   success(): void {
-    this.toastr.success('Login Success !', 'Success');
+    this.toastr.success('Sign Up Successfully !', 'Success');
   }
   errorEmail():void{
     this.toastr.error('Email is existing !','Error')

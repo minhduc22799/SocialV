@@ -429,7 +429,7 @@ export class FriendProfileComponent implements OnInit {
   }
 
   error(): void {
-    this.toastr.error('You need to be friends to comment on this post!', 'Error')
+    this.toastr.warning('You need to be friends to comment on this post!', 'Warning')
   }
 
   warning(): void {
