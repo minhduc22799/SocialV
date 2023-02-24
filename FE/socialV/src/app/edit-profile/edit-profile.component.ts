@@ -107,6 +107,11 @@ export class EditProfileComponent implements OnInit {
     })
   }
 
+  getChatRoom(conversation: Conversation){
+    window.localStorage.setItem("roomChat", JSON.stringify(conversation));
+    this.router.navigate(['/message']);
+  }
+
   countOtherNotification(notification: Notifications[]) {
     this.notificationService.countOther(notification).subscribe(data => {
       this.countOther = data

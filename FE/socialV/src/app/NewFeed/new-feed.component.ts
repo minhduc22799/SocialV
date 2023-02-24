@@ -468,6 +468,11 @@ export class NewFeedComponent implements OnInit {
     })
   }
 
+  getChatRoom(conversation: Conversation){
+    window.localStorage.setItem("roomChat", JSON.stringify(conversation));
+    this.router.navigate(['/message']);
+  }
+
   getListCommentLike() {
     this.postService.getCountComment(this.listAllComment).subscribe(data => {
       this.listCommentLike = data

@@ -82,6 +82,11 @@ export class MessageComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  getChatRoom(conversation: Conversation){
+    window.localStorage.setItem("roomChat", JSON.stringify(conversation));
+    this.router.navigate(['/message']);
+  }
+
   sendMessage(conversation: Conversation) {
     const message: Messages = this.messageForm.value
     message.users = this.user
@@ -138,11 +143,26 @@ export class MessageComponent implements OnInit, AfterViewChecked {
       this.chatService.getMessage(this.conversationNow?.id).subscribe(data => {
         this.listMessage = data
         this.chatService.findMember(this.conversationNow?.id).subscribe(data => {
-          for (let i = 0; i < data.length; i++) {
-            if (data[i].id !== this.user.id) {
-              this.userNameChat = data[i].name
-              this.userImgChat = data[i].avatar
-              break;
+          if (this.conversationNow.type == 1) {
+            for (let i = 0; i < data.length; i++) {
+              if (data[i].id !== this.user.id) {
+                this.userNameChat = data[i].name
+                this.userImgChat = data[i].avatar
+                break;
+              }
+            }
+          }else {
+            this.userImgChat = "https://phunugioi.com/wp-content/uploads/2021/11/Hinh-anh-nhom-ban-than-tao-dang-vui-ve-ben-bo-bien-395x600.jpg"
+            if (this.conversationNow.name != null){
+              this.userNameChat = this.conversationNow.name
+            }else {
+              this.userNameChat = ""
+              for (let j = 0; j < data.length; j++) {
+                this.userNameChat += data[j].name
+                if (j < data.length - 1) {
+                  this.userNameChat += `, `;
+                }
+              }
             }
           }
           localStorage.removeItem("roomChat");

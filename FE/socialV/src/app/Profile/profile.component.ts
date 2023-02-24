@@ -127,6 +127,11 @@ export class ProfileComponent implements OnInit{
     })
   }
 
+  getChatRoom(conversation: Conversation){
+    window.localStorage.setItem("roomChat", JSON.stringify(conversation));
+    this.router.navigate(['/message']);
+  }
+
   connect(){
     const socket = new WebSocket('ws://localhost:8080/ws/websocket');
     this.stompClient = Stomp.over(socket);
