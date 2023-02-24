@@ -16,7 +16,10 @@ export class AdminManagementComponent implements OnInit {
   user!: Users
   count: number[] = []
   page :number=1
-  pageSize :number=20;
+  pageSize :number=10;
+  pageIndex = 0;
+  length?: number ;
+
   constructor(private userService: UserService) {
   }
 
@@ -24,9 +27,15 @@ export class AdminManagementComponent implements OnInit {
     this.userService.showAllUser().subscribe((data) => {
       this.userList = data
       this.countFriends(data)
+      length = this.userList.length;
     })
   }
 
+
+  getPageData(): any[] {
+    const startIndex = this.pageIndex * this.pageSize;
+    return this.userList.slice(startIndex, startIndex + this.pageSize);
+  }
 
   blockAndActiveUser(id: number) {
     Swal.fire({

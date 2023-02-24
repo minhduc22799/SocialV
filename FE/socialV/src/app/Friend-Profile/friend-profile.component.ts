@@ -237,6 +237,9 @@ export class FriendProfileComponent implements OnInit {
   findFriend() {
     this.userService.findUserById(this.idFiend).subscribe(data => {
       this.friend = data
+      if (!this.friend.status){
+          this.router.navigate(['error'])
+      }
       this.checkRequest()
       this.checkRequest2()
       this.router.routeReuseStrategy.shouldReuseRoute = function () {

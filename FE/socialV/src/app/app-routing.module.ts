@@ -12,6 +12,7 @@ import {AdminManagementComponent} from "./admin-management/admin-management.comp
 import {SearchFriendComponent} from "./search-friend/search-friend.component";
 import {PrivacySettingComponent} from "./privacy-setting/privacy-setting.component";
 import {MessageComponent} from "./message/message.component";
+import {ErrorComponent} from "./error/error.component";
 
 const routes: Routes = [
   {
@@ -49,6 +50,9 @@ const routes: Routes = [
   },
   {
     path: 'message', component: MessageComponent
+  },
+  {
+    path: 'error', component: ErrorComponent
   }
 
 ];
