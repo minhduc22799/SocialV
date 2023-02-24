@@ -11,6 +11,7 @@ import * as moment from "moment";
 import {FormControl, FormGroup} from "@angular/forms";
 import {Conversation} from "../Model/conversation";
 import {ChatService} from "../chatService/chat.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-privacy-setting',
@@ -50,7 +51,8 @@ export class PrivacySettingComponent implements OnInit{
               private storage: AngularFireStorage,
               private notificationService: NotificationService,
               private router: Router,
-              private chatService:ChatService) {
+              private chatService:ChatService,
+              private  toastr:ToastrService) {
 
   }
   ngOnInit(): void {
@@ -195,6 +197,7 @@ export class PrivacySettingComponent implements OnInit{
       this.user.seeFriendPermission = userPermission.seeFriendPermission
       this.user.commentPermission = userPermission.commentPermission
       window.localStorage.setItem("user", JSON.stringify(this.user));
+      this.success()
 
     })
   }
@@ -231,6 +234,16 @@ export class PrivacySettingComponent implements OnInit{
       })
     })
   }
+  success(): void {
+    this.toastr.success('Success !', 'Success');
+  }
 
+  error(): void {
+    this.toastr.error('Password or Username not match !', 'Error')
+  }
+
+  warning(): void {
+    this.toastr.warning('Account be blocked', 'Warning')
+  }
 
 }

@@ -15,6 +15,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {PostComment} from "../Model/post-comment";
 import {ChatService} from "../chatService/chat.service";
 import {Conversation} from "../Model/conversation";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-friend-profile',
@@ -99,7 +100,8 @@ export class FriendProfileComponent implements OnInit {
               private routerActive: ActivatedRoute,
               private notificationService: NotificationService,
               private chatService: ChatService,
-              private router: Router
+              private router: Router,
+              private toastr:ToastrService
   ) {
   }
 
@@ -401,7 +403,7 @@ export class FriendProfileComponent implements OnInit {
 
   addComment(post:Post) {
     if (!post.users?.commentPermission && !this.existF) {
-      alert("you can't comment on this post")
+      this.error()
     }else {
       const postComment = this.commentForm.value
       postComment.users = this.user
@@ -413,6 +415,18 @@ export class FriendProfileComponent implements OnInit {
       })
     }
     }
+
+  success(): void {
+    this.toastr.success('Success !', 'Success');
+  }
+
+  error(): void {
+    this.toastr.error('You need to be friends to comment on this post!', 'Error')
+  }
+
+  warning(): void {
+    this.toastr.warning('Account be blocked', 'Warning')
+  }
 
 
   getCommentById(id:number){

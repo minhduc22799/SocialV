@@ -52,7 +52,7 @@ import {NgxPaginationModule} from "ngx-pagination";
     imports: [
       NgxPaginationModule,
       ToastrModule.forRoot({
-        timeOut: 5000,
+        timeOut: 2000,
         positionClass: 'toast-top-right',
         preventDuplicates: true,
       }),
