@@ -111,4 +111,24 @@ public class ConversationService implements IConversationService {
         listSorted.addAll(blankConversation);
         return listSorted;
     }
+
+    @Override
+    public List<Conversation> getALlConversation(Long id) {
+        List<Conversation> conversations = conversationRepository.getAllPersonalConversation(id);
+        conversations.addAll(conversationRepository.getAllGroupConversation(id));
+        List<Messages> messages = new ArrayList<>();
+        List<Conversation> listSorted = new ArrayList<>();
+        for (Conversation conversation : conversations) {
+            if (messageRepository.getLatestMessage(conversation.getId()).isPresent()) {
+                messages.add(messageRepository.getLatestMessage(conversation.getId()).get());
+            }
+        }
+        Collections.sort(messages, Comparator.comparing(Messages::getTextAt).reversed());
+        for (Messages message : messages) {
+            listSorted.add(message.getConversation());
+        }
+        return listSorted;
+    }
+
+
 }

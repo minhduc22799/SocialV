@@ -17,6 +17,8 @@ import {NotificationService} from "../notificationService/notification.service";
 import {Notifications} from "../Model/notifications";
 import {Stomp} from "@stomp/stompjs";
 import {PostComment} from "../Model/post-comment";
+import {Conversation} from "../Model/conversation";
+import {ChatService} from "../chatService/chat.service";
 
 @Component({
   selector: 'app-profile',
@@ -59,6 +61,10 @@ export class ProfileComponent implements OnInit{
   numToShow = 3;
   listPhoto:any[] = []
 
+  listAllConversation: Conversation[] = [];
+  listMemberName: any [] = []
+  listAvatarMember: any [] = []
+
 
   postUpdateForm: FormGroup = new FormGroup({
     id: new FormControl(),
@@ -92,6 +98,7 @@ export class ProfileComponent implements OnInit{
     this.getAllPostStatus()
     this.findListRequest()
     this.connect()
+    this.getAllConversation()
   }
   showMore() {
     this.numToShow += 5;
@@ -107,7 +114,8 @@ export class ProfileComponent implements OnInit{
                private notificationService: NotificationService,
                private routerActive:ActivatedRoute,
                private storage: AngularFireStorage,
-               private router:Router) {
+               private router:Router,
+               private chatService:ChatService) {
   }
 
   // @ts-ignore
@@ -117,6 +125,11 @@ export class ProfileComponent implements OnInit{
       this.listFriend = data
       this.getAllNotification()
     })
+  }
+
+  getChatRoom(conversation: Conversation){
+    window.localStorage.setItem("roomChat", JSON.stringify(conversation));
+    this.router.navigate(['/message']);
   }
 
   connect(){
@@ -506,6 +519,39 @@ export class ProfileComponent implements OnInit{
   getListCheckLikeComment(){
     this.postService.getCheckLikeComment(this.listAllComment, this.user.id).subscribe(data=>{
       this.listCheckLikeComment = data
+    })
+  }
+
+  getAllConversation() {
+    // @ts-ignore
+    this.chatService.getAllConversation(this.user).subscribe(data => {
+      this.listAllConversation = data
+      this.chatService.findAllMemberInConversation(data).subscribe(dataMember => {
+        for (let i = 0; i < dataMember.length; i++) {
+          if (this.listAllConversation[i].type === 1) {
+            for (let j = 0; j < dataMember[i].length; j++) {
+              if (dataMember[i][j].id !== this.user.id) {
+                this.listMemberName.push(dataMember[i][j].name)
+                this.listAvatarMember.push(dataMember[i][j].avatar)
+                break;
+              }
+            }
+          } else {
+            this.listAvatarMember.push("https://phunugioi.com/wp-content/uploads/2021/11/Hinh-anh-nhom-ban-than-tao-dang-vui-ve-ben-bo-bien-395x600.jpg")
+            if (data[i].name !== null){
+              this.listMemberName.push(data[i].name)
+            }else {
+              this.listMemberName[i] = ""
+              for (let j = 0; j < dataMember[i].length; j++) {
+                this.listMemberName[i] += dataMember[i][j].name
+                if (j < dataMember[i].length - 1) {
+                  this.listMemberName[i] += `, `;
+                }
+              }
+            }
+          }
+        }
+      })
     })
   }
 

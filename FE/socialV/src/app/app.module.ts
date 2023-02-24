@@ -32,6 +32,7 @@ import { MessageComponent } from './message/message.component';
 import {ToastrModule} from "ngx-toastr";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {NgxPaginationModule} from "ngx-pagination";
+import { ErrorComponent } from './error/error.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,12 +48,13 @@ import {NgxPaginationModule} from "ngx-pagination";
     PostDetailComponent,
     SearchFriendComponent,
     PrivacySettingComponent,
-    MessageComponent
+    MessageComponent,
+    ErrorComponent
   ],
     imports: [
       NgxPaginationModule,
       ToastrModule.forRoot({
-        timeOut: 5000,
+        timeOut: 2000,
         positionClass: 'toast-top-right',
         preventDuplicates: true,
       }),

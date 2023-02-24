@@ -27,4 +27,6 @@ public interface IConversationRepository extends JpaRepository<Conversation, Lon
     List<Conversation> getAllPersonalConversation(Long id);
     @Query(value = "select * from conversation c join conversation_member cm on c.id = cm.conversation_id where cm.user_id = ?1 and c.type = 2", nativeQuery = true)
     List<Conversation> getAllGroupConversation(Long id);
+
+    List<Conversation> findAll();
 }

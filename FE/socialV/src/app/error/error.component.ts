@@ -1,24 +1,23 @@
 import {Component, OnInit} from '@angular/core';
-import {Users} from "../Model/Users";
+import {Stomp} from "@stomp/stompjs";
+import * as moment from "moment";
 import {Notifications} from "../Model/notifications";
+import {Users} from "../Model/Users";
+import {Conversation} from "../Model/conversation";
 import {PostService} from "../PostService/post.service";
 import {UserService} from "../service/user.service";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {NotificationService} from "../notificationService/notification.service";
 import {Router} from "@angular/router";
-import {Stomp} from "@stomp/stompjs";
-import * as moment from "moment";
-import {FormControl, FormGroup} from "@angular/forms";
-import {Conversation} from "../Model/conversation";
 import {ChatService} from "../chatService/chat.service";
-import {ToastrService} from "ngx-toastr";
 
 @Component({
-  selector: 'app-privacy-setting',
-  templateUrl: './privacy-setting.component.html',
-  styleUrls: ['./privacy-setting.component.css']
+  selector: 'app-error',
+  templateUrl: './error.component.html',
+  styleUrls: ['./error.component.css']
 })
-export class PrivacySettingComponent implements OnInit{
+export class ErrorComponent implements OnInit{
+
   data = localStorage.getItem("user")
   // @ts-ignore
   user: Users = JSON.parse(this.data)
@@ -30,42 +29,33 @@ export class PrivacySettingComponent implements OnInit{
   countOther: any[] = [];
   listMutualFriend: number[] = [];
   private stompClient: any;
-  checkPermissionFriend?:any
-  checkPermissionComment?:any
   // @ts-ignore
   listSearchFriend:Users[]= JSON.parse(localStorage.getItem("listUser"))
   // @ts-ignore
   search:string= JSON.parse(localStorage.getItem("nameUser"))
 
-
-  formSetting:FormGroup = new FormGroup({
-    seeFriendPermission :  new FormControl(),
-    commentPermission :  new FormControl()
-  })
   listAllConversation: Conversation[] = [];
   listMemberName: any [] = []
   listAvatarMember: any [] = []
-
-  constructor(private postService: PostService,
-              private userService: UserService,
-              private storage: AngularFireStorage,
-              private notificationService: NotificationService,
-              private router: Router,
-              private chatService:ChatService,
-              private  toastr:ToastrService) {
-
-  }
   ngOnInit(): void {
-    // @ts-ignore
     this.findAllFriend()
     // this.onMoveTop()
     this.findListRequest()
     this.connect()
     this.getAllNotification()
     this.findMutualFriend()
-    this.formSetting.patchValue(this.user)
     this.getAllConversation()
   }
+
+
+  constructor(private postService: PostService,
+              private userService: UserService,
+              private storage: AngularFireStorage,
+              private notificationService: NotificationService,
+              private router: Router,
+              private chatService:ChatService) {
+  }
+
 
   connect(){
     const socket = new WebSocket('ws://localhost:8080/ws/websocket');
@@ -75,7 +65,6 @@ export class PrivacySettingComponent implements OnInit{
       _this.stompClient.subscribe('/topic/greetings', function (notification: any) {
         _this.getAllNotification()
         _this.findListRequest()
-        _this.findAllFriend()
       })
     })
   }
@@ -85,11 +74,6 @@ export class PrivacySettingComponent implements OnInit{
     this.userService.getListCountMutualFriend(this.user.id,this.listSearchFriend).subscribe((data) => {
       this.listMutualFriend = data
     })
-  }
-
-  getChatRoom(conversation: Conversation){
-    window.localStorage.setItem("roomChat", JSON.stringify(conversation));
-    this.router.navigate(['/message']);
   }
 
   sendNotification(){
@@ -193,19 +177,6 @@ export class PrivacySettingComponent implements OnInit{
       this.listSearchFriend=data
     })
   }
-  setPermissionComment(){
-    // @ts-ignore
-    const userPermission = this.formSetting.value
-    userPermission.username = this.user.username
-    console.log(userPermission)
-    this.userService.permissionComment(userPermission).subscribe(()=>{
-      this.user.seeFriendPermission = userPermission.seeFriendPermission
-      this.user.commentPermission = userPermission.commentPermission
-      window.localStorage.setItem("user", JSON.stringify(this.user));
-      this.success()
-
-    })
-  }
 
   getAllConversation() {
     // @ts-ignore
@@ -239,16 +210,4 @@ export class PrivacySettingComponent implements OnInit{
       })
     })
   }
-  success(): void {
-    this.toastr.success('Success !', 'Success');
-  }
-
-  error(): void {
-    this.toastr.error('Password or Username not match !', 'Error')
-  }
-
-  warning(): void {
-    this.toastr.warning('Account be blocked', 'Warning')
-  }
-
 }

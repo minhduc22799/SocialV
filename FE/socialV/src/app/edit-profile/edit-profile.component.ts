@@ -14,6 +14,8 @@ import {NotificationService} from "../notificationService/notification.service";
 import * as moment from "moment";
 import {Stomp} from "@stomp/stompjs";
 import {ToastrService} from "ngx-toastr";
+import {Conversation} from "../Model/conversation";
+import {ChatService} from "../chatService/chat.service";
 
 
 @Component({
@@ -39,12 +41,16 @@ export class EditProfileComponent implements OnInit {
   friend?: Users
   countNotSeen: number = 0
 
+  listAllConversation: Conversation[] = [];
+  listMemberName: any [] = []
+  listAvatarMember: any [] = []
 
   constructor(private userService: UserService,
               private router: Router,
               private storage: AngularFireStorage,
               private notificationService: NotificationService,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private chatService: ChatService) {
   }
 
   ngOnInit(): void {
@@ -70,6 +76,7 @@ export class EditProfileComponent implements OnInit {
     this.formEditProfile.patchValue(this.user)
     this.findListRequest()
     this.connect()
+    this.getAllConversation()
   }
 
   findListRequest() {
@@ -98,6 +105,11 @@ export class EditProfileComponent implements OnInit {
       }
       this.countOtherNotification(this.listNotification);
     })
+  }
+
+  getChatRoom(conversation: Conversation){
+    window.localStorage.setItem("roomChat", JSON.stringify(conversation));
+    this.router.navigate(['/message']);
   }
 
   countOtherNotification(notification: Notifications[]) {
@@ -267,4 +279,36 @@ export class EditProfileComponent implements OnInit {
     })
   }
 
+  getAllConversation() {
+    // @ts-ignore
+    this.chatService.getAllConversation(this.user).subscribe(data => {
+      this.listAllConversation = data
+      this.chatService.findAllMemberInConversation(data).subscribe(dataMember => {
+        for (let i = 0; i < dataMember.length; i++) {
+          if (this.listAllConversation[i].type === 1) {
+            for (let j = 0; j < dataMember[i].length; j++) {
+              if (dataMember[i][j].id !== this.user.id) {
+                this.listMemberName.push(dataMember[i][j].name)
+                this.listAvatarMember.push(dataMember[i][j].avatar)
+                break;
+              }
+            }
+          } else {
+            this.listAvatarMember.push("https://phunugioi.com/wp-content/uploads/2021/11/Hinh-anh-nhom-ban-than-tao-dang-vui-ve-ben-bo-bien-395x600.jpg")
+            if (data[i].name !== null){
+              this.listMemberName.push(data[i].name)
+            }else {
+              this.listMemberName[i] = ""
+              for (let j = 0; j < dataMember[i].length; j++) {
+                this.listMemberName[i] += dataMember[i][j].name
+                if (j < dataMember[i].length - 1) {
+                  this.listMemberName[i] += `, `;
+                }
+              }
+            }
+          }
+        }
+      })
+    })
+  }
 }

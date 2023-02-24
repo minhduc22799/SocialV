@@ -1,201 +1,95 @@
 
-<div class="preloader">
-  <div class="lds-ripple">
-    <div class="lds-pos"></div>
-    <div class="lds-pos"></div>
-  </div>
-</div>
+                  <div class="wrapper">
+                    <div class="iq-top-navbar">
+                      <div class="iq-navbar-custom">
+                        <nav style="display: grid; grid-template-columns: 38.33% 31.33% 30.34%" class="navbar navbar-expand-lg navbar-light p-0">
+                          <div class="iq-navbar-logo d-flex justify-content-between">
+                            <a>
+                              <img src="assets/images/logo.png" class="img-fluid" alt="">
+                              <span>SocialV</span>
+                            </a>
+                          </div>
 
-<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-     data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+                          <div style="">
+                           <h2>User Management</h2>
+                          </div>
 
-  <header class="topbar" data-navbarbg="skin6">
-    <nav class="navbar top-navbar navbar-expand-md navbar-dark">
-      <div class="navbar-header" data-logobg="skin6">
+                          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav  ms-auto navbar-list">
+                              <li routerLink="/Admin" style="cursor: pointer" >
+                                <a class=" d-flex align-items-center">
+                                  <i class="ri-logout-box-line"></i>
+                                </a>
+                              </li>
 
-        <a class="navbar-brand ms-4" href="index.html">
-          <!-- Logo icon -->
-          <b class="logo-icon">
-
-            <img src="../assets/images/logo-light-icon.png" alt="homepage" class="dark-logo"/>
-
-          </b>
-
-          <span class="logo-text">
-
-                            <img src="../assets/images/logo-light-text.png" alt="homepage" class="dark-logo"/>
-
-                        </span>
-        </a>
-
-        <a class="nav-toggler waves-effect waves-light text-white d-block d-md-none"
-           href=""><i class="ti-menu ti-close"></i></a>
-      </div>
-
-      <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
-        <ul class="navbar-nav d-lg-none d-md-block ">
-          <li class="nav-item">
-            <a class="nav-toggler nav-link waves-effect waves-light text-white "
-               href=""><i class="ti-menu ti-close"></i></a>
-          </li>
-        </ul>
-
-        <ul class="navbar-nav me-auto mt-md-0 ">
-
-
-          <li class="nav-item search-box">
-            <a class="nav-link text-muted" href=""><i class="ti-search"></i></a>
-            <form class="app-search" style="display: none;">
-              <input type="text" class="form-control" placeholder="Search &amp; enter"> <a
-              class="srh-btn"><i class="ti-close"></i></a></form>
-          </li>
-        </ul>
-
-
-        <ul class="navbar-nav">
-
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="#" id="navbarDropdown"
-               role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Markarn Doe
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
-
-  <aside class="left-sidebar" data-sidebarbg="skin6">
-    <!-- Sidebar scroll-->
-    <div class="scroll-sidebar">
-      <!-- Sidebar navigation-->
-      <nav class="sidebar-nav">
-        <ul id="sidebarnav">
-          <!-- User Profile-->
-          <li class="sidebar-item"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                      href="index.html" aria-expanded="false"><i class="mdi me-2 mdi-gauge"></i><span
-            class="hide-menu">Dashboard</span></a></li>
-
-
-        </ul>
-
-      </nav>
-      <!-- End Sidebar navigation -->
-    </div>
-    <!-- End Sidebar scroll-->
-    <div class="sidebar-footer">
-      <div class="row">
-        <div class="col-4 link-wrap">
-          <!-- item-->
-          <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Settings"><i
-            class="ti-settings"></i></a>
-        </div>
-        <div class="col-4 link-wrap">
-          <!-- item-->
-          <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Email"><i
-            class="mdi mdi-gmail"></i></a>
-        </div>
-        <div class="col-4 link-wrap">
-          <!-- item-->
-          <a href="" class="link" data-toggle="tooltip" title="" data-original-title="Logout"><i
-            class="mdi mdi-power"></i></a>
-        </div>
-      </div>
-    </div>
-  </aside>
-
-  <div class="page-wrapper">
-    <div class="page-breadcrumb">
-      <div class="row align-items-center">
-        <div class="col-md-6 col-8 align-self-center">
-          <h3 class="page-title mb-0 p-0">Dashboard</h3>
-          <div class="d-flex align-items-center">
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-      </div>
-
-      <div class="container-fluid">
-
-        <div class="row">
-          <!-- Column -->
-          <div class="col-lg-12">
-            <div class="card">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="d-flex flex-wrap align-items-center">
-                      <div>
-                        <h3 class="card-title">Sales Overview</h3>
-                        <h6 class="card-subtitle">Ample Admin Vs Pixel Admin</h6>
+                            </ul>
+                          </div>
+                        </nav>
                       </div>
-                      <div class="ms-lg-auto mx-sm-auto mx-lg-0">
-                        <ul class="list-inline d-flex">
-                          <li class="me-4">
-                            <h6 class="text-success"><i
-                              class="fa fa-circle font-10 me-2 "></i>Ample</h6>
-                          </li>
-                          <li>
-                            <h6 class="text-info"><i
-                              class="fa fa-circle font-10 me-2"></i>Pixel</h6>
-                          </li>
-                        </ul>
+                    </div>
+
+                    <div id="content-page" class="content-page">
+                      <div class="container">
+                        <div class="row">
+                          <div class="col-lg-12 row m-0 p-0">
+                            <div class="card p-0"  >
+                              <div class="card-body p-0">
+
+                                <table  class="table table-bordered table-responsive-md table-striped text-center">
+                                  <thead>
+                                  <tr class="table-primary">
+                                    <th>Name</th>
+                                    <th>User Name</th>
+                                    <th>Email</th>
+                                    <th>Friend Quantity</th>
+                                    <th>Status</th>
+                                    <th colspan="2">Action</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  <tr  *ngFor="let st of getPageData(),index as i  ">
+                                    <td>{{st.name}}</td>
+                                    <td>{{st.username}}</td>
+                                    <td>{{st.email}}</td>
+                                    <td>{{count[i]}}</td>
+
+                                    <td> <p *ngIf="!st.status">Block</p>
+                                      <p  *ngIf="st.status">Active</p></td>
+                                    <td>
+                                      <button class="btn btn-danger btn-rounded btn-sm my-0" (click)="blockAndActiveUser(st.id!)" *ngIf="st.status">Block</button>
+                                      <button class="btn btn-success btn-rounded btn-sm my-0" (click)="blockAndActiveUser(st.id!)" *ngIf="!st.status">Active</button>
+                                    </td>
+                                  </tr>
+                                  </tbody>
+                                </table>
+                                <mat-paginator [pageSize]="pageSize"
+                                               [pageIndex]="pageIndex"
+                                               [length]="userList.length"
+                                               (page)="pageIndex = $event.pageIndex">
+                                </mat-paginator>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
                     </div>
                   </div>
-                  <div class="col-12">
-                    <div class="amp-pxl" style="height: 360px;">
-                      <div class="chartist-tooltip">
-                        <table class="table table-striped">
-                          <thead>
-                          <tr>
-                            <th>Name</th>
-                            <th>User Name</th>
-                            <th>Email</th>
-                            <th>Friend Quantity</th>
-                            <th>Status</th>
-                            <th colspan="2">Action</th>
-                          </tr>
-                          </thead>
-                          <tbody *ngFor="let st of userList,index as i"  >
-                          <tr>
-                            <td>{{st.name}}</td>
-                            <td>{{st.username}}</td>
-                            <td>{{st.email}}</td>
-                            <td>{{count[i]}}</td>
 
-                            <td> <p *ngIf="!st.status">Block</p>
-                              <p  *ngIf="st.status">Active</p></td>
-                            <td>
-                              <button class="btn btn-warning" (click)="blockAndActiveUser(st.id!)" *ngIf="st.status">Block.</button>
-                              <button class="btn btn-danger" (click)="blockAndActiveUser(st.id!)" *ngIf="!st.status">Active</button>
-                            </td>
-                          </tr>
-                          </tbody>
-                        </table>
+
+                  <!-- Wrapper End-->
+                  <footer class="iq-footer bg-white">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <ul class="list-inline mb-0">
+                            <li class="list-inline-item"><a href="">Privacy Policy</a></li>
+                            <li class="list-inline-item"><a href="">Terms of Use</a></li>
+                          </ul>
+                        </div>
+                        <div class="col-lg-6 d-flex justify-content-end">
+                          Copyright 2020 <a href="#">SocialV</a> All Rights Reserved.
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-
-      </div>
-
-      <footer class="footer"> © 2021 Material Pro Admin by <a href="https://www.wrappixel.com/">wrappixel.com </a>
-      </footer>
-
-    </div>
-
-  </div>
-</div>
+                  </footer>

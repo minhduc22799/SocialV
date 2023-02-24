@@ -172,7 +172,7 @@
                     <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listAllConversation.length < 1">
                       <h6 style="color: #c7c2c2">You don't have any message</h6></div>
                     <a *ngFor="let conversation of listAllConversation, index as i" class="iq-sub-card">
-                      <div class="d-flex  align-items-center" (click)="getChatRoom(conversation)">
+                      <div class="d-flex  align-items-center">
                         <div class="">
                           <img class="avatar-40 rounded" src="{{listAvatarMember[i]}}" alt="">
                         </div>
@@ -276,31 +276,15 @@
   </div>
   <div style="margin-left:12.5%" id="content-page" class="content-page">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-10 row m-0 p-0">
-            <h4 *ngIf="listSearchFriend.length > 0" style="margin-bottom: 20px">Result for : " {{search}} "</h4>
-            <h4 *ngIf="listSearchFriend.length < 1" style="margin-bottom: 20px">No Result for : " {{search}} "</h4>
-            <div class="card p-0"  >
-              <div class="card-body p-0">
-                <ul class="todo-task-lists m-0 p-0">
-                  <div *ngFor="let s of listSearchFriend, index as i">
-                  <li  class="d-flex align-items-center p-3" *ngIf="s.id !== user.id"    >
-                    <div style="cursor: pointer" routerLink="/friendProfile/{{s.id}}" class="user-img img-fluid"><img src="{{s.avatar}}" alt="story-img" class="rounded-circle avatar-60"></div>
-                    <div class="d-flex align-items-center justify-content-between w-100">
-                      <div class="ms-3" >
-                        <h5 style="cursor: pointer" routerLink="/friendProfile/{{s.id}}" class="d-inline-block">{{s.name}}</h5>
-                        <p *ngIf="listMutualFriend[i] > 0" class="mb-0">{{listMutualFriend[i]}} Mutual Friends</p>
-                      </div>
-                    </div>
-                  </li>
-              </div>
-
-                </ul>
-              </div>
-            </div>
+      <div class="row no-gutters height-self-center">
+        <div class="col-sm-10 text-center align-self-center">
+          <div class="iq-error position-relative mt-5">
+            <i style="font-size: 150px" class="ri-user-fill"></i>
+            <h2 class="mb-0 text-center">User Not Found.</h2>
+            <p class="text-center">This user's account is blocked</p>
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>

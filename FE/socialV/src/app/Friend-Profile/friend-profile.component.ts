@@ -14,6 +14,8 @@ import {Stomp} from "@stomp/stompjs";
 import {FormControl, FormGroup} from "@angular/forms";
 import {PostComment} from "../Model/post-comment";
 import {ChatService} from "../chatService/chat.service";
+import {Conversation} from "../Model/conversation";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-friend-profile',
@@ -62,6 +64,9 @@ export class FriendProfileComponent implements OnInit {
   commentForm:FormGroup = new FormGroup({
     content: new FormControl()
   })
+  listAllConversation: Conversation[] = [];
+  listMemberName: any [] = []
+  listAvatarMember: any [] = []
 
   commentFormEdit:FormGroup = new FormGroup({
     id:new FormControl(),
@@ -95,7 +100,8 @@ export class FriendProfileComponent implements OnInit {
               private routerActive: ActivatedRoute,
               private notificationService: NotificationService,
               private chatService: ChatService,
-              private router: Router
+              private router: Router,
+              private toastr:ToastrService
   ) {
   }
 
@@ -112,6 +118,7 @@ export class FriendProfileComponent implements OnInit {
       this.findCountLike(data)
       this.findCountComment(data)
       this.getAllListComment(data)
+      this.getAllConversation()
 
     })
   }
@@ -134,6 +141,11 @@ export class FriendProfileComponent implements OnInit {
       window.localStorage.setItem("roomChat", JSON.stringify(data));
       this.router.navigate(['/message']);
     })
+  }
+
+  getChatRoom(conversation: Conversation){
+    window.localStorage.setItem("roomChat", JSON.stringify(conversation));
+    this.router.navigate(['/message']);
   }
 
   sendNotification(){
@@ -230,6 +242,9 @@ export class FriendProfileComponent implements OnInit {
   findFriend() {
     this.userService.findUserById(this.idFiend).subscribe(data => {
       this.friend = data
+      if (!this.friend.status){
+          this.router.navigate(['error'])
+      }
       this.checkRequest()
       this.checkRequest2()
       this.router.routeReuseStrategy.shouldReuseRoute = function () {
@@ -396,7 +411,7 @@ export class FriendProfileComponent implements OnInit {
 
   addComment(post:Post) {
     if (!post.users?.commentPermission && !this.existF) {
-      alert("you can't comment on this post")
+      this.error()
     }else {
       const postComment = this.commentForm.value
       postComment.users = this.user
@@ -408,6 +423,18 @@ export class FriendProfileComponent implements OnInit {
       })
     }
     }
+
+  success(): void {
+    this.toastr.success('Success !', 'Success');
+  }
+
+  error(): void {
+    this.toastr.error('You need to be friends to comment on this post!', 'Error')
+  }
+
+  warning(): void {
+    this.toastr.warning('Account be blocked', 'Warning')
+  }
 
 
   getCommentById(id:number){
@@ -476,6 +503,39 @@ export class FriendProfileComponent implements OnInit {
   getListCheckLikeComment(){
     this.postService.getCheckLikeComment(this.listAllComment, this.user.id).subscribe(data=>{
       this.listCheckLikeComment = data
+    })
+  }
+
+  getAllConversation() {
+    // @ts-ignore
+    this.chatService.getAllConversation(this.user).subscribe(data => {
+      this.listAllConversation = data
+      this.chatService.findAllMemberInConversation(data).subscribe(dataMember => {
+        for (let i = 0; i < dataMember.length; i++) {
+          if (this.listAllConversation[i].type === 1) {
+            for (let j = 0; j < dataMember[i].length; j++) {
+              if (dataMember[i][j].id !== this.user.id) {
+                this.listMemberName.push(dataMember[i][j].name)
+                this.listAvatarMember.push(dataMember[i][j].avatar)
+                break;
+              }
+            }
+          } else {
+            this.listAvatarMember.push("https://phunugioi.com/wp-content/uploads/2021/11/Hinh-anh-nhom-ban-than-tao-dang-vui-ve-ben-bo-bien-395x600.jpg")
+            if (data[i].name !== null){
+              this.listMemberName.push(data[i].name)
+            }else {
+              this.listMemberName[i] = ""
+              for (let j = 0; j < dataMember[i].length; j++) {
+                this.listMemberName[i] += dataMember[i][j].name
+                if (j < dataMember[i].length - 1) {
+                  this.listMemberName[i] += `, `;
+                }
+              }
+            }
+          }
+        }
+      })
     })
   }
 
