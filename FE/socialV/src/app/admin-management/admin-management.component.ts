@@ -42,15 +42,13 @@ export class AdminManagementComponent implements OnInit {
         this.userService.findUserById(id).subscribe(data1 => {
           this.user = data1
           if (this.user.status == true) {
-            this.userService.blockAndActive(this.user).subscribe(() => {
-            })
+            this.userService.blockAndActive(this.user).subscribe()
           } else if (this.user.status == false) {
-            this.userService.blockAndActive(this.user).subscribe(() => {
-            })
+            this.userService.blockAndActive(this.user).subscribe()
           }
         })
-      }location.reload()
-
+      }
+      location.reload()
     })
   }
 
@@ -60,7 +58,4 @@ export class AdminManagementComponent implements OnInit {
       this.count = data
     })
   }
-
-
-
 }

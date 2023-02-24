@@ -270,6 +270,13 @@ export class ProfileComponent implements OnInit{
     })
 
   }
+  searchUserByNameContaining(name:string){
+    this.userService.findUsersByNameContaining(name).subscribe(data=>{
+      this.router.navigate(['/SearchFriend']);
+      window.localStorage.setItem("listUser", JSON.stringify(data));
+      window.localStorage.setItem("nameUser", JSON.stringify(name));
+    })
+  }
 
   getPost(id: any){
     this.postService.getPost(id).subscribe(data =>{

@@ -163,7 +163,7 @@
                             <th colspan="2">Action</th>
                           </tr>
                           </thead>
-                          <tbody *ngFor="let st of userList | slice :page*pageSize :   page*pageSize+pageSize ,index as i  "  >
+                          <tbody *ngFor="let st of userList,index as i"  >
                           <tr>
                             <td>{{st.name}}</td>
                             <td>{{st.username}}</td>
@@ -178,13 +178,7 @@
                             </td>
                           </tr>
                           </tbody>
-
                         </table>
-                        <mat-paginator [length]="userList.length"
-                                       [pageSize]="3"
-                                       aria-label="Select page">
-                        </mat-paginator>
-
                       </div>
                     </div>
                   </div>
