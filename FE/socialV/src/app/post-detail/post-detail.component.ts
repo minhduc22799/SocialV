@@ -105,6 +105,11 @@ export class PostDetailComponent {
     this.getAllConversation()
   }
 
+  getChatRoom(conversation: Conversation){
+    window.localStorage.setItem("roomChat", JSON.stringify(conversation));
+    this.router.navigate(['/message']);
+  }
+
   onMoveTop() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {

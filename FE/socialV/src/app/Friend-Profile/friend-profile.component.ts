@@ -143,6 +143,11 @@ export class FriendProfileComponent implements OnInit {
     })
   }
 
+  getChatRoom(conversation: Conversation){
+    window.localStorage.setItem("roomChat", JSON.stringify(conversation));
+    this.router.navigate(['/message']);
+  }
+
   sendNotification(){
     // @ts-ignore
     this.stompClient.send('/app/hello',{}, this.user.id.toString());

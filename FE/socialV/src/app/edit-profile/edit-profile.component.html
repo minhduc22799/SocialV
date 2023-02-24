@@ -174,7 +174,7 @@
                     <div style="text-align: center;margin-top: 20px" class="col-sm-12" *ngIf="listAllConversation.length < 1">
                       <h6 style="color: #c7c2c2">You don't have any message</h6></div>
                     <a *ngFor="let conversation of listAllConversation, index as i" class="iq-sub-card">
-                      <div class="d-flex  align-items-center">
+                      <div class="d-flex  align-items-center" (click)="getChatRoom(conversation)">
                         <div class="">
                           <img class="avatar-40 rounded" src="{{listAvatarMember[i]}}" alt="">
                         </div>

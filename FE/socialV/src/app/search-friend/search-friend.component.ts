@@ -72,6 +72,11 @@ export class SearchFriendComponent implements OnInit{
     })
   }
 
+  getChatRoom(conversation: Conversation){
+    window.localStorage.setItem("roomChat", JSON.stringify(conversation));
+    this.router.navigate(['/message']);
+  }
+
   findMutualFriend() {
     // @ts-ignore
     this.userService.getListCountMutualFriend(this.user.id,this.listSearchFriend).subscribe((data) => {
