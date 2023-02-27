@@ -239,6 +239,7 @@ export class ProfileComponent implements OnInit{
   findAllImgPost(posts: Post[]){
     this.postService.findAllImgPost(posts).subscribe(img =>{
       this.listImgPost = img
+      this.listPhoto = []
       for (let i = 0; i < this.listImgPost.length; i++) {
         // @ts-ignore
         this.listImg[i] = [];
@@ -256,7 +257,6 @@ export class ProfileComponent implements OnInit{
           }
         }
       }
-      console.log(this.listPhoto)
     })
   }
 
