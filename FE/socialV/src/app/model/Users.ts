@@ -9,10 +9,10 @@ export interface Users{
   email?:string
   phone?:string
   birthday?:string
-  status?:boolean
-  checkOn?:boolean
-  seeFriendPermission?:boolean
-  commentPermission?:boolean
+  status?:true
+  checkOn?:false
+  seeFriendPermission?:true
+  commentPermission?:true
   avatar?:string
   address?:string
   hobby?:string
