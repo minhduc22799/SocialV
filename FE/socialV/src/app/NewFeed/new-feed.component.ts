@@ -18,6 +18,7 @@ import {NotificationService} from "../notificationService/notification.service";
 import {Stomp} from "@stomp/stompjs";
 import {Conversation} from "../Model/conversation";
 import {ChatService} from "../chatService/chat.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-newfeed',
@@ -124,7 +125,8 @@ export class NewFeedComponent implements OnInit {
               private storage: AngularFireStorage,
               private notificationService: NotificationService,
               private router: Router,
-              private chatService:ChatService) {
+              private chatService:ChatService,
+              private toastr :ToastrService) {
 
   }
 
@@ -371,11 +373,7 @@ export class NewFeedComponent implements OnInit {
         this.postForm.get("postStatus")?.get("id").setValue(1)
         this.findAll();
         document.getElementById("btn-close")?.click()
-        Swal.fire(
-          'Good job!',
-          'You clicked the button!',
-          'success'
-        )
+        this.success()
       } else {
         this.createPostImg(data)
       }
@@ -420,15 +418,12 @@ export class NewFeedComponent implements OnInit {
           document.getElementById("btn-close")?.click()
           document.getElementById("btn-close")?.click()
           this.postForm.reset();
+          // @ts-ignore
+          this.postForm.get("postStatus")?.get("id").setValue(1)
+          this.imageFiles =[]
           this.imgSrc = []
           this.sendNotification()
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            text: 'Post successfully posted',
-            showConfirmButton: false,
-            timer: 1500
-          })
+         this.success()
         }
       })
     }
@@ -523,5 +518,8 @@ export class NewFeedComponent implements OnInit {
         }
       })
     })
+  }
+  success(): void {
+    this.toastr.success('Create post successfully !', 'Success');
   }
 }

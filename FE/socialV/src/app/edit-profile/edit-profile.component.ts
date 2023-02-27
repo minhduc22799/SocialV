@@ -271,6 +271,14 @@ export class EditProfileComponent implements OnInit {
       }
     })
   }
+  searchUserByNameContaining(name:string){
+    this.userService.findUsersByNameContaining(name).subscribe(data=>{
+      this.router.navigate(['/SearchFriend']);
+      window.localStorage.setItem("listUser", JSON.stringify(data));
+      window.localStorage.setItem("nameUser", JSON.stringify(name));
+    })
+  }
+
   getAllConversation() {
     // @ts-ignore
     this.chatService.getAllConversation(this.user).subscribe(data => {
